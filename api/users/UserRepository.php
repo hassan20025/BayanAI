@@ -51,10 +51,6 @@ function find_user_by_username(string $username): ?User {
     return null;
 }
 
-git branch -M main
-git remote add origin https://github.com/hassan20025/BayanAI.git
-git push -u origin main
-
 function create_user_entity(User $user): bool {
     global $mysqli;
     $stmt = $mysqli->prepare("INSERT INTO users (email, password, username) VALUES (?, ?, ?)");

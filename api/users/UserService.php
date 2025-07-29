@@ -4,7 +4,7 @@ require_once "UserRepository.php";
 require_once "../../utils/utils.php";
 require_once "../sessions/SessionRepository.php";
 session_start();
-
+header('Content-Type: application/json');
 global $sessionRepository, $userRepository;
 
 function login_user($email, $password) {
@@ -114,7 +114,6 @@ function get_user_by_id($id) {
 }
 
 function get_user_by_email($email) {
-    global $userRepository;
 
     $user = find_user_by_email($email);
     if (!$user) {

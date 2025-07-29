@@ -61,16 +61,28 @@
                 if (!email || !password) {
                     return;
                 }
+                let success = false;
+                // const formData = new FormData();
+                // formData.append("email", email);
+                // formData.append("password", password);
 
-                fetch("/api/users/login.php", {
+                const body = new URLSearchParams();
+                body.append("email", email);
+                body.append("password", password);
+                fetch("http://localhost/BayanAI/api/users/login.php", {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json"
+                        'Content-Type': 'application/x-www-form-urlencoded'
                     },
-                    body: JSON.stringify({ email, password })
+                    body: body.toString()
                 })
-                .then(response => response.json())
+                .then(response => {
+                    const data = response.json();
+                    return data;
+                })
                 .then(data => {
+                    console.log(data);
+                    alert(data);
                     if (data.status === "success") {
                         window.location.href = "/bayanai/chat/";
                     } 
@@ -83,8 +95,6 @@
                     console.error("Error:", error);
                     alert("An error occurred while logging in.");
                 });
-
-                window.location.href = "/bayanai/chat/";
             });
         });
     </script>
