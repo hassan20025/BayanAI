@@ -21,7 +21,8 @@
       <span>Bayan AI</span>
     </div>
     <nav class="header-nav">
-      <a href="auth/login/" class="landing-nav-button">Login</a>
+      <a href="auth/login/" class="landing-nav-button" id="loginLink">Login</a>
+      <a href="chat/" class="landing-nav-button" id="chatLink">Chat</a>
       <button id="theme-toggle" class="theme-toggle-button" aria-label="Toggle theme">
         <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun">
           <circle cx="12" cy="12" r="4"/>
@@ -224,19 +225,6 @@
         </div>
       </div>
     </section>
-
-    <section class="cta-section">
-      <div class="cta-content">
-        <h2 class="cta-title ready">Ready to Transform Your Company's Knowledge Sharing?</h2>
-        <button class="primary-button cta-button" id="getStartedButtonBottom">
-          <span>Get Started with Bayan AI</span>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M5 12h14"/>
-            <path d="m12 5 7 7-7 7"/>
-          </svg>
-        </button>
-      </div>
-    </section>
   </main>
 
   <footer class="landing-footer">
@@ -248,7 +236,7 @@
   </footer>
 
   <!-- Payment Modal -->
-  <div class="payment-modal" id="paymentModal">
+  <!-- <div class="payment-modal" id="paymentModal">
     <div style="max-height: 95svh; overflow-y: auto;" class="modal-content">
       <div class="modal-header">
         <h2>Complete Your Purchase</h2>
@@ -266,7 +254,6 @@
         <div class="form-group">
           <label>Card Details</label>
           <div class="card-element" id="cardElement">
-            <!-- Stripe elements will be inserted here -->
           </div>
         </div>
         <button type="submit" class="submit-button plan-button primary">
@@ -275,7 +262,42 @@
         </button>
       </form>
     </div>
-  </div>
+  </div> -->
+
+  <script>
+    const loginLink = document.getElementById("loginLink");
+    const chatLink = document.getElementById("chatLink");
+        document.addEventListener("DOMContentLoaded", () => {
+            async function toggleChat() {
+                try {
+                    const response = await fetch("http://localhost/BayanAI/api/users/me.php", {
+                        credentials: "include",
+                    });
+
+                    if (!response.ok) {
+                        throw new Error("Not authenticated");
+                    }
+
+                    const user = await response.json();
+                    console.log(user);
+                    if (!user || !user.data.id) {
+                      loginLink.style.display = "block";
+                      chatLink.style.display = "none";
+                        // window.location.href = "/BayanAI/auth/login";
+                    }
+                    else {
+                      loginLink.style.display = "none";
+                      chatLink.style.display = "block";
+                    }
+                } catch (error) {
+                  loginLink.style.display = "block";
+                  chatLink.style.display = "none";
+                    // window.location.href = "/BayanAI/auth/login";
+                }
+            }
+            toggleChat();
+        });
+  </script>
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
@@ -355,36 +377,36 @@
       });
 
       // Close modal
-      closeModalButton.addEventListener('click', () => {
-        paymentModal.classList.remove('active');
-        document.body.style.overflow = '';
-      });
+      // closeModalButton.addEventListener('click', () => {
+      //   paymentModal.classList.remove('active');
+      //   document.body.style.overflow = '';
+      // });
 
       // Close modal when clicking outside content
-      paymentModal.addEventListener('click', (e) => {
-        if (e.target === paymentModal) {
-          paymentModal.classList.remove('active');
-          document.body.style.overflow = '';
-        }
-      });
+      // paymentModal.addEventListener('click', (e) => {
+      //   if (e.target === paymentModal) {
+      //     paymentModal.classList.remove('active');
+      //     document.body.style.overflow = '';
+      //   }
+      // });
 
-      // Form submission
-      const paymentForm = document.getElementById('paymentForm');
-      paymentForm.addEventListener('submit', async (e) => {
-        e.preventDefault();
+      // // Form submission
+      // const paymentForm = document.getElementById('paymentForm');
+      // paymentForm.addEventListener('submit', async (e) => {
+      //   e.preventDefault();
         
-        const submitButton = paymentForm.querySelector('.submit-button');
-        submitButton.classList.add('processing');
+      //   const submitButton = paymentForm.querySelector('.submit-button');
+      //   submitButton.classList.add('processing');
         
-        // Simulate payment processing
-        setTimeout(() => {
-          submitButton.classList.remove('processing');
-          alert('Payment successful! Thank you for subscribing.');
-          paymentModal.classList.remove('active');
-          document.body.style.overflow = '';
-          paymentForm.reset();
-        }, 2000);
-      });
+      //   // Simulate payment processing
+      //   setTimeout(() => {
+      //     submitButton.classList.remove('processing');
+      //     alert('Payment successful! Thank you for subscribing.');
+      //     paymentModal.classList.remove('active');
+      //     document.body.style.overflow = '';
+      //     paymentForm.reset();
+      //   }, 2000);
+      // });
 
       // Improved Intersection Observer for animations
       const observerOptions = {

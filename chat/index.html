@@ -24,13 +24,13 @@
                     <h3>Bayan AI</h3>
                     <p>Assistant</p>
                 </div>
-                <a href="/" style="background-color: transparent; border: none; cursor: pointer;" class="theme-toggle-button" aria-label="Toggle theme">
+                <button id="logoutBtn" href="/" style="background-color: transparent; border: none; cursor: pointer;" class="theme-toggle-button" aria-label="Toggle theme">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         <polyline points="16,17 21,12 16,7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         <line x1="21" y1="12" x2="9" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                     </svg>
-                </a>
+                </button>
                 <button style="background-color: transparent; border: none; cursor: pointer;" class="theme-toggle-button" id="themeToggleButton" aria-label="Toggle theme">
                     <!-- Sun icon for light mode -->
                     <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun">
@@ -198,8 +198,60 @@
         </main>
     </div>
 
-    <!-- Upload Modal -->
     <div id="uploadModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Upload Documents</h2>
+                <button class="modal-close-button" id="closeUploadModalButton" aria-label="Close upload modal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+    
+            <div class="modal-body">
+                <!-- Upload Form (Initial State) -->
+                <div id="uploadForm">
+                    <div class="upload-area">
+                        <p>Drag & drop your files here, or click to browse.</p>
+                        <input type="file" id="fileInput" multiple accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg" style="display: none;">
+                        <button class="upload-button" id="browseFilesButton">Browse Files</button>
+                        <div id="fileList" class="file-list"></div>
+                    </div>
+                    <p class="modal-info">Supported formats: PDF, DOC, DOCX, TXT, PNG, JPG, JPEG.</p>
+                </div>
+    
+                <!-- Upload Success (Hidden Initially) -->
+                <div id="uploadSuccess" class="upload-success hidden">
+                    <div class="success-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20,6 9,17 4,12"/>
+                        </svg>
+                    </div>
+                    <h3 class="success-title">Upload Successful!</h3>
+                    <p class="success-message">Your files have been uploaded and are being processed. You'll be notified once they're ready for use.</p>
+                    
+                    <div class="uploaded-files-list">
+                        <div class="uploaded-files-title">Uploaded Files</div>
+                        <div id="uploadedFilesList"></div>
+                    </div>
+    
+                    <div class="success-actions">
+                        <button class="success-button secondary" id="uploadMoreButton">Upload More</button>
+                        <button class="success-button primary" id="continueButton">Continue</button>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="modal-footer" id="modalFooter">
+                <button class="modal-action-button" id="startUploadButton">Start Upload</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Modal -->
+    <!-- <div id="uploadModal" class="modal-overlay">
         <div class="modal-content">
             <div class="modal-header">
                 <h2>Upload Documents</h2>
@@ -223,15 +275,34 @@
                 <button class="modal-action-button" id="startUploadButton">Start Upload</button>
             </div>
         </div>
-    </div>
+    </div> -->
 
-    <!-- <script type="module">
-        import { redirectIfNotLoggedIn } from '../utils/utils.js';
+    <script>
+        // import { redirectIfNotLoggedIn } from '../utils/utils.js';
 
         document.addEventListener("DOMContentLoaded", () => {
+            async function redirectIfNotLoggedIn() {
+                try {
+                    const response = await fetch("http://localhost/BayanAI/api/users/me.php", {
+                        credentials: "include",
+                    });
+
+                    if (!response.ok) {
+                        throw new Error("Not authenticated");
+                    }
+
+                    const user = await response.json();
+                    console.log(user);
+                    if (!user || !user.data.id) {
+                        window.location.href = "/BayanAI/auth/login";
+                    }
+                } catch (error) {
+                    window.location.href = "/BayanAI/auth/login";
+                }
+            }
             redirectIfNotLoggedIn();
         });
-    </script> -->
+    </script>
 
     <script>
         
@@ -254,6 +325,8 @@
     const themeToggleButton = document.getElementById("themeToggleButton");
     const sunIcon = document.getElementById("sun-icon");
     const moonIcon = document.getElementById("moon-icon");
+    const continueButton = document.getElementById("continueButton");
+    const uploadMoreButton = document.getElementById("uploadMoreButton");
 
     // Function to scroll chat messages to the bottom
     function scrollToBottom() {
@@ -476,12 +549,15 @@
     });
 
     startUploadButton.addEventListener("click", () => {
-        alert("Upload initiated for selected files! (Functionality to be implemented)");
-        uploadModal.classList.remove("visible");
-        document.body.classList.remove("modal-open");
-        fileList.innerHTML = ""; // Clear file list
-        fileInput.value = ""; // Clear file input
-        startUploadButton.disabled = true;
+        startUpload();
+    });
+
+    uploadMoreButton.addEventListener("click", () => {
+        uploadMoreButton();
+    });
+
+    continueButton.addEventListener("click", () => {
+        closeModal();
     });
 
     // Theme toggle functionality
@@ -509,7 +585,116 @@
 
     // Initial scroll to bottom in case of pre-filled messages
     scrollToBottom();
-});
+
+    const logoutBtn = document.getElementById("logoutBtn");
+    logoutBtn.addEventListener("click", async () => {
+        const res = await fetch("http://localhost/bayanai/api/users/logout.php", {
+            method: "POST",
+            credentials: "include",
+        });
+        if (res.ok) {
+            window.location.href = "/bayanai/auth/login"
+            // redirectIfNotLoggedIn();
+        }
+    });
+
+    let selectedFiles = [];
+
+    function toggleTheme() {
+        const body = document.body;
+        const currentTheme = body.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        body.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+    }
+
+    function openModal() {
+        document.getElementById('uploadModal').classList.add('visible');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        document.getElementById('uploadModal').classList.remove('visible');
+        document.body.style.overflow = '';
+        resetModal();
+    }
+
+    function resetModal() {
+        // Reset to initial state
+        document.getElementById('modalTitle').textContent = 'Upload Documents';
+        document.getElementById('uploadForm').classList.remove('hidden');
+        document.getElementById('uploadSuccess').classList.add('hidden');
+        document.getElementById('modalFooter').classList.remove('hidden');
+        document.getElementById('fileList').innerHTML = '';
+        document.getElementById('fileInput').value = '';
+        document.getElementById('startUploadButton').disabled = true;
+        selectedFiles = [];
+    }
+
+    function uploadMore() {
+        resetModal();
+    }
+
+    // File input handling
+    document.getElementById('fileInput').addEventListener('change', function(e) {
+        const files = Array.from(e.target.files);
+        selectedFiles = files;
+        displayFileList(files);
+        document.getElementById('startUploadButton').disabled = files.length === 0;
+    });
+
+    function displayFileList(files) {
+        const fileList = document.getElementById('fileList');
+        fileList.innerHTML = '';
+        
+        files.forEach(file => {
+            const fileItem = document.createElement('div');
+            fileItem.className = 'file-item';
+            fileItem.textContent = file.name;
+            fileList.appendChild(fileItem);
+        });
+    }
+
+    function startUpload() {
+        // Show upload success state
+        document.getElementById('modalTitle').textContent = 'Upload Complete';
+        document.getElementById('uploadForm').classList.add('hidden');
+        document.getElementById('uploadSuccess').classList.remove('hidden');
+        document.getElementById('modalFooter').classList.add('hidden');
+
+        // Display uploaded files
+        displayUploadedFiles(selectedFiles);
+    }
+
+    function displayUploadedFiles(files) {
+        const uploadedFilesList = document.getElementById('uploadedFilesList');
+        uploadedFilesList.innerHTML = '';
+
+        files.forEach(file => {
+            const fileItem = document.createElement('div');
+            fileItem.className = 'uploaded-file-item';
+            
+            fileItem.innerHTML = `
+                <svg class="file-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                </svg>
+                <span class="file-name">${file.name}</span>
+                <span class="file-status">✓ Uploaded</span>
+            `;
+            
+            uploadedFilesList.appendChild(fileItem);
+        });
+    }
+
+// Close modal when clicking outside
+    document.getElementById('uploadModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeModal();
+        }
+    });
+
+}); 
     </script>
 </body>
 </html>

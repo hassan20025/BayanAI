@@ -1,21 +1,25 @@
 export async function redirectIfNotLoggedIn() {
     try {
-        const response = await fetch("http://localhost/BayanAI/api/users/login.php", {
+        console.log("asdad")
+        const response = await fetch("http://localhost/BayanAI/api/users/me.php", {
             credentials: "include",
         });
 
-        console.log(await response.json());
+        // console.log(await response.json());
         if (!response.ok) {
 
             throw new Error("Not authenticated");
         }
 
         const user = await response.json();
-
-        if (!user || !user.id) {
-            // window.location.href = "/temp/BayanAI/auth/login";
+        console.log(user);
+        if (!user || !user.data.id) {
+            window.location.href = "/BayanAI/auth/login";
         }
     } catch (error) {
-        // window.location.href = "/temp/BayanAI/auth/login";
+        console.log(error);
+        // window.location.href = "/BayanAI/auth/login";
     }
 }
+window.redirectIfNotLoggedIn = redirectIfNotLoggedIn;
+redirectIfNotLoggedIn();

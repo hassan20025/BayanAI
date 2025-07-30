@@ -82,18 +82,16 @@
                 })
                 .then(data => {
                     console.log(data);
-                    alert(data);
                     if (data.status === "success") {
                         window.location.href = "/bayanai/chat/";
                     } 
                     else {
-                        alert(data.data.message || "Login failed");
+                        console.log(data.data.message || "Login failed");
                     }
                 })
                 .catch(error => {
                     console.log(error);
                     console.error("Error:", error);
-                    alert("An error occurred while logging in.");
                 });
             });
         });
