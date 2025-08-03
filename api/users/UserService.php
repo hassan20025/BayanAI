@@ -5,10 +5,8 @@ require_once "../../utils/utils.php";
 require_once "../sessions/SessionRepository.php";
 session_start();
 header('Content-Type: application/json');
-global $sessionRepository, $userRepository;
 
 function login_user($email, $password) {
-    global $sessionRepository;
 
     $user = get_user_by_email($email);
 
@@ -19,7 +17,7 @@ function login_user($email, $password) {
     $userId = $user->getId();
     $expiresAt = date("Y-m-d H:i:s", strtotime("+7 days"));
 
-    $token = $sessionRepository->createSession($userId, $expiresAt);
+    $token = create_session($userId, $expiresAt);
 
     if (!$token) {
         respond(500, "error", ["message" => "Failed to create session."]);
@@ -41,10 +39,9 @@ function login_user($email, $password) {
 }
 
 function logout_user($token) {
-    global $sessionRepository;
 
     if ($token) {
-        $sessionRepository->deleteSessionByToken($token);
+        delete_session_by_token($token);
         setcookie("session_token", "", time() - 3600, "/");
     }
 
@@ -52,13 +49,12 @@ function logout_user($token) {
 }
 
 function get_me($sessionToken) {
-    global $sessionRepository;
 
     if (!isset($sessionToken)) {
         respond(401, "error", ["message" => "Not logged in"]);
     }
     
-    $session = $sessionRepository->getSessionByToken($sessionToken);
+    $session = get_session_by_token($sessionToken);
 
     if (!$session || $session["expires_at"] < date("Y-m-d H:i:s")) {
         respond(401, "error", ["message" => "Session expired or invalid"]);
