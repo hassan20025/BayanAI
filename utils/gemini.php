@@ -1,17 +1,20 @@
 <?php
 header("Content-Type: application/json"); 
-require "../vendor/autoload.php";
-require "./utils.php";
-$config = require "../config.php";
+// require "../vendor/autoload.php";
+// require_once __DIR__ . "/../vendor/autoload.php";
+require_once __DIR__ . "/utils.php";
+// require_once "../api/documentChunk/DocumentChunkService.php";
+// require_once "../api/companyData/companyDataService.php";
+$config = require_once __DIR__ . "/../config.php";
 $apiKey = $config["gemini_api_key"];
 
-use Smalot\PdfParser\Parser;
+// use Smalot\PdfParser\Parser;
 
-function extractPdfText($filePath) {
-    $parser = new Parser();
-    $pdf = $parser->parseFile($filePath);
-    return $pdf->getText();
-}
+// function extractPdfText($filePath) {
+//     $parser = new Parser();
+//     $pdf = $parser->parseFile($filePath);
+//     return $pdf->getText();
+// }
 
 function askGemini($pdfText) {
     global $apiKey;
@@ -189,6 +192,107 @@ EOT;
 //     return json_decode($response, true);
 // }
 
-$pdfText = extractPdfText("../pdf/test.pdf");
-$response = askGemini($pdfText);
-respond(200, "success", $response);
+function get_company_info($question, $data) {
+    global $apiKey;
+    $encoded_data = json_encode($data);
+    $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+
+    $prompt = <<<EOT
+    You are a professional business analyst assistant.
+    
+    Here is the company data:
+    "$encoded_data"
+    
+    Now, answer the following question using only the information provided above:
+    "$question"
+    
+    If the question is not clearly relevant to the data or the data does not contain the requested information, respond with a polite and professional message like:
+    "I'm sorry, but I cannot provide an accurate answer based on the available company data."
+    
+    Keep your response concise and formal.
+    EOT;
+
+    $data = [
+        "contents" => [
+            [
+                "parts" => [
+                    ["text" => $prompt]
+                ]
+            ]
+        ],
+        "generationConfig" => [
+            "temperature" => 0.3,
+            "topK" => 1,
+            "topP" => 0.8,
+            "maxOutputTokens" => 512
+        ]
+    ];
+
+    $ch = curl_init($url . "?key=" . $apiKey);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        "Content-Type: application/json"
+    ]);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+
+    $response = curl_exec($ch);
+
+    if (curl_errno($ch)) {
+        respond(500, "error", curl_error($ch));
+    }
+
+    curl_close($ch);
+
+    $result = json_decode($response, true);
+
+    if (isset($result['candidates'][0]['content']['parts'][0]['text'])) {
+        return trim($result['candidates'][0]['content']['parts'][0]['text']);
+    }
+
+    return "No response from Gemini.";
+}
+
+function generateEmbeddings($text) {
+    global $apiKey;
+
+    $url = "https://generativelanguage.googleapis.com/v1beta/models/embedding-001:embedContent";
+
+    $data = [
+        "content" => [
+            "parts" => [
+                ["text" => $text]
+            ]
+        ]
+    ];
+
+    $ch = curl_init($url . "?key=" . $apiKey);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        "Content-Type: application/json"
+    ]);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+
+    $response = curl_exec($ch);
+
+    if (curl_errno($ch)) {
+        respond(500, "error", curl_error($ch));
+    }
+
+    curl_close($ch);
+
+    $result = json_decode($response, true);
+
+    if (isset($result['embedding']['values'])) {
+        return $result['embedding']['values'];
+    } else {
+        return ["error" => "Could not retrieve embedding."];
+    }
+}
+
+
+// $response = create_company_data(askGemini($pdfText));
+// $response = generateEmbeddings($pdfText);
+// create_chunk();
+// // respond(200, "success", $response);

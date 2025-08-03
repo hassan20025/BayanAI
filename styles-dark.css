@@ -3409,14 +3409,6 @@ a:focus {
 
     /* Upload Success Styles - Add to both light and dark CSS files */
 
-/* Success Colors - Add to :root in styles-light.css */
-:root {
-  /* ... your existing variables ... */
-  --success-color: #10b981;
-  --success-bg: #d1fae5;
-  --success-border: #6ee7b7;
-}
-
 /* Success Colors for Dark Mode - Add to :root in styles-dark.css */
 :root {
   /* ... your existing variables ... */

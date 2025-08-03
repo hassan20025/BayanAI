@@ -1726,7 +1726,7 @@ a:focus {
           max-width: 500px;
           max-height: 90vh;
           overflow-y: auto;
-          overflow: hidden;
+          /* overflow: hidden; */
           transform: translateY(20px);
           transition: transform 0.3s ease;
       }
@@ -3131,14 +3131,6 @@ a:focus {
   --success-color: #10b981;
   --success-bg: #d1fae5;
   --success-border: #6ee7b7;
-}
-
-/* Success Colors for Dark Mode - Add to :root in styles-dark.css */
-:root {
-  /* ... your existing variables ... */
-  --success-color: #34d399;
-  --success-bg: rgba(16, 185, 129, 0.1);
-  --success-border: rgba(52, 211, 153, 0.3);
 }
 
 /* Upload Success Styles - Add to both CSS files */
