@@ -1,5 +1,5 @@
 <?php
-class User {
+class User implements JsonSerializable {
     private $id;
     private $email;
     private $password;
@@ -42,5 +42,13 @@ class User {
 
     public function setUsername($username) {
         $this->username = $username;
+    }
+
+    public function jsonSerialize(): array {
+        return [
+            'id' => $this->id,
+            'email' => $this->email,
+            'username' => $this->username
+        ];
     }
 }

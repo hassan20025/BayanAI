@@ -1,5 +1,5 @@
 <?php
-class Message {
+class Message implements JsonSerializable {
     private int $id;
     private int $chat_id;
     private string $content;
@@ -20,4 +20,14 @@ class Message {
 
     public function getRole(): string { return $this->role; }
     public function setRole(string $role): void { $this->role = $role; }
+
+    public function jsonSerialize(): array {
+        return [
+            'id' => $this->id,
+            'chat_id' => $this->chat_id,
+            'content' => $this->content,
+            'created_at' => $this->created_at,
+            'role' => $this->role,
+        ];
+    }
 }

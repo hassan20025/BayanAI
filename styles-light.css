@@ -31,6 +31,10 @@ body {
   background-attachment: fixed;
 }
 
+.hidden {
+  display: none;
+}
+
 /* App Container - Full Screen Layout */
 .app-container {
   display: flex;
@@ -3264,9 +3268,4 @@ a:focus {
 .success-button:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 12px var(--shadow-hover);
-}
-
-/* Hidden utility class */
-.hidden {
-  display: none !important;
 }

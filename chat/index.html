@@ -76,7 +76,7 @@
                     <div class="sidebar-group-label">Chats</div>
                     <ul class="sidebar-menu">
                         <li>
-                            <button class="sidebar-menu-button active">
+                            <button data-chatId="" class="sidebar-menu-button active">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M12 5v14"/>
                                     <path d="M5 12h14"/>
@@ -84,7 +84,7 @@
                                 <span>New Chat</span>
                             </button>
                         </li>
-                        <li>
+                        <!-- <li>
                             <button class="sidebar-menu-button">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V3a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
@@ -99,7 +99,7 @@
                                 </svg>
                                 <span>Productivity Tips</span>
                             </button>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
                 <div class="sidebar-separator"></div>
@@ -146,7 +146,7 @@
                 </div>
             </div>
             <div class="chat-messages" id="chatMessages" role="log" aria-live="polite">
-                <div class="message bot-message">
+                <!-- <div class="message bot-message">
                     <div class="message-avatar">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M10 9V7a2 2 0 0 1 4 0v2"/>
@@ -184,7 +184,7 @@
                         <h4>Some key AI trends include:</h4>
                         <p>• Generative AI (e.g., large language models like GPT-4o)<br>• AI in healthcare for diagnostics and drug discovery<br>• Edge AI for real-time processing<br>• Explainable AI (XAI) for transparency</p>
                     </div>
-                </div>
+                </div> -->
             </div>
             <div class="chat-input">
                 <input type="text" placeholder="Type your message..." id="chatInput" aria-label="Type your message">
@@ -304,9 +304,11 @@
         });
     </script>
 
+    <script src="./chat.js"></script>
+
     <script>
         
-        document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", () => {
     const chatInput = document.getElementById("chatInput");
     const sendMessageButton = document.getElementById("sendMessageButton");
     const chatMessages = document.getElementById("chatMessages");
@@ -375,28 +377,28 @@
     }
 
     // Function to handle sending a message
-    function sendMessage() {
-        const messageText = chatInput.value.trim();
-        if (messageText) {
-            addMessage(messageText, "user");
-            chatInput.value = ""; // Clear input
+    // function sendMessage() {
+    //     const messageText = chatInput.value.trim();
+    //     if (messageText) {
+    //         addMessage(messageText, "user");
+    //         chatInput.value = ""; // Clear input
 
-            // Simulate bot response
-            setTimeout(() => {
-                addMessage(
-                    {
-                        title: "Thank you for your message!",
-                        text: "This is a demo response. In a real application, I would provide a detailed answer based on your query.",
-                    },
-                    "bot",
-                    true,
-                );
-            }, 1000);
-        }
-    }
+    //         // Simulate bot response
+    //         setTimeout(() => {
+    //             addMessage(
+    //                 {
+    //                     title: "Thank you for your message!",
+    //                     text: "This is a demo response. In a real application, I would provide a detailed answer based on your query.",
+    //                 },
+    //                 "bot",
+    //                 true,
+    //             );
+    //         }, 1000);
+    //     }
+    // }
 
     // Event listener for send button click
-    sendMessageButton.addEventListener("click", sendMessage);
+    // sendMessageButton.addEventListener("click", sendMessage);
 
     // Event listener for Enter key press in input field
     chatInput.addEventListener("keypress", (e) => {

@@ -1,5 +1,5 @@
 <?php
-require_once "../../services/ChatService.php";
+require_once "ChatService.php";
 require_once "../../utils/utils.php";
 require_once "../sessions/SessionService.php";
 
@@ -19,9 +19,4 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     $chat_id = create_new_chat($user_id, $title);
-    if (!$chat_id) {
-        respond(500, "error", ["message" => "Failed to create chat."]);
-    }
-
-    respond(201, "success", ["message" => "Chat created successfully.", "chat_id" => $chat_id]);
 }

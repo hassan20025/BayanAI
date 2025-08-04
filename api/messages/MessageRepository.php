@@ -20,7 +20,7 @@ function find_messages_by_chat_id(int $chat_id): array {
         $messages[] = $msg;
     }
 
-    return $messages;
+    return respond(200, "success", $messages);
 }
 
 function create_message(Message $message): bool {

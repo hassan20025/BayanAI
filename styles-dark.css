@@ -17,6 +17,11 @@ body {
   flex-direction: column; /* Ensure full height for app-container */
 }
 
+/* Hidden utility class */
+.hidden {
+  display: none;
+}
+
 /* Prevent body scroll when modal is open */
 body.modal-open {
   overflow: hidden;
@@ -3548,9 +3553,4 @@ a:focus {
 .success-button:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 12px var(--shadow-hover);
-}
-
-/* Hidden utility class */
-.hidden {
-  display: none !important;
 }

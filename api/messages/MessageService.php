@@ -13,6 +13,7 @@
     function send_message(int $userId, int $chat_id, string $content, string $role): bool {
         $message = new Message();
         $chat = find_chat_by_id($chat_id);
+
         if (!$chat || $chat->getUserId() != $userId) {
             respond(404, "error", "Chat not found");
         }

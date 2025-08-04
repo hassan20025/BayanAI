@@ -1,14 +1,15 @@
 <?php
-require_once "../../services/SessionService.php";
+require_once "../sessions/SessionService.php";
 require_once "../../utils/utils.php";
+require_once "MessageService.php";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    if (!isset($_POST["content"], $_POST["chat_id"])) {
+    if (!isset($_POST["content"], $_POST["chatId"])) {
         respond(400, "error", ["message" => "Missing data."]);
     }
 
     $content = trim($_POST["content"]);
-    $chatId = intval($_POST["chat_id"]);
+    $chatId = intval($_POST["chatId"]);
 
     if ($content === "") {
         respond(400, "error", ["message" => "Message cannot be empty."]);

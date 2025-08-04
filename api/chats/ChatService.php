@@ -1,13 +1,16 @@
 <?php
     require_once "ChatRepository.php";
+    require_once "../../utils/utils.php";
 
-    function get_user_chats(int $user_id): array {
-        return array_filter(find_all_chats(), fn($chat) => $chat->getUserId() === $user_id);
+    function get_user_chats(int $user_id) {
+        respond(200, "success", find_all_chats($user_id));
     }
 
-    function create_new_chat(int $user_id, string $title): bool {
-        $chat = new Chat();
-        $chat->setUserId($user_id);
-        $chat->setTitle($title);
-        return create_chat($chat);
+    function create_new_chat(int $user_id, string $title) {
+        $chat = new Chat($user_id, $title);
+        $chat = create_chat($chat);
+        if (!$chat) {
+            respond(400, "error", "Failed to create chat");
+        }
+        respond(200, "success", $chat);
     }
