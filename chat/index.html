@@ -550,8 +550,8 @@
         }
     });
 
-    startUploadButton.addEventListener("click", () => {
-        startUpload();
+    startUploadButton.addEventListener("click", (e) => {
+        startUpload(e);
     });
 
     uploadMoreButton.addEventListener("click", () => {
@@ -657,20 +657,48 @@
         });
     }
 
-    function startUpload() {
-        // Show upload success state
+    async function startUpload(e) {
+            // Show upload success state
         document.getElementById('modalTitle').textContent = 'Upload Complete';
         document.getElementById('uploadForm').classList.add('hidden');
         document.getElementById('uploadSuccess').classList.remove('hidden');
         document.getElementById('modalFooter').classList.add('hidden');
+        async function uploadFilesToGemini(files) {
+            const formData = new FormData();
+            
+            for (let i = 0; i < files.length; i++) {
+                formData.append('files[]', files[i]);
+            }
+            
+            try {
+                const response = await fetch('http://localhost/BayanAI/api/documentChunks/upload.php', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    console.log('Text extraction successful:', result.data);
+                    return result.data;
+                } else {
+                    console.error('Error:', result.data);
+                    throw new Error(result.data);
+                }
+            } catch (error) {
+                console.error('Upload failed:', error);
+                throw error;
+            }
+        }
 
-        // Display uploaded files
+        console.log(await uploadFilesToGemini(selectedFiles));
         displayUploadedFiles(selectedFiles);
     }
 
     function displayUploadedFiles(files) {
         const uploadedFilesList = document.getElementById('uploadedFilesList');
         uploadedFilesList.innerHTML = '';
+        startUploadButton.style.display = "none";
 
         files.forEach(file => {
             const fileItem = document.createElement('div');
@@ -689,7 +717,6 @@
         });
     }
 
-// Close modal when clicking outside
     document.getElementById('uploadModal').addEventListener('click', function(e) {
         if (e.target === this) {
             closeModal();

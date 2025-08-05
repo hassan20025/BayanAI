@@ -3105,6 +3105,10 @@ a:focus {
   color: var(--landing-text-color);
 }
 
+.modal-footer.hidden {
+  display: none !important;
+}
+
 .modal-footer a {
   color: var(--landing-button-bg);
   text-decoration: none;

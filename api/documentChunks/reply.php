@@ -1,5 +1,6 @@
 <?php
     require_once "DocumentChunkService.php";
+    require_once "../sessions/SessionService.php";
     require_once "../../utils/utils.php";
 
     if ($_SERVER["REQUEST_METHOD"] != "POST") {
@@ -7,8 +8,9 @@
     }
 
     $question = $_POST["question"] ?? null;
-    if (!$question) {
+    $chatId = $_POST["chatId"] ?? null;
+    if (!$question || !$chatId) {
         respond(400, "error", "Missing data.");
     }
 
-    get_answer($question);
+    get_answer($question, $chatId, get_authenticated_user_id());

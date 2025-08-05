@@ -1,6 +1,7 @@
 <?php
 
 require_once "DocumentChunkRepository.php";
+require_once "../messages/MessageService.php";
 require_once "../../utils/utils.php";
 require_once "../../utils/gemini.php";
 
@@ -10,7 +11,8 @@ function create_chunk($chunkText, $departmentId) {
     $embedding = generateEmbeddings($chunkText);
 
     if (isset($embedding['error'])) {
-        respond(500, "error", ["message" => "Failed to generate embedding."]);
+        echo json_encode($embedding);
+        respond(500, "error", ["message" => "Failed to generate embedding"]);
     }
 
     $chunk = new DocumentChunk();
@@ -23,6 +25,29 @@ function create_chunk($chunkText, $departmentId) {
     }
 
     respond(201, "success", ["message" => "Chunk created successfully."]);
+}
+
+function create_chunks($chunks, $departmentId) {
+    foreach($chunks as $chunk) {
+        $embedding = generateEmbeddings($chunk);
+
+        if (isset($embedding['error'])) {
+            echo json_encode($embedding);
+            respond(500, "error", ["message" => "Failed to generate embedding"]);
+        }
+    
+        $docChunk = new DocumentChunk();
+        $docChunk->setChunkText($chunk);
+        $docChunk->setEmbeddingVector($embedding);
+        $docChunk->setDepartmentId($departmentId);
+    
+        if (!create_document_chunk($docChunk)) {
+            respond(500, "error", ["message" => "Failed to create chunks."]);
+        }
+
+    }
+        
+    respond(201, "success", ["message" => "Chunks created successfully."]);
 }
 
 function get_chunk_by_id($id) {
@@ -129,7 +154,11 @@ function get_similar_text($text) {
     return $texts;
 }
 
-function get_answer($question) {
+function get_answer($question, $chatId, $userId) {
     $data = get_similar_text($question);
-    return respond(200, "success", get_company_info($question, $data));
+    // $answer = "Asdasdadasdad";
+    // $answer = get_company_info($question, $data);
+    $answer = get_company_info($question, $data, get_chat_messages($userId, $chatId));
+    send_message(null, $chatId, $answer, "bot");
+    return respond(200, "success", $answer);
 }

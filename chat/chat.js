@@ -1,6 +1,6 @@
 const params = new URLSearchParams(window.location.search);
 const chatId = params.get("chatId");
-console.log(chatId);
+
 async function fetchUserChats() {
     try {
         const chatsContainer = document.querySelector(".sidebar-menu");
@@ -9,10 +9,7 @@ async function fetchUserChats() {
         });
         if (!response.ok) throw new Error("Failed to fetch chats");
         const data = await response.json();
-        console.log(data);
         data.data.forEach(chat => {
-            console.log(chat);
-            console.log(chatId)
             chatsContainer.innerHTML += `
                 <li>
                     <button data-chatId="${chat.id}" class="sidebar-menu-button ${chat.id === Number.parseInt(chatId) ? "active" : ""}">
@@ -42,7 +39,6 @@ async function fetchMessagesForChat(chatId) {
         );
         if (!response.ok) throw new Error("Failed to fetch messages");
         const messages = (await response.json()).data;
-        console.log(messages);
         messages.forEach(message => {
             if (message.role === "user") {
                 messagesContainer.innerHTML += `
@@ -86,14 +82,15 @@ if (chatId) {
     fetchMessagesForChat(chatId);
 }
 
-async function handleSendMessage() {
+async function handleSendMessage(e) {
     const chatInput = document.getElementById("chatInput");
     const message = chatInput.value.trim();
     if (!message) return;
   
     const urlParams = new URLSearchParams(window.location.search);
     const chatId = urlParams.get("chatId");
-  
+    
+    e.target.disabled = true;
     try {
       let finalChatId = chatId;
       if (!chatId) {
@@ -111,6 +108,32 @@ async function handleSendMessage() {
   
         const createdChat = (await createChatRes.json()).data;
         finalChatId = createdChat.id;
+
+        const messageFormData = new URLSearchParams();
+        messageFormData.append("chatId", finalChatId);
+        messageFormData.append("content", message);
+
+        await fetch("http://localhost/BayanAI/api/messages/createMessage.php", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: messageFormData
+        });
+
+        const replyReqData = new URLSearchParams();
+        replyReqData.append("question", message);
+        replyReqData.append("chatId", finalChatId);
+
+        const replyRes = await fetch("http://localhost/BayanAI/api/documentChunks/reply.php", {
+            method: "POST",
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: replyReqData,
+        });
         window.location.href = `?chatId=${finalChatId}`;
         return;
     }
@@ -135,7 +158,7 @@ async function handleSendMessage() {
         messageFormData.append("chatId", finalChatId);
         messageFormData.append("content", message);
 
-    const res = await fetch("http://localhost/BayanAI/api/messages/createMessage.php", {
+    await fetch("http://localhost/BayanAI/api/messages/createMessage.php", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -143,11 +166,44 @@ async function handleSendMessage() {
         },
         body: messageFormData
     });
-    console.log(await res.json());
+
+    const replyReqData = new URLSearchParams();
+    replyReqData.append("question", message);
+    replyReqData.append("chatId", chatId);
+
+    const replyRes = await fetch("http://localhost/BayanAI/api/documentChunks/reply.php", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: replyReqData,
+    });
+
+    const reply = await replyRes.json();
+
+    messagesContainer.innerHTML += `
+        <div class="message bot-message">
+            <div class="message-avatar">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10 9V7a2 2 0 0 1 4 0v2"/>
+                    <path d="M12 12h.01"/>
+                    <path d="M12 17h.01"/>
+                    <rect width="18" height="18" x="3" y="3" rx="2"/>
+                </svg>
+            </div>
+            <div class="message-content">
+                ${reply.data}
+            </div>
+        </div> 
+    `;
 
     chatInput.value = "";
     } catch (err) {
         console.error("Failed to send message", err);
+    }
+    finally {
+        e.target.disabled = false;
     }
 }
 
@@ -164,8 +220,8 @@ function addChatNavigationEvents() {
         });
     }
 
-    console.log(chatButtons)
     chatButtons.forEach((btn) => {
+        if (btn.id === "openUploadModalButton") return;
         btn.addEventListener("click", (e) => {
             const chatId = btn.dataset.chatid;
             chatButtons.forEach(b => b.classList.remove("active"));

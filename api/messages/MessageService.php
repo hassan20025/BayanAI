@@ -10,11 +10,11 @@
         return find_messages_by_chat_id($chat_id);
     }
     
-    function send_message(int $userId, int $chat_id, string $content, string $role): bool {
+    function send_message($userId, int $chat_id, string $content, string $role): bool {
         $message = new Message();
         $chat = find_chat_by_id($chat_id);
 
-        if (!$chat || $chat->getUserId() != $userId) {
+        if (!$chat || ($userId && $chat->getUserId() != $userId)) {
             respond(404, "error", "Chat not found");
         }
         $message->setChatId($chat_id);

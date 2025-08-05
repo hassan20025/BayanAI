@@ -1,10 +1,6 @@
 <?php
 header("Content-Type: application/json"); 
-// require "../vendor/autoload.php";
-// require_once __DIR__ . "/../vendor/autoload.php";
 require_once __DIR__ . "/utils.php";
-// require_once "../api/documentChunk/DocumentChunkService.php";
-// require_once "../api/companyData/companyDataService.php";
 $config = require_once __DIR__ . "/../config.php";
 $apiKey = $config["gemini_api_key"];
 
@@ -192,34 +188,51 @@ EOT;
 //     return json_decode($response, true);
 // }
 
-function get_company_info($question, $data) {
+function get_company_info($question, $data, $previousMessages) {
     global $apiKey;
     $encoded_data = json_encode($data);
-    $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
-
     $prompt = <<<EOT
     You are a professional business analyst assistant.
-    
+
     Here is the company data:
     "$encoded_data"
-    
-    Now, answer the following question using only the information provided above:
-    "$question"
-    
+
     If the question is not clearly relevant to the data or the data does not contain the requested information, respond with a polite and professional message like:
     "I'm sorry, but I cannot provide an accurate answer based on the available company data."
-    
+
     Keep your response concise and formal.
     EOT;
+    $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 
-    $data = [
-        "contents" => [
-            [
-                "parts" => [
-                    ["text" => $prompt]
-                ]
+    // Build conversation history
+    $contents = [];
+    
+    // 1. Add system prompt first
+    $contents[] = [
+        "role" => "user",
+        "parts" => [
+            ["text" => $prompt]
+        ]
+    ];
+    
+    foreach ($previousMessages as $msg) {
+        $contents[] = [
+            "role" => $msg->getRole() == "bot" ? "model" : "user",
+            "parts" => [
+                ["text" => $msg->getContent()]
             ]
-        ],
+        ];
+    }
+    
+    $contents[] = [
+        "role" => "user",
+        "parts" => [
+            ["text" => $question]
+        ]
+    ];
+
+    $requestData = [
+        "contents" => $contents,
         "generationConfig" => [
             "temperature" => 0.3,
             "topK" => 1,
@@ -234,7 +247,7 @@ function get_company_info($question, $data) {
         "Content-Type: application/json"
     ]);
     curl_setopt($ch, CURLOPT_POST, true);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($requestData));
 
     $response = curl_exec($ch);
 
@@ -247,11 +260,73 @@ function get_company_info($question, $data) {
     $result = json_decode($response, true);
 
     if (isset($result['candidates'][0]['content']['parts'][0]['text'])) {
-        return trim($result['candidates'][0]['content']['parts'][0]['text']);
+        return $result['candidates'][0]['content']['parts'][0]['text'];
     }
 
     return "No response from Gemini.";
 }
+
+// function get_company_info($question, $data) {
+//     echo "Adasdad";
+//     global $apiKey;
+//     $encoded_data = json_encode($data);
+//     $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
+
+//     $prompt = <<<EOT
+//     You are a professional business analyst assistant.
+    
+//     Here is the company data:
+//     "$encoded_data"
+    
+//     Now, answer the following question using only the information provided above:
+//     "$question"
+    
+//     If the question is not clearly relevant to the data or the data does not contain the requested information, respond with a polite and professional message like:
+//     "I'm sorry, but I cannot provide an accurate answer based on the available company data."
+    
+//     Keep your response concise and formal.
+//     EOT;
+
+//     $data = [
+//         "contents" => [
+//             [
+//                 "parts" => [
+//                     ["text" => $prompt]
+//                 ]
+//             ]
+//         ],
+//         "generationConfig" => [
+//             "temperature" => 0.3,
+//             "topK" => 1,
+//             "topP" => 0.8,
+//             "maxOutputTokens" => 512
+//         ]
+//     ];
+
+//     $ch = curl_init($url . "?key=" . $apiKey);
+//     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//     curl_setopt($ch, CURLOPT_HTTPHEADER, [
+//         "Content-Type: application/json"
+//     ]);
+//     curl_setopt($ch, CURLOPT_POST, true);
+//     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+
+//     $response = curl_exec($ch);
+
+//     if (curl_errno($ch)) {
+//         respond(500, "error", curl_error($ch));
+//     }
+
+//     curl_close($ch);
+
+//     $result = json_decode($response, true);
+
+//     if (isset($result['candidates'][0]['content']['parts'][0]['text'])) {
+//         return trim($result['candidates'][0]['content']['parts'][0]['text']);
+//     }
+
+//     return "No response from Gemini.";
+// }
 
 function generateEmbeddings($text) {
     global $apiKey;

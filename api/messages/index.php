@@ -11,4 +11,4 @@
     }
     $chatId = $_GET["chatId"];
     $userId = get_authenticated_user_id();
-    find_messages_by_chat_id($chatId);
+    respond(200, "success", get_chat_messages($userId, $chatId));
