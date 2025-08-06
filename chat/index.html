@@ -6,6 +6,7 @@
     <title>Bayan AI Chat</title>
     <link rel="stylesheet" href="../styles-light.css" id="theme-stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
     <div class="app-container">
@@ -74,9 +75,9 @@
                         </svg>
                     </button> -->
                     <div class="sidebar-group-label">Chats</div>
-                    <ul class="sidebar-menu">
-                        <li>
-                            <button data-chatId="" class="sidebar-menu-button active">
+                    <ul class="sidebar-menu" style="padding-right: 15px;">
+                        <li class="sidebar-menu-item active">
+                            <button data-chatId="" class="sidebar-menu-button">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M12 5v14"/>
                                     <path d="M5 12h14"/>
@@ -215,11 +216,11 @@
                 <div id="uploadForm">
                     <div class="upload-area">
                         <p>Drag & drop your files here, or click to browse.</p>
-                        <input type="file" id="fileInput" multiple accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg" style="display: none;">
+                        <input type="file" id="fileInput" multiple accept=".pdf,.txt,.png,.jpg,.jpeg" style="display: none;">
                         <button class="upload-button" id="browseFilesButton">Browse Files</button>
                         <div id="fileList" class="file-list"></div>
                     </div>
-                    <p class="modal-info">Supported formats: PDF, DOC, DOCX, TXT, PNG, JPG, JPEG.</p>
+                    <p class="modal-info">Supported formats: PDF, TXT, PNG, JPG, JPEG.</p>
                 </div>
     
                 <!-- Upload Success (Hidden Initially) -->
@@ -245,38 +246,11 @@
             </div>
     
             <div class="modal-footer" id="modalFooter">
-                <button class="modal-action-button" id="startUploadButton">Start Upload</button>
+                <button disabled class="modal-action-button" id="startUploadButton">Start Upload</button>
             </div>
         </div>
     </div>
-
-    <!-- Upload Modal -->
-    <!-- <div id="uploadModal" class="modal-overlay">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Upload Documents</h2>
-                <button class="modal-close-button" id="closeUploadModalButton" aria-label="Close upload modal">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="18" y1="6" x2="6" y2="18"/>
-                        <line x1="6" y1="6" x2="18" y2="18"/>
-                    </svg>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="upload-area">
-                    <p>Drag & drop your files here, or click to browse.</p>
-                    <input type="file" id="fileInput" multiple accept=".pdf,.doc,.docx,.txt,.png,.jpg,.jpeg" style="display: none;">
-                    <button class="upload-button" id="browseFilesButton">Browse Files</button>
-                    <div id="fileList" class="file-list"></div>
-                </div>
-                <p class="modal-info">Supported formats: PDF, DOC, DOCX, TXT, PNG, JPG, JPEG.</p>
-            </div>
-            <div class="modal-footer">
-                <button class="modal-action-button" id="startUploadButton">Start Upload</button>
-            </div>
-        </div>
-    </div> -->
-
+    
     <script>
         // import { redirectIfNotLoggedIn } from '../utils/utils.js';
 
@@ -401,11 +375,7 @@
     // sendMessageButton.addEventListener("click", sendMessage);
 
     // Event listener for Enter key press in input field
-    chatInput.addEventListener("keypress", (e) => {
-        if (e.key === "Enter") {
-            sendMessage();
-        }
-    });
+
 
     // Function to close sidebar
     function closeSidebar() {

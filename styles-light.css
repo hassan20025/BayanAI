@@ -171,7 +171,7 @@ body {
   margin-bottom: 4px;
 }
 
-.sidebar-menu-button {
+.sidebar-menu-item {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -191,12 +191,44 @@ body {
   text-overflow: ellipsis; /* Add ellipsis for overflowed text */
 }
 
-.sidebar-menu-button:hover {
+.sidebar-menu-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  /* padding: 10px 20px; */
+  background: none;
+  border: none;
+  color: rgba(0, 0, 0, 0.8); /* Darker text */
+  text-align: left;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+  text-decoration: none; /* For anchor tags */
+  white-space: nowrap; /* Prevent text wrapping */
+  overflow: hidden; /* Hide overflowed text */
+  text-overflow: ellipsis; /* Add ellipsis for overflowed text */
+}
+
+.sidebar-menu-item:hover {
   background: rgba(96, 165, 250, 0.1); /* Light blue hover background */
   color: #333333; /* Darker text on hover */
 }
 
-.sidebar-menu-button.active {
+.deleteChat {
+  color: red;
+  border: none;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.deleteChat svg {
+  color: red;
+}
+
+.sidebar-menu-item.active {
   background: rgba(96, 165, 250, 0.2); /* More prominent blue active background */
   color: #333333; /* Darker text for active state */
   font-weight: 500;
@@ -1373,7 +1405,7 @@ a:focus {
           margin: 0 12px 2px 12px;
       }
 
-      .sidebar-menu-button {
+      .sidebar-menu-item {
           display: flex;
           align-items: center;
           gap: 12px;
@@ -1390,16 +1422,16 @@ a:focus {
           text-decoration: none;
       }
 
-      .sidebar-menu-button:hover {
+      /* .sidebar-menu-button:hover {
           background: #f3f4f6;
           color: #111827;
-      }
+      } */
 
-      .sidebar-menu-button.active {
+      /* .sidebar-menu-button.active {
           background: #eff6ff;
           color: #1d4ed8;
           font-weight: 500;
-      }
+      } */
 
       .sidebar-menu-button svg {
           width: 18px;

@@ -172,7 +172,19 @@ body {
   margin-bottom: 4px;
 }
 
-.sidebar-menu-button {
+.deleteChat {
+  color: red;
+  border: none;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.deleteChat svg {
+color: red;
+}
+
+.sidebar-menu-item {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -192,18 +204,38 @@ body {
   text-overflow: ellipsis; /* Add ellipsis for overflowed text */
 }
 
-.sidebar-menu-button:hover {
+.sidebar-menu-button {
+  color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  /* padding: 10px 20px; */
+  background: none;
+  border: none;
+  text-align: left;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+  text-decoration: none; /* For anchor tags */
+  white-space: nowrap; /* Prevent text wrapping */
+  overflow: hidden; /* Hide overflowed text */
+  text-overflow: ellipsis; /* Add ellipsis for overflowed text */
+}
+
+.sidebar-menu-item:hover {
   background: rgba(96, 165, 250, 0.1);
   color: #ffffff;
 }
 
-.sidebar-menu-button.active {
+.sidebar-menu-item.active {
   background: rgba(96, 165, 250, 0.2);
   color: #ffffff;
   font-weight: 500;
 }
 
-.sidebar-menu-button svg {
+.sidebar-menu-item svg {
   width: 20px;
   height: 20px;
   flex-shrink: 0;
@@ -1458,7 +1490,7 @@ body {
   margin: 0 12px 2px 12px;
 }
 
-.sidebar-menu-button {
+.sidebar-menu-item {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -1475,12 +1507,12 @@ body {
   text-decoration: none;
 }
 
-.sidebar-menu-button:hover {
+.sidebar-menu-item:hover {
   background: rgba(255, 255, 255, 0.1);
   color: #f8fafc;
 }
 
-.sidebar-menu-button.active {
+.sidebar-menu-item.active {
   background: rgba(96, 165, 250, 0.2);
   color: #60a5fa;
   font-weight: 500;

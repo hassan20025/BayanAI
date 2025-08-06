@@ -11,12 +11,15 @@ async function fetchUserChats() {
         const data = await response.json();
         data.data.forEach(chat => {
             chatsContainer.innerHTML += `
-                <li>
-                    <button data-chatId="${chat.id}" class="sidebar-menu-button ${chat.id === Number.parseInt(chatId) ? "active" : ""}">
+                <li data-chatId="${chat.id}" class="sidebar-menu-item ${chat.id === Number.parseInt(chatId) ? "active" : ""}">
+                    <button  class="sidebar-menu-button ${chat.id === Number.parseInt(chatId) ? "active" : ""}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V3a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                         </svg>
                         <span>${chat.title}</span>
+                    </button>
+                    <button data-chatId="${chat.id}" class="deleteChat">
+                        <img height="20" width="20" src="../images/trash.svg">
                     </button>
                 </li>
             `
@@ -25,6 +28,7 @@ async function fetchUserChats() {
         console.error(err);
     }
     addChatNavigationEvents();
+    addChatDeleteEvent();
 }
 fetchUserChats();
 const messagesContainer = document.getElementById("chatMessages");
@@ -67,12 +71,14 @@ async function fetchMessagesForChat(chatId) {
                             </svg>
                         </div>
                         <div class="message-content">
-                            <p>${message.content}</p>
+                            <p>${marked.parse(message.content)}</p>
                         </div>
                     </div>
                 `;
             }
         });
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
     } catch (err) {
         console.error(err);
     }
@@ -153,6 +159,7 @@ async function handleSendMessage(e) {
             </div>
         </div>
     `;
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
         const messageFormData = new URLSearchParams();
         messageFormData.append("chatId", finalChatId);
@@ -193,10 +200,11 @@ async function handleSendMessage(e) {
                 </svg>
             </div>
             <div class="message-content">
-                ${reply.data}
+                ${marked.parse(reply.data)}
             </div>
         </div> 
     `;
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
 
     chatInput.value = "";
     } catch (err) {
@@ -211,11 +219,12 @@ async function handleSendMessage(e) {
 document.getElementById("sendMessageButton").addEventListener("click", handleSendMessage);
 
 function addChatNavigationEvents() {
-    const chatButtons = document.querySelectorAll(".sidebar-menu-button");
+    const chatButtons = document.querySelectorAll(".sidebar-menu-item");
     if (chatId) {
         chatButtons.forEach(b => {
             if (b.dataset.chatid !== chatId) {
                 b.classList.remove("active");
+                // b.parentElement.classList.remove("active");
             }
         });
     }
@@ -224,11 +233,44 @@ function addChatNavigationEvents() {
         if (btn.id === "openUploadModalButton") return;
         btn.addEventListener("click", (e) => {
             const chatId = btn.dataset.chatid;
-            chatButtons.forEach(b => b.classList.remove("active"));
+            chatButtons.forEach(b => {
+                b.classList.remove("active");
+            });
             btn.classList.add("active");
             window.location.href = `?chatId=${chatId || ""}`;
         });
     });
 }
 
-// addChatNavigationEvents();
+async function handleDelete(id) {
+    if (id === chatId) {
+        window.location.href = "/bayanai/chat";
+    }
+    const formData = new URLSearchParams();
+    formData.append("chatId", id);
+    await fetch("http://localhost/BayanAI/api/chats/deleteChat.php", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/x-www-form-urlencoded"
+        },
+        body: formData,
+    });
+}
+
+function addChatDeleteEvent() {
+    const deleteBtns = document.querySelectorAll(".deleteChat");
+    deleteBtns.forEach(btn => {
+        btn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            btn.parentElement.remove();
+            handleDelete(btn.dataset.chatid);
+        });
+    });
+}
+
+chatInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+        handleSendMessage(e);
+    }
+});

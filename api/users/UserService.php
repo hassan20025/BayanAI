@@ -8,6 +8,10 @@ header('Content-Type: application/json');
 
 function login_user($email, $password) {
 
+    if (!$email || !$password) {
+        respond(400, "error", "Missing Data.");
+    }
+
     $user = get_user_by_email($email);
 
     if (!$user || !password_verify($password, $user->getPassword())) {

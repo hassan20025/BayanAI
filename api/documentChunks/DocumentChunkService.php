@@ -129,7 +129,7 @@ function get_similar_text($text) {
     $result = $mysqli->query($query);
 
     $results = [];
-    $SIMILARITY_THRESHOLD = 0.5;
+    $SIMILARITY_THRESHOLD = 0.4;
 
     if ($result && $result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {

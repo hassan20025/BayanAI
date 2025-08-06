@@ -14,3 +14,11 @@
         }
         respond(200, "success", $chat);
     }
+
+    function delete_chat($user_id, $chatId) {
+        $chat = find_chat_by_id($chatId);
+        if (!$chat || $chat->getUserId() != $user_id) {
+            respond(404, "error", "Chat not found");
+        }
+        delete_chat_by_id($chatId);
+    }
