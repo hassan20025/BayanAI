@@ -252,8 +252,6 @@
     </div>
     
     <script>
-        // import { redirectIfNotLoggedIn } from '../utils/utils.js';
-
         document.addEventListener("DOMContentLoaded", () => {
             async function redirectIfNotLoggedIn() {
                 try {
@@ -266,7 +264,6 @@
                     }
 
                     const user = await response.json();
-                    console.log(user);
                     if (!user || !user.data.id) {
                         window.location.href = "/BayanAI/auth/login";
                     }

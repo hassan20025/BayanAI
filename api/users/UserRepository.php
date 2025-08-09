@@ -10,7 +10,7 @@ function find_all_users(): array {
     $result = $mysqli->query("SELECT * FROM users");
     $users = [];
     while ($row = $result->fetch_assoc()) {
-        $users[] = new User($row["id"], $row["email"], $row["password"], $row["username"]);
+        $users[] = new User($row["id"], $row["email"], $row["password"], $row["username"], $row["department"], $row["can_upload"]);
     }
     return $users;
 }
@@ -22,7 +22,7 @@ function find_user_by_id(int $id): ?User {
     $stmt->execute();
     $res = $stmt->get_result();
     if ($row = $res->fetch_assoc()) {
-        return new User($row["id"], $row["email"], $row["password"], $row["username"]);
+        return new User($row["id"], $row["email"], $row["password"], $row["username"], $row["department"], $row["can_upload"]);
     }
     return null;
 }
@@ -34,7 +34,7 @@ function find_user_by_email(string $email): ?User {
     $stmt->execute();
     $res = $stmt->get_result();
     if ($row = $res->fetch_assoc()) {
-        return new User($row["id"], $row["email"], $row["password"], $row["username"]);
+        return new User($row["id"], $row["email"], $row["password"], $row["username"], $row["department"], $row["can_upload"]);
     }
     return null;
 }
@@ -46,29 +46,33 @@ function find_user_by_username(string $username): ?User {
     $stmt->execute();
     $res = $stmt->get_result();
     if ($row = $res->fetch_assoc()) {
-        return new User($row["id"], $row["email"], $row["password"], $row["username"]);
+        return new User($row["id"], $row["email"], $row["password"], $row["username"], $row["department"], $row["can_upload"]);
     }
     return null;
 }
 
 function create_user_entity(User $user): bool {
     global $mysqli;
-    $stmt = $mysqli->prepare("INSERT INTO users (email, password, username) VALUES (?, ?, ?)");
+    $stmt = $mysqli->prepare("INSERT INTO users (email, password, username, department, can_upload) VALUES (?, ?, ?, ?, ?)");
     $email = $user->getEmail();
     $password = $user->getPassword();
     $username = $user->getUsername();
-    $stmt->bind_param("sss", $email, $password, $username);
+    $dept = $user->getDepartment();
+    $can_upload = $user->get_can_upload();
+    $stmt->bind_param("sssii", $email, $password, $username, $dept, $can_upload);
     return $stmt->execute();
 }
 
 function update_user(User $user): bool {
     global $mysqli;
-    $stmt = $mysqli->prepare("UPDATE users SET username = ?, email = ?, password = ? WHERE id = ?");
+    $stmt = $mysqli->prepare("UPDATE users SET username = ?, email = ?, password = ?, department = ?, can_upload = ? WHERE id = ?");
     $email = $user->getEmail();
     $password = $user->getPassword();
     $username = $user->getUsername();
     $id = $user->getId();
-    $stmt->bind_param("sssi", $username, $email, $password, $id);
+    $dept = $user->getDepartment();
+    $can_upload = $user->get_can_upload();
+    $stmt->bind_param("sssii", $email, $password, $username, $dept, $can_upload);
     return $stmt->execute();
 }
 

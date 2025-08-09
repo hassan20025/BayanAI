@@ -2,6 +2,8 @@
 
 require_once "../../utils/utils.php";
 require_once "DocumentChunkService.php";
+require_once "../users/UserService.php";
+require_once "../sessions/SessionService.php";
 
 $configPath = __DIR__ . "/../../config.php";
 
@@ -98,10 +100,12 @@ if ($httpCode >= 200 && $httpCode < 300) {
 
         $json = json_decode($cleanedText, true);
 
+        $userId = get_authenticated_user_id();
+        $user = get_user_by_id($userId);
         if (json_last_error() === JSON_ERROR_NONE) {
-            create_chunks($json, null);
+            create_chunks($json, $user->getDepartment());
         } else {
-            create_chunks($cleanedText, null);
+            create_chunks($cleanedText, $user->getDepartment());
         }
     } else {
         respond(500, "error", "Gemini response format unexpected.");

@@ -3,6 +3,7 @@
 require_once "UserRepository.php";
 require_once "../../utils/utils.php";
 require_once "../sessions/SessionRepository.php";
+require_once "../departments/DepartmentService.php";
 session_start();
 header('Content-Type: application/json');
 
@@ -70,14 +71,10 @@ function get_me($sessionToken) {
         respond(404, "error", ["message" => "User not found"]);
     }
 
-    respond(200, "success", [
-        "id" => $user->getId(),
-        "email" => $user->getEmail(),
-        "username" => $user->getUsername()
-    ]);
+    respond(200, "success", $user);
 }
 
-function create_user($username, $email, $password) {
+function create_user($username, $email, $password, $department = null) {
 
     $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
     $user = find_user_by_email($email);
@@ -91,7 +88,7 @@ function create_user($username, $email, $password) {
         respond(400, "error", "Username already used");
     }
 
-    $user = new User(null, $email, $hashedPassword, $username);
+    $user = new User(null, $email, $hashedPassword, $username, $department);
     $created = create_user_entity($user);
 
     if (!$created) {
@@ -145,7 +142,8 @@ function update_user_wrapper($id, $data) {
         $updatedUserArray['id'],
         $updatedUserArray['email'],
         $updatedUserArray['password'],
-        $updatedUserArray['username']
+        $updatedUserArray['username'],
+        $updatedUserArray["department"]
     );
     return update_user($updatedUser);
 }

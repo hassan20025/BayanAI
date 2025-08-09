@@ -1,13 +1,14 @@
 <?php
 
 require_once "DocumentChunkRepository.php";
+require_once "../users/UserService.php";
 require_once "../messages/MessageService.php";
 require_once "../../utils/utils.php";
 require_once "../../utils/gemini.php";
 
 header("Content-Type: application/json");
 
-function create_chunk($chunkText, $departmentId) {
+function create_chunk($chunkText, $departmentName) {
     $embedding = generateEmbeddings($chunkText);
 
     if (isset($embedding['error'])) {
@@ -18,7 +19,7 @@ function create_chunk($chunkText, $departmentId) {
     $chunk = new DocumentChunk();
     $chunk->setChunkText($chunkText);
     $chunk->setEmbeddingVector($embedding);
-    $chunk->setDepartmentId($departmentId);
+    $chunk->setDepartmentName($departmentName);
 
     if (!create_document_chunk($chunk)) {
         respond(500, "error", ["message" => "Failed to create chunk."]);
@@ -27,7 +28,7 @@ function create_chunk($chunkText, $departmentId) {
     respond(201, "success", ["message" => "Chunk created successfully."]);
 }
 
-function create_chunks($chunks, $departmentId) {
+function create_chunks($chunks, $department_name) {
     foreach($chunks as $chunk) {
         $embedding = generateEmbeddings($chunk);
 
@@ -39,7 +40,7 @@ function create_chunks($chunks, $departmentId) {
         $docChunk = new DocumentChunk();
         $docChunk->setChunkText($chunk);
         $docChunk->setEmbeddingVector($embedding);
-        $docChunk->setDepartmentId($departmentId);
+        $docChunk->setDepartmentName($department_name);
     
         if (!create_document_chunk($docChunk)) {
             respond(500, "error", ["message" => "Failed to create chunks."]);
@@ -61,7 +62,7 @@ function get_chunk_by_id($id) {
         "document_id" => $chunk->getDocumentId(),
         "chunk_text" => $chunk->getChunkText(),
         "embedding_vector" => $chunk->getEmbeddingVector(),
-        "department_id" => $chunk->getDepartmentId(),
+        "department" => $chunk->getDepartmentName(),
         "created_at" => $chunk->getCreatedAt()
     ]);
 }
@@ -76,7 +77,7 @@ function get_all_chunks() {
             "document_id" => $chunk->getDocumentId(),
             "chunk_text" => $chunk->getChunkText(),
             "embedding_vector" => $chunk->getEmbeddingVector(),
-            "department_id" => $chunk->getDepartmentId(),
+            "department" => $chunk->getDepartmentName(),
             "created_at" => $chunk->getCreatedAt()
         ];
     }
@@ -84,7 +85,7 @@ function get_all_chunks() {
     respond(200, "success", $output);
 }
 
-function update_chunk($id, $newText, $newDepartmentId = null) {
+function update_chunk($id, $newText, $newDepartmentName = null) {
     $chunk = find_document_chunk_by_id($id);
     if (!$chunk) {
         respond(404, "error", ["message" => "Chunk not found."]);
@@ -97,8 +98,8 @@ function update_chunk($id, $newText, $newDepartmentId = null) {
 
     $chunk->setChunkText($newText);
     $chunk->setEmbeddingVector($embedding);
-    if ($newDepartmentId !== null) {
-        $chunk->setDepartmentId($newDepartmentId);
+    if ($newDepartmentName !== null) {
+        $chunk->setDepartmentName($newDepartmentName);
     }
 
     if (!update_document_chunk($chunk)) {
@@ -121,11 +122,11 @@ function delete_chunk($id) {
     respond(200, "success", ["message" => "Chunk deleted successfully."]);
 }
 
-function get_similar_text($text) {
+function get_similar_text($text, $department_name) {
     global $mysqli;
     $embedding = generateEmbeddings($text);
 
-    $query = "SELECT id, chunk_text, embedding_vector FROM document_chunks";
+    $query = "SELECT id, chunk_text, embedding_vector, department FROM document_chunks";
     $result = $mysqli->query($query);
 
     $results = [];
@@ -135,8 +136,7 @@ function get_similar_text($text) {
         while ($row = $result->fetch_assoc()) {
             $chunkEmbedding = json_decode($row['embedding_vector'], true);
             $similarity = cosineSimilarity($embedding, $chunkEmbedding);
-
-            if ($similarity >= $SIMILARITY_THRESHOLD) {
+            if ($similarity >= $SIMILARITY_THRESHOLD && ((!$department_name || ! $row["department"] || strtolower(trim($row["department"])) == strtolower(trim($department_name))))) {
                 $results[] = [
                     'chunk_text' => $row['chunk_text'],
                     'similarity' => $similarity
@@ -155,9 +155,8 @@ function get_similar_text($text) {
 }
 
 function get_answer($question, $chatId, $userId) {
-    $data = get_similar_text($question);
-    // $answer = "Asdasdadasdad";
-    // $answer = get_company_info($question, $data);
+    $user = get_user_by_id($userId);
+    $data = get_similar_text($question, $user->getDepartment());
     $answer = get_company_info($question, $data, get_chat_messages($userId, $chatId));
     send_message(null, $chatId, $answer, "bot");
     return respond(200, "success", $answer);

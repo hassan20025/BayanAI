@@ -274,3 +274,26 @@ chatInput.addEventListener("keypress", (e) => {
         handleSendMessage(e);
     }
 });
+
+async function toggleUploadButton() {
+    const openUploadModalButton = document.getElementById("openUploadModalButton"); 
+    const response = await fetch("http://localhost/BayanAI/api/users/me.php", {
+        credentials: "include",
+    });
+
+    if (!response.ok) {
+        throw new Error("Not authenticated");
+    }
+
+    const user = await response.json();
+
+    if (!user.data.canUpload) {
+        openUploadModalButton.style.display = "none";
+    }
+    else {
+        openUploadModalButton.style.display = "flex";
+    }
+
+}
+
+toggleUploadButton();

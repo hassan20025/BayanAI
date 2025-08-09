@@ -5,7 +5,7 @@ class DocumentChunk {
     private $document_id;
     private $chunk_text;
     private $embedding_vector;
-    private $department_id;
+    private $department_name;
     private $created_at;
 
     public function getId() {
@@ -36,11 +36,11 @@ class DocumentChunk {
         $this->embedding_vector = $embedding_vector;
     }
 
-    public function getDepartmentId() {
-        return $this->department_id;
+    public function getDepartmentName() {
+        return $this->department_name;
     }
-    public function setDepartmentId($department_id) {
-        $this->department_id = $department_id;
+    public function setDepartmentName($department_name) {
+        $this->department_name = $department_name;
     }
 
     public function getCreatedAt() {
@@ -48,5 +48,9 @@ class DocumentChunk {
     }
     public function setCreatedAt($created_at) {
         $this->created_at = $created_at;
+    }
+
+    public function isAllowed($department_name) {
+        return $department_name === $this->department_name;
     }
 }
