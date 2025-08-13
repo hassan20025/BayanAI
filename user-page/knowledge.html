@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Knowledge Base - bayanAI</title>
+  <link rel="stylesheet" href="style.css?v=3"/>
+</head>
+<body>
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <svg class="sidebar-logo-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h6l5 5v13a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><polyline points="16 3 16 8 21 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
+        <span class="sidebar-logo-text">bayanAI</span>
+      </div>
+      <nav class="sidebar-nav">
+        <ul>
+          <li><a href="index.html">Dashboard</a></li>
+          <li><a href="users.html">Users</a></li>
+          <li><a href="messeges.html">Messages</a></li>
+          <li><a href="knowledge.html" class="active">Knowledge Base</a></li>
+          <li><a href="settings.html">Settings</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <div class="dashboard-main no-padding">
+      <header class="dashboard-header">
+        <h2 class="dashboard-title">Knowledge Base</h2>
+        <div class="header-center">
+          <div class="search-bar">
+            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="11" cy="11" r="8" />
+              <path d="m21 21-4.3-4.3" />
+            </svg>
+            <input type="search" placeholder="Search..." class="search-input"/>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button class="icon-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
+              <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+            </svg>
+          </button>
+
+          <div class="user-dropdown">
+            <button class="user-button">
+              <div class="user-avatar">
+                <svg class="user-avatar-svg" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="8" r="4"/>
+                  <path d="M4 20c0-2.5 3.5-4 8-4s8 1.5 8 4"/>
+                </svg>
+              </div>
+              <div class="user-info" style="align-items: flex-start;">
+                <span class="user-name">John Cario</span>
+                <span class="user-role">CEO</span>
+              </div>
+              <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="m6 9 6 6 6-6" />
+              </svg>
+            </button>
+            <div class="dropdown-menu">
+              <a href="#" id="logout-btn">Logout</a>
+            </div>
+          </div>
+        </div>
+
+        <button id="theme-toggle" class="icon-button theme-toggle-button" aria-label="Toggle theme">
+          <svg id="sun-icon" class="lucide lucide-sun sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"/>
+            <path d="M12 2v2"/>
+            <path d="M12 20v2"/>
+            <path d="M4.93 4.93l1.41 1.41"/>
+            <path d="M17.66 17.66l1.41 1.41"/>
+            <path d="M2 12h2"/>
+            <path d="M20 12h2"/>
+            <path d="M6.34 17.66l-1.41 1.41"/>
+            <path d="M19.07 4.93l-1.41 1.41"/>
+          </svg>
+          <svg id="moon-icon" class="lucide lucide-moon moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+          </svg>
+        </button>
+      </header>
+
+      <div class="dashboard-main">
+        <h2 style="color: var(--heading-color, #fff); margin: 2rem 0 1rem 0; text-align: center;">Knowledge Base</h2>
+
+        <div class="interactions-header" style="margin-top: 2rem; margin-bottom: 1.5rem; display:flex; align-items:center; justify-content:space-between;">
+          <div class="interaction-buttons">
+            <button class="interaction-button active">All Files</button>
+            <button class="interaction-button">PDFs</button>
+            <button class="interaction-button">Docs</button>
+            <button class="interaction-button">Images</button>
+          </div>
+          <div class="interaction-actions">
+            <button class="icon-button" id="kb-filter-btn" title="Filter">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3Z"/></svg>
+            </button>
+            <button class="settings-btn" id="add-file-btn">Add File</button>
+          </div>
+        </div>
+
+        <div class="interactions-table-container">
+          <table class="interactions-table">
+            <colgroup>
+              <col style="width: 35%;">
+              <col style="width: 15%;">
+              <col style="width: 15%;">
+              <col style="width: 20%;">
+              <col style="width: 15%;">
+            </colgroup>
+            <thead>
+              <tr>
+                <th>File Name</th>
+                <th>Type</th>
+                <th>Size</th>
+                <th>Date Added</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="kb-table-body">
+              <!-- populated by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div> <!-- end inner dashboard-main -->
+    </div> <!-- end dashboard-main no-padding -->
+  </div> <!-- end dashboard-layout -->
+
+  <!-- single hidden file input -->
+  <input type="file" id="kb-file-input" style="display:none" />
+
+  <script>
+    const API_BASE = '../api';
+
+    function fmtSize(bytes) {
+      bytes = Number(bytes) || 0;
+      if (bytes >= 1073741824) return (bytes / 1073741824).toFixed(1) + ' GB';
+      if (bytes >= 1048576)    return (bytes / 1048576).toFixed(1) + ' MB';
+      if (bytes >= 1024)       return (bytes / 1024).toFixed(1) + ' KB';
+      return bytes + ' B';
+    }
+
+    async function loadKB() {
+      const tbody = document.getElementById('kb-table-body');
+      tbody.innerHTML = '<tr><td colspan="5" style="padding:16px;color:var(--text-muted,#94a3b8)">Loading…</td></tr>';
+      try {
+        const res  = await fetch(`${API_BASE}/getKnowledgeBase.php`, { cache: 'no-store' });
+        const data = await res.json();
+        if (!Array.isArray(data) || data.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" style="padding:16px;color:var(--text-muted,#94a3b8)">No files yet</td></tr>';
+          return;
+        }
+        tbody.innerHTML = data.map(f => {
+  const id   = f.id || ''; // requires step #2
+  const name = f.file_name || '';
+  const type = (f.file_type || '').toUpperCase();
+  const size = f.size_label || fmtSize(f.size_bytes);
+  const date = (f.created_at || '').slice(0, 10);
+  return `
+    <tr data-id="${id}" data-name="${name}">
+      <td>${name}</td>
+      <td>${type}</td>
+      <td>${size}</td>
+      <td>${date}</td>
+      <td>
+        <div class="row-actions">
+          <button class="icon-button flag-action" title="Flag">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22V4a2 2 0 0 1 2-2h11.5a1.5 1.5 0 0 1 1.4 2.1L17 7l1.9 4.9A1.5 1.5 0 0 1 17.5 15H6a2 2 0 0 1-2-2z"/></svg>
+          </button>
+          <button class="icon-button delete-action" title="Delete">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+          </button>
+        </div>
+      </td>
+    </tr>`;
+}).join('');
+
+
+      } catch (e) {
+        console.error(e);
+        tbody.innerHTML = '<tr><td colspan="5" style="padding:16px;color:#ef4444">Failed to load files</td></tr>';
+      }
+    }
+
+    const addBtn    = document.getElementById('add-file-btn');
+    const fileInput = document.getElementById('kb-file-input');
+
+    addBtn.addEventListener('click', () => fileInput.click());
+
+    fileInput.addEventListener('change', async () => {
+      const file = fileInput.files[0];
+      if (!file) return;
+      const fd = new FormData();
+      fd.append('file', file);
+      try {
+        const res = await fetch(`${API_BASE}/uploadFile.php`, { method: 'POST', body: fd });
+        const out = await res.json();
+        if (!out.success) throw new Error(out.error || 'Upload failed');
+        await loadKB();
+      } catch (e) {
+        alert('Upload error: ' + e.message);
+      } finally {
+        fileInput.value = '';
+      }
+    });
+
+    const kbTableBody = document.getElementById('kb-table-body');
+kbTableBody.onclick = async function(e) {
+  const flagBtn = e.target.closest('.flag-action');
+  const delBtn  = e.target.closest('.delete-action');
+  const row     = e.target.closest('tr');
+  if (!row) return;
+
+  if (flagBtn) {
+    flagBtn.classList.toggle('flagged');
+    return;
+  }
+
+  if (delBtn) {
+    const id = row.getAttribute('data-id');
+    const name = row.getAttribute('data-name') || row.children[0]?.textContent?.trim();
+    if (!confirm(`Delete "${name}"?`)) return;
+
+    try {
+      const res  = await fetch(`${API_BASE}/deleteKnowledgeFile.php`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(id ? { id } : { file_name: name })
+      });
+      const text = await res.text();
+      let out; try { out = JSON.parse(text); } catch { throw new Error(text.slice(0,200)); }
+      if (!res.ok || out.success === false) throw new Error(out.error || 'Delete failed');
+
+      row.remove();
+    } catch (err) {
+      alert('Delete error: ' + err.message);
+    }
+  }
+};
+
+
+
+    loadKB();
+  </script>
+  <style>
+    /* action icons like users.html */
+    .row-actions { display:flex; gap:.5rem; align-items:center; }
+    .icon-button { display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:8px; background:var(--card-bg-lighter,#334155); border:1px solid var(--border-color,#2d3748); cursor:pointer; }
+    .icon-button:hover { background:var(--card-bg,#1f2937); }
+    .icon-button svg { width:20px; height:20px; }
+    .flag-action.flagged svg { color:#f59e0b; stroke:#f59e0b; } /* amber like users */
+  </style>
+  
+</body>
+</html>

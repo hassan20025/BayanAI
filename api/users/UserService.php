@@ -128,16 +128,30 @@ function get_user_by_username($username) {
     return $user;
 }
 
-function delete_user($id) {
+function delete_user($current_user_id, $id) {
+    // TODO
+    $current_user = get_current_user($current_user_id);
+    // if ($current_user->get_user_)
     delete_user_by_id($id);
 }
 
 function update_user_wrapper($id, $data) {
-    $user = get_user_by_id($id);
+    $safeId = escapeshellcmd(htmlspecialchars($id, ENT_QUOTES, 'UTF-8'));
+    $user = get_user_by_id($safeId);
     if (!$user) {
         return false;
     }
-    $updatedUserArray = array_merge((array)$user, $data);
+
+    $safe_data = [];
+    foreach ($data as $key => $value) {
+        if (is_string($value)) {
+            $safe_data[$key] = escapeshellcmd(htmlspecialchars($value, ENT_QUOTES, 'UTF-8'));
+        } else {
+            $safe_data[$key] = $value;
+        }
+    }
+
+    $updatedUserArray = array_merge((array)$user, $safe_data);
     $updatedUser = new User(
         $updatedUserArray['id'],
         $updatedUserArray['email'],

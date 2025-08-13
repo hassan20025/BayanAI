@@ -31,6 +31,12 @@
                     <label for="password">Password</label>
                     <input type="password" id="password" name="password" placeholder="••••••••" required>
                 </div>
+                <p 
+                    style="color: red; font-weight: 600; font-size: 12px; text-align: center; display: none; padding: 0; margin-block: 5px;"
+                    id="errorMessage"
+                >
+                    Wrong email or password
+                </p>
                 <button type="submit" class="auth-button">Login</button>
             </form>
         </div>
@@ -41,30 +47,26 @@
             const loginForm = document.getElementById("loginForm");
             const themeStylesheet = document.getElementById("theme-stylesheet");
 
-            // Function to apply theme
             function applyTheme(theme) {
                 themeStylesheet.href = `../../styles-${theme}.css`;
                 localStorage.setItem("theme", theme);
             }
 
-            // Apply saved theme on load
             const savedTheme = localStorage.getItem("theme") || "light"; // Default to light if no preference
             applyTheme(savedTheme);
 
             loginForm.addEventListener("submit", (event) => {
-                event.preventDefault(); // Prevent default form submission
+                event.preventDefault();
 
                 const email = document.getElementById("email").value;
                 const password = document.getElementById("password").value;
+                const errorMessage = document.getElementById("errorMessage");
+                errorMessage.style.display = "none";
 
-                // Basic validation
                 if (!email || !password) {
                     return;
                 }
                 let success = false;
-                // const formData = new FormData();
-                // formData.append("email", email);
-                // formData.append("password", password);
 
                 const body = new URLSearchParams();
                 body.append("email", email);
@@ -83,18 +85,41 @@
                 .then(data => {
                     console.log(data);
                     if (data.status === "success") {
-                        window.location.href = "/bayanai/chat/";
+                        handleRedirect();
                     } 
                     else {
-                        console.log(data.data.message || "Login failed");
+                        errorMessage.style.display = "block";
+                        console.log(data?.data?.message || "Login failed");
                     }
                 })
                 .catch(error => {
-                    console.log(error);
+                    errorMessage.style.display = "block";
                     console.error("Error:", error);
                 });
             });
         });
+
+        function handleRedirect() {
+            fetch("http://localhost/BayanAI/api/users/me.php", {
+                credentials: "include"
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.data.role === "manager") {
+                    window.location.href = "/bayanai/user-page/";
+                }
+                else if (data.data.role === "admin") {
+                    window.location.href = "/bayanai/admin-page/";
+                }
+                else {
+                    window.location.href = "/bayanai/chat/";
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+            });
+        } 
+
     </script>
 </body>
 </html>

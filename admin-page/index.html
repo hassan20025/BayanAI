@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bayanAI Admin Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-layout">
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <svg class="sidebar-logo-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h6l5 5v13a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><polyline points="16 3 16 8 21 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
+          <span class="sidebar-logo-text">bayanAI</span>
+        </div>
+        <nav class="sidebar-nav">
+          <ul>
+            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="admins.html">Admins</a></li>
+            <li><a href="companies.html">Companies</a></li>
+            <li><a href="chatbot-activity.html">Chatbot Activity</a></li>
+            <li><a href="settings.html">Settings</a></li>
+          </ul>
+        </nav>
+      </aside>
+      <div class="dashboard-main">
+        <header class="dashboard-header">
+  <h2 class="dashboard-title">Dashboard</h2>
+
+  <div class="header-center">
+    <div class="search-bar">
+      <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <circle cx="11" cy="11" r="8" />
+        <path d="m21 21-4.3-4.3" />
+      </svg>
+      <input type="search" placeholder="Search..." class="search-input" />
+    </div>
+  </div>
+
+  <div class="header-right">
+    <button class="icon-button">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
+        <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+      </svg>
+    </button>
+
+    <div class="user-dropdown">
+      <button class="user-button">
+        <div class="user-avatar">
+          <svg class="user-avatar-svg" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M4 20c0-2.5 3.5-4 8-4s8 1.5 8 4"/>
+          </svg>
+        </div>
+        <div class="user-info" style="align-items: flex-start;">
+          <span class="user-name">John Cario</span>
+          <span class="user-role">admin</span>
+        </div>
+        <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+      </button>
+      <div class="dropdown-menu">
+        <a href="#" id="logout-btn">Logout</a>
+      </div>
+    </div>
+  </div>
+  <button id="theme-toggle" class="icon-button theme-toggle-button" aria-label="Toggle theme">
+    <!-- Sun icon for light mode -->
+    <svg id="sun-icon" class="lucide lucide-sun sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="4"/>
+      <path d="M12 2v2"/>
+      <path d="M12 20v2"/>
+      <path d="M4.93 4.93l1.41 1.41"/>
+      <path d="M17.66 17.66l1.41 1.41"/>
+      <path d="M2 12h2"/>
+      <path d="M20 12h2"/>
+      <path d="M6.34 17.66l-1.41 1.41"/>
+      <path d="M19.07 4.93l-1.41 1.41"/>
+    </svg>
+    <!-- Moon icon for dark mode -->
+    <svg id="moon-icon" class="lucide lucide-moon moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+    </svg>
+  </button>
+
+</header>
+
+
+        <div class="dashboard-content">
+            <div class="summary-cards">
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h4 class="card-title">Total Users</h4>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users card-icon"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <div class="card-value">1,240</div>
+                    <div class="card-change increase">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                        <span>12%</span>
+                        <span class="change-period">since last month</span>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h4 class="card-title">Total Chats</h4>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bot card-icon"><path d="M12 8V4H8"/><path d="M22 7.26V16a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7.26a2 2 0 0 1 .6-1.4L20.4 2.86a2 2 0 0 1 1.6 1.4Z"/><path d="M10 6H8"/><path d="M16 6h-2"/><path d="M2 18v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2"/></svg>
+                    </div>
+                    <div class="card-value">5,678</div>
+                    <div class="card-change increase">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                        <span>8%</span>
+                        <span class="change-period">since last month</span>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h4 class="card-title">Knowledge Base Entries</h4>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info card-icon"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                    </div>
+                    <div class="card-value">350</div>
+                    <div class="card-change increase">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                        <span>5%</span>
+                        <span class="change-period">since last month</span>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h4 class="card-title">Active Sessions</h4>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-line-chart card-icon"><path d="M3 3v18h18"/><path d="m18 6-6 6-4-4-3 3"/></svg>
+                    </div>
+                    <div class="card-value">45</div>
+                    <div class="card-change decrease">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-down-right"><path d="M7 7h10v10"/><path d="M17 7 7 17"/></svg>
+                        <span>2%</span>
+                        <span class="change-period">since last month</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="charts-grid">
+                <div class="chart-card chart-volume">
+                    <div class="chart-header">
+                        <h3 class="chart-title">Chart of Chat Volume</h3>
+                        <div class="chart-period">
+                            <span>Year</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-line-chart"><path d="M3 3v18h18"/><path d="m18 6-6 6-4-4-3 3"/></svg>
+                        </div>
+                    </div>
+                    <div class="chart-placeholder">
+                        <svg viewBox="0 0 500 200" class="w-full h-full">
+                            <defs>
+                                <linearGradient id="gradient" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stop-color="#60a5fa" stop-opacity="0.8" />
+                                    <stop offset="100%" stop-color="#60a5fa" stop-opacity="0.1" />
+                                </linearGradient>
+                            </defs>
+                            <text x="30" y="190" fill="var(--text-muted)" font-size="12">Jan</text>
+                            <text x="80" y="190" fill="var(--text-muted)" font-size="12">Feb</text>
+                            <text x="130" y="190" fill="var(--text-muted)" font-size="12">Mar</text>
+                            <text x="180" y="190" fill="var(--text-muted)" font-size="12">Apr</text>
+                            <text x="230" y="190" fill="var(--text-muted)" font-size="12">May</text>
+                            <text x="280" y="190" fill="var(--text-muted)" font-size="12">Jun</text>
+                            <text x="330" y="190" fill="var(--text-muted)" font-size="12">Jul</text>
+                            <text x="380" y="190" fill="var(--text-muted)" font-size="12">Aug</text>
+                            <text x="430" y="190" fill="var(--text-muted)" font-size="12">Sep</text>
+                            <text x="480" y="190" fill="var(--text-muted)" font-size="12">Oct</text>
+                            <text x="530" y="190" fill="var(--text-muted)" font-size="12">Nov</text>
+                            <text x="580" y="190" fill="var(--text-muted)" font-size="12">Dec</text>
+
+                            <text x="0" y="170" fill="var(--text-muted)" font-size="12">5K</text>
+                            <text x="0" y="120" fill="var(--text-muted)" font-size="12">10K</text>
+                            <text x="0" y="70" fill="var(--text-muted)" font-size="12">15K</text>
+                            <text x="0" y="20" fill="var(--text-muted)" font-size="12">20K</text>
+                            <text x="0" y="0" fill="var(--text-muted)" font-size="12">25K</text>
+
+                            <line x1="0" y1="175" x2="600" y2="175" stroke="rgba(255,255,255,0.05)" stroke-dasharray="2 2" />
+                            <line x1="0" y1="125" x2="600" y2="125" stroke="rgba(255,255,255,0.05)" stroke-dasharray="2 2" />
+                            <line x1="0" y1="75" x2="600" y2="75" stroke="rgba(255,255,255,0.05)" stroke-dasharray="2 2" />
+                            <line x1="0" y1="25" x2="600" y2="25" stroke="rgba(255,255,255,0.05)" stroke-dasharray="2 2" />
+
+                            <path
+                                d="M 30 140 C 70 100, 120 160, 170 120 C 220 80, 270 140, 320 100 C 370 60, 420 120, 470 80"
+                                fill="url(#gradient)"
+                                stroke="#60a5fa"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                            />
+                            <circle cx="30" cy="140" r="4" fill="#60a5fa" />
+                            <circle cx="80" cy="100" r="4" fill="#60a5fa" />
+                            <circle cx="130" cy="160" r="4" fill="#60a5fa" />
+                            <circle cx="170" cy="120" r="4" fill="#60a5fa" />
+                            <circle cx="220" cy="80" r="4" fill="#60a5fa" />
+                            <circle cx="270" cy="140" r="4" fill="#60a5fa" />
+                            <circle cx="320" cy="100" r="4" fill="#60a5fa" />
+                            <circle cx="370" cy="60" r="4" fill="#60a5fa" />
+                            <circle cx="420" cy="120" r="4" fill="#60a5fa" />
+                            <circle cx="470" cy="80" r="4" fill="#60a5fa" />
+
+                            <g id="volume-tooltip" style="visibility:hidden;">
+                              <rect x="0" y="0" width="80" height="30" rx="5" ry="5" fill="#1a1a2e" />
+                              <text id="volume-tooltip-label" x="40" y="18" fill="white" font-size="14" font-weight="bold" text-anchor="middle">Value</text>
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="chart-card chart-engagement">
+                    <div class="chart-header">
+                        <h3 class="chart-title">Chart of User Engagement</h3>
+                        <div class="chart-period">
+                            <span>Month</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-pie-chart"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
+                        </div>
+                    </div>
+                    <div class="chart-placeholder pie-chart-placeholder">
+                        <svg viewBox="0 0 100 100" class="w-full h-full">
+                            <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="10" />
+                            <circle
+                                cx="50"
+                                cy="50"
+                                r="40"
+                                fill="none"
+                                stroke="#60a5fa"
+                                stroke-width="10"
+                                stroke-dasharray="251.2"
+                                stroke-dashoffset="0"
+                                transform="rotate(-90 50 50)"
+                            />
+                            <circle
+                                cx="50"
+                                cy="50"
+                                r="40"
+                                fill="none"
+                                stroke="#ff6b6b"
+                                stroke-width="10"
+                                stroke-dasharray="251.2"
+                                stroke-dashoffset="-55.264"
+                                transform="rotate(-90 50 50)"
+                            />
+                            <circle
+                                cx="50"
+                                cy="50"
+                                r="40"
+                                fill="none"
+                                stroke="#ffa500"
+                                stroke-width="10"
+                                stroke-dasharray="251.2"
+                                stroke-dashoffset="-133.136"
+                                transform="rotate(-90 50 50)"
+                            />
+                            <text x="50" y="55" text-anchor="middle" fill="var(--heading-color)" font-size="18" font-weight="bold">
+                                100%
+                            </text>
+                        </svg>
+                    </div>
+                    <div class="chart-legend">
+                        <div class="legend-item">
+                            <span class="legend-color" style="background-color: #60a5fa;"></span>
+                            <span>22% 00-35 Y</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color" style="background-color: #ff6b6b;"></span>
+                            <span>31% 36-55 Y</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color" style="background-color: #ffa500;"></span>
+                            <span>47% 56-70 Y</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="recent-interactions-card">
+                <div class="interactions-header">
+                    <div class="interaction-buttons">
+                        <button class="interaction-button active">Recent Interactions</button>
+                        <button class="interaction-button">All Interactions</button>
+                        <button class="interaction-button">Flagged Interactions</button>
+                    </div>
+                    <div class="interaction-actions">
+                        <button class="icon-button">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-filter"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3Z"/></svg>
+                        </button>
+                        <button class="text-button">
+                            See all <span class="arrow">&gt;</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="interactions-table-container">
+                    <table class="interactions-table">
+                        <colgroup>
+                            <col style="width: 15%;">
+                            <col style="width: 20%;">
+                            <col style="width: 25%;">
+                            <col style="width: 25%;">
+                            <col style="width: 15%;">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>User</th>
+                                <th>Company Name</th>
+                                <th>Department</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-row-id="1">
+                                <td>10:00 AM</td>
+                                <td>Alice Smith</td>
+                                <td>NileTech Solutions</td>
+                                <td>HR</td>
+                                <td>
+                                    <button class="icon-button flag-action" title="Flag">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22V4a2 2 0 0 1 2-2h11.5a1.5 1.5 0 0 1 1.4 2.1L17 7l1.9 4.9A1.5 1.5 0 0 1 17.5 15H6a2 2 0 0 1-2-2z"/></svg>
+                                    </button>
+                                    <button class="icon-button delete-action" title="Delete">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr data-row-id="2">
+                                <td>10:25 AM</td>
+                                <td>Bob Johnson</td>
+                                <td>CairoWorks Ltd.</td>
+                                <td>Sales</td>
+                                <td>
+                                    <button class="icon-button flag-action" title="Flag">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22V4a2 2 0 0 1 2-2h11.5a1.5 1.5 0 0 1 1.4 2.1L17 7l1.9 4.9A1.5 1.5 0 0 1 17.5 15H6a2 2 0 0 1-2-2z"/></svg>
+                                    </button>
+                                    <button class="icon-button delete-action" title="Delete">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr data-row-id="3">
+                                <td>10:45 AM</td>
+                                <td>Charlie Brown</td>
+                                <td>DeltaSoft Systems</td>
+                                <td>IT</td>
+                                <td>
+                                    <button class="icon-button flag-action" title="Flag">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22V4a2 2 0 0 1 2-2h11.5a1.5 1.5 0 0 1 1.4 2.1L17 7l1.9 4.9A1.5 1.5 0 0 1 17.5 15H6a2 2 0 0 1-2-2z"/></svg>
+                                    </button>
+                                    <button class="icon-button delete-action" title="Delete">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr data-row-id="4">
+                                <td>11:00 AM</td>
+                                <td>Diana Prince</td>
+                                <td>PyramidEdge Corp.</td>
+                                <td>Finance</td>
+                                <td>
+                                    <button class="icon-button flag-action" title="Flag">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22V4a2 2 0 0 1 2-2h11.5a1.5 1.5 0 0 1 1.4 2.1L17 7l1.9 4.9A1.5 1.5 0 0 1 17.5 15H6a2 2 0 0 1-2-2z"/></svg>
+                                    </button>
+                                    <button class="icon-button delete-action" title="Delete">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+      </div> <!-- end dashboard-main -->
+    </div> <!-- end dashboard-layout -->
+
+    <div id="toaster" class="toaster"></div>
+    <script src="script.js"></script>
+    <script>
+        // Load dashboard statistics from database
+        async function loadDashboardStats() {
+            try {
+                const response = await fetch('../api/getDashboardStats.php');
+                const data = await response.json();
+                
+                if (data.success) {
+                    // Update Total Users card
+                    const userCard = document.querySelector('.dashboard-card:nth-child(1)');
+                    if (userCard) {
+                        const userValue = userCard.querySelector('.card-value');
+                        const userChange = userCard.querySelector('.card-change');
+                        
+                        if (userValue) {
+                            userValue.textContent = data.users.total.toLocaleString();
+                        }
+                        
+                        if (userChange) {
+                            // Update percentage
+                            const percentSpan = userChange.querySelector('span');
+                            if (percentSpan) {
+                                percentSpan.textContent = Math.abs(data.users.change_percent) + '%';
+                            }
+                            
+                            // Update direction (increase/decrease)
+                            userChange.className = `card-change ${data.users.change_direction}`;
+                            
+                            // Update arrow icon
+                            const arrowIcon = userChange.querySelector('svg');
+                            if (arrowIcon) {
+                                if (data.users.change_direction === 'increase') {
+                                    arrowIcon.innerHTML = '<path d="M7 7h10v10"/><path d="M7 17 17 7"/>';
+                                } else {
+                                    arrowIcon.innerHTML = '<path d="M7 7h10v10"/><path d="M17 7 7 17"/>';
+                                }
+                            }
+                        }
+                    }
+                    
+                    // Update Total Chats card
+                    const chatCard = document.querySelector('.dashboard-card:nth-child(2)');
+                    if (chatCard) {
+                        const chatValue = chatCard.querySelector('.card-value');
+                        const chatChange = chatCard.querySelector('.card-change');
+                        
+                        if (chatValue) {
+                            chatValue.textContent = data.chats.total.toLocaleString();
+                        }
+                        
+                        if (chatChange) {
+                            // Update percentage
+                            const percentSpan = chatChange.querySelector('span');
+                            if (percentSpan) {
+                                percentSpan.textContent = Math.abs(data.chats.change_percent) + '%';
+                            }
+                            
+                            // Update direction (increase/decrease)
+                            chatChange.className = `card-change ${data.chats.change_direction}`;
+                            
+                            // Update arrow icon
+                            const arrowIcon = chatChange.querySelector('svg');
+                            if (arrowIcon) {
+                                if (data.chats.change_direction === 'increase') {
+                                    arrowIcon.innerHTML = '<path d="M7 7h10v10"/><path d="M7 17 17 7"/>';
+                                } else {
+                                    arrowIcon.innerHTML = '<path d="M7 7h10v10"/><path d="M17 7 7 17"/>';
+                                }
+                            }
+                        }
+                    }
+                    
+                    console.log('Dashboard statistics loaded successfully');
+                }
+                
+            } catch (error) {
+                console.error('Error loading dashboard statistics:', error);
+            }
+        }
+        
+        // Load statistics when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // The loadDashboardStats function is now in script.js
+            if (typeof loadDashboardStats === 'function') {
+                loadDashboardStats();
+            }
+        });
+    </script>
+</body>
+</html>

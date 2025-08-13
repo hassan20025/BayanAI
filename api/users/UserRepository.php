@@ -2,7 +2,6 @@
 require_once "User.php";
 require_once "../../db/db.php";
 
-// Use global $mysqli from db.php
 global $mysqli;
 
 function find_all_users(): array {
@@ -10,7 +9,7 @@ function find_all_users(): array {
     $result = $mysqli->query("SELECT * FROM users");
     $users = [];
     while ($row = $result->fetch_assoc()) {
-        $users[] = new User($row["id"], $row["email"], $row["password"], $row["username"], $row["department"], $row["can_upload"]);
+        $users[] = new User(+$row["id"], $row["email"], $row["password"], $row["username"], $row["department"], +$row["can_upload"], $row["role"]);
     }
     return $users;
 }
@@ -22,7 +21,7 @@ function find_user_by_id(int $id): ?User {
     $stmt->execute();
     $res = $stmt->get_result();
     if ($row = $res->fetch_assoc()) {
-        return new User($row["id"], $row["email"], $row["password"], $row["username"], $row["department"], $row["can_upload"]);
+        return new User($row["id"], $row["email"], $row["password"], $row["username"], $row["department"], $row["can_upload"], $row["role"]);
     }
     return null;
 }
@@ -34,7 +33,7 @@ function find_user_by_email(string $email): ?User {
     $stmt->execute();
     $res = $stmt->get_result();
     if ($row = $res->fetch_assoc()) {
-        return new User($row["id"], $row["email"], $row["password"], $row["username"], $row["department"], $row["can_upload"]);
+        return new User($row["id"], $row["email"], $row["password"], $row["username"], $row["department"], $row["can_upload"], $row["role"]);
     }
     return null;
 }
@@ -46,7 +45,7 @@ function find_user_by_username(string $username): ?User {
     $stmt->execute();
     $res = $stmt->get_result();
     if ($row = $res->fetch_assoc()) {
-        return new User($row["id"], $row["email"], $row["password"], $row["username"], $row["department"], $row["can_upload"]);
+        return new User($row["id"], $row["email"], $row["password"], $row["username"], $row["department"], $row["can_upload"], $row["role"]);
     }
     return null;
 }
@@ -59,20 +58,21 @@ function create_user_entity(User $user): bool {
     $username = $user->getUsername();
     $dept = $user->getDepartment();
     $can_upload = $user->get_can_upload();
-    $stmt->bind_param("sssii", $email, $password, $username, $dept, $can_upload);
+    $stmt->bind_param("ssssi", $email, $password, $username, $dept, $can_upload);
     return $stmt->execute();
 }
 
 function update_user(User $user): bool {
     global $mysqli;
-    $stmt = $mysqli->prepare("UPDATE users SET username = ?, email = ?, password = ?, department = ?, can_upload = ? WHERE id = ?");
+    $stmt = $mysqli->prepare("UPDATE users SET username = ?, email = ?, password = ?, department = ?, can_upload = ?, role = ? WHERE id = ?");
     $email = $user->getEmail();
+    $role = $user->getRole();
     $password = $user->getPassword();
     $username = $user->getUsername();
     $id = $user->getId();
     $dept = $user->getDepartment();
     $can_upload = $user->get_can_upload();
-    $stmt->bind_param("sssii", $email, $password, $username, $dept, $can_upload);
+    $stmt->bind_param("ssssisi", $email, $password, $username, $dept, $can_upload, $role, $id);
     return $stmt->execute();
 }
 

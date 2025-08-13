@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Companies - bayanAI</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+      .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.4); align-items: center; justify-content: center; }
+      .modal.active { display: flex; }
+      .modal-content { background: #1e293b; color: #e2e8f0; padding: 2rem; border-radius: 8px; min-width: 320px; box-shadow: 0 2px 16px #0008; }
+      .modal-content label { display: block; margin-top: 1rem; }
+      .modal-content input, .modal-content select { width: 100%; padding: 0.5rem; margin-top: 0.25rem; border-radius: 6px; border: 1px solid var(--border-color, #2d3748); background: var(--card-bg-lighter, #334155); color: var(--text-color, #e2e8f0); }
+      .modal-content button { margin-top: 1.2rem; }
+      
+      /* Add Company Button Styles */
+      #add-company-btn {
+        transition: all 0.2s ease;
+      }
+      
+      #add-company-btn:hover, #add-company-btn:focus {
+        background: var(--primary-blue-dark, #3b82f6) !important;
+        box-shadow: 0 2px 8px var(--primary-blue-light, #60a5fa33) !important;
+      }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <svg class="sidebar-logo-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h6l5 5v13a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><polyline points="16 3 16 8 21 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
+          <span class="sidebar-logo-text">bayanAI</span>
+        </div>
+        <nav class="sidebar-nav">
+          <ul>
+            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="admins.html">Admins</a></li>
+            <li><a href="companies.html" class="active">Companies</a></li>
+            <li><a href="chatbot-activity.html">Chatbot Activity</a></li>
+            <li><a href="settings.html">Settings</a></li>
+          </ul>
+        </nav>
+      </aside>
+      <div class="dashboard-main">
+        <header class="dashboard-header">
+          <h2 class="dashboard-title">Companies</h2>
+
+          <div class="header-center">
+            <div class="search-bar">
+              <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.3-4.3" />
+              </svg>
+              <input type="search" placeholder="Search..." class="search-input" />
+            </div>
+          </div>
+
+          <div class="header-right">
+            <button class="icon-button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
+                <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+              </svg>
+            </button>
+
+            <div class="user-dropdown">
+              <button class="user-button">
+                <div class="user-avatar">
+                  <svg class="user-avatar-svg" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="8" r="4"/>
+                    <path d="M4 20c0-2.5 3.5-4 8-4s8 1.5 8 4"/>
+                  </svg>
+                </div>
+                <div class="user-info" style="align-items: flex-start;">
+                  <span class="user-name">John Cario</span>
+                  <span class="user-role">admin</span>
+                </div>
+                <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </button>
+              <div class="dropdown-menu">
+                <a href="#" id="logout-btn">Logout</a>
+              </div>
+            </div>
+          </div>
+          <button id="theme-toggle" class="icon-button theme-toggle-button" aria-label="Toggle theme">
+            <!-- Sun icon for light mode -->
+            <svg id="sun-icon" class="lucide lucide-sun sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="4"/>
+              <path d="M12 2v2"/>
+              <path d="M12 20v2"/>
+              <path d="M4.93 4.93l1.41 1.41"/>
+              <path d="M17.66 17.66l1.41 1.41"/>
+              <path d="M2 12h2"/>
+              <path d="M20 12h2"/>
+              <path d="M6.34 17.66l-1.41 1.41"/>
+              <path d="M19.07 4.93l-1.41 1.41"/>
+            </svg>
+            <!-- Moon icon for dark mode -->
+            <svg id="moon-icon" class="lucide lucide-moon moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+            </svg>
+          </button>
+        </header>
+
+        <div class="dashboard-content">
+            <div class="interactions-header" style="margin-top: 2rem; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; width: 100%;">
+                <div style="display: flex; align-items: center; gap: 0.5rem; background: var(--card-bg-lighter, #334155); border-radius: 8px; padding: 0.5rem 1.2rem; box-shadow: 0 1px 4px var(--shadow-color, rgba(0,0,0,0.04)); flex: 1; max-width: 350px;">
+                    <button class="icon-button" id="industry-filter-btn" style="margin-right: 0.5rem;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3Z"/></svg>
+                    </button>
+                    <select id="industry-filter" style="padding: 0.5rem 1.2rem; border-radius: 6px; border: 1px solid var(--border-color, #2d3748); background: transparent; color: var(--text-color, #e2e8f0); font-size: 1rem; outline: none;">
+                        <option value="">All Industries</option>
+                        <option value="Tech">Tech</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Retail">Retail</option>
+                        <option value="Healthcare">Healthcare</option>
+                        <option value="Education">Education</option>
+                        <option value="Manufacturing">Manufacturing</option>
+                    </select>
+                </div>
+                <button id="add-company-btn" class="settings-btn" style="margin-left: 1.5rem; white-space: nowrap; background: var(--primary-blue-light, #60a5fa); color: #fff; border: none; padding: 0.5rem 1.5rem; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background 0.2s, box-shadow 0.2s; min-width: 160px; font-size: 14px;">
+                    Add New Company
+                </button>
+            </div>
+            <div class="interactions-table-container">
+                <table class="interactions-table">
+                    <colgroup>
+                        <col style="width: 8%;">
+                        <col style="width: 20%;">
+                        <col style="width: 20%;">
+                        <col style="width: 15%;">
+                        <col style="width: 12%;">
+                        <col style="width: 15%;">
+                        <col style="width: 10%;">
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Industry</th>
+                            <th>Plan</th>
+                            <th>Next Due</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="companies-table-body">
+                        <!-- Companies will be loaded from database -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add Company Modal -->
+    <div id="add-company-modal" class="modal">
+        <div class="modal-content">
+            <h2>Add New Company</h2>
+            <form id="add-company-form">
+                <label>Company Name: <input type="text" id="company-name" required></label>
+                <label>Email: <input type="email" id="company-email" required></label>
+                <label>Industry: 
+                    <select id="company-industry" required>
+                        <option value="">Select Industry</option>
+                        <option value="Tech">Tech</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Retail">Retail</option>
+                        <option value="Healthcare">Healthcare</option>
+                        <option value="Education">Education</option>
+                        <option value="Manufacturing">Manufacturing</option>
+                    </select>
+                </label>
+                <label>Plan: 
+                    <select id="company-plan" required>
+                        <option value="">Select Plan</option>
+                        <option value="Basic">Basic</option>
+                        <option value="Pro">Pro</option>
+                        <option value="Enterprise">Enterprise</option>
+                    </select>
+                </label>
+                <label>Next Due Date: <input type="date" id="company-next-due" required></label>
+                <button type="submit" class="settings-btn">Add Company</button>
+                <button type="button" id="close-company-modal-btn" class="settings-btn danger-btn" style="margin-left: 1rem;">Cancel</button>
+            </form>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+    <script src="addCompany.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Load companies data when page loads
+        loadCompaniesData();
+        
+        // Setup industry filter functionality
+        const industryFilter = document.getElementById('industry-filter');
+        if (industryFilter) {
+          industryFilter.addEventListener('change', function() {
+            const selectedIndustry = this.value.toLowerCase();
+            const companiesTableBody = document.getElementById('companies-table-body');
+            if (companiesTableBody) {
+              Array.from(companiesTableBody.querySelectorAll('tr')).forEach(row => {
+                const industry = row.children[3].textContent.toLowerCase();
+                row.style.display = !selectedIndustry || industry === selectedIndustry ? '' : 'none';
+              });
+            }
+          });
+        }
+      });
+    </script>
+</body>
+</html> 

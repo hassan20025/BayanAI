@@ -1,11 +1,10 @@
 export async function redirectIfNotLoggedIn() {
     try {
         console.log("asdad")
-        const response = await fetch("http://localhost/BayanAI/api/users/me.php", {
+        const response = await fetch("http://bayanai.es/BayanAI/api/users/me.php", {
             credentials: "include",
         });
 
-        // console.log(await response.json());
         if (!response.ok) {
 
             throw new Error("Not authenticated");

@@ -1,0 +1,65 @@
+.export-action {
+  color: #ffffff !important;
+  background-color: #4CAF50 !important;
+  border: 1px solid #4CAF50 !important;
+  margin-bottom: 5px;
+}
+
+.export-action:hover {
+  background-color: #45a049 !important;
+  transform: scale(1.05);
+}
+
+.icon-button img {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  vertical-align: middle;
+  filter: brightness(0) invert(1); /* makes it white on dark bg */
+  margin-bottom: 5px;
+} 
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* space between icons */
+  justify-content: center; /* optional */
+}
+
+/* Ensure all icon buttons have consistent styling */
+.icon-button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 4px !important;
+  border: none !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+}
+
+.icon-button svg {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+/* Specific styling for flag button to match export */
+.flag-action {
+  background-color: transparent !important;
+  border: 1px solid #ccc !important;
+  color: inherit !important;
+}
+
+.flag-action:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  transform: scale(1.05) !important;
+}
+
+.interactions-table td {
+  padding-bottom: 10px; /* This works inside table */
+}
+  

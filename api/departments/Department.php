@@ -1,33 +1,23 @@
 <?php
-class Department implements JsonSerializable {
-    private ?int $id;
+class Department {
     private string $name;
+    private int $id;
 
-    public function __construct(?int $id = null, string $name = "") {
-        $this->id = $id;
-        $this->name = $name;
-    }
-
-    public function getId(): ?int {
-        return $this->id;
-    }
-
-    public function setId(?int $id): void {
-        $this->id = $id;
-    }
-
-    public function getName(): string {
+    public function getName() {
         return $this->name;
     }
 
-    public function setName(string $name): void {
+    public function getId() {
+        return $this->id;
+    }
+
+    public function setId($id) {
+        $this->id = $id;
+    }
+
+    public function setName($name) {
         $this->name = $name;
     }
 
-    public function jsonSerialize(): array {
-        return [
-            'id' => $this->id,
-            'name' => $this->name
-        ];
-    }
+
 }

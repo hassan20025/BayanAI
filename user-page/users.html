@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users - bayanAI</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+      .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.4); align-items: center; justify-content: center; }
+      .modal.active { display: flex; }
+      .modal-content { background: #1e293b; color: #e2e8f0; padding: 2rem; border-radius: 8px; min-width: 320px; box-shadow: 0 2px 16px #0008; }
+      .modal-content label { display: block; margin-top: 1rem; }
+      .modal-content input, .modal-content select { width: 100%; padding: 0.5rem; margin-top: 0.25rem; border-radius: 6px; border: 1px solid var(--border-color, #2d3748); background: var(--card-bg-lighter, #334155); color: var(--text-color, #e2e8f0); }
+      .modal-content button { margin-top: 1.2rem; }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <svg class="sidebar-logo-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h6l5 5v13a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><polyline points="16 3 16 8 21 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
+          <span class="sidebar-logo-text">bayanAI</span>
+        </div>
+        <nav class="sidebar-nav">
+          <ul>
+            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="users.html" class="active">Users</a></li>
+            <li><a href="messeges.html">Messages</a></li>
+            <li><a href="knowledge.html">Knowledge Base</a></li>
+            <li><a href="settings.html">Settings</a></li>
+          </ul>
+        </nav>
+      </aside>
+      <div class="dashboard-main">
+        <h2 style="color: var(--heading-color, #fff); margin: 2rem 0 1rem 0; text-align: center;">Current Users</h2>
+      <div class="interactions-header" style="margin-top: 2rem; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; width: 100%;">
+
+            <div style="display: flex; align-items: center; gap: 0.5rem; background: var(--card-bg-lighter, #334155); border-radius: 8px; padding: 0.5rem 1.2rem; box-shadow: 0 1px 4px var(--shadow-color, rgba(0,0,0,0.04)); flex: 1; max-width: 350px;">
+                <button class="icon-button" id="user-filter-btn" style="margin-right: 0.5rem;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3Z"/></svg>
+                </button>
+                <select id="role-filter" style="padding: 0.5rem 1.2rem; border-radius: 6px; border: 1px solid var(--border-color, #2d3748); background: transparent; color: var(--text-color, #e2e8f0); font-size: 1rem; outline: none;">
+                    <option value="">All Roles</option>
+                    <option value="User">User</option>
+                    <option value="Manager">Manager</option>
+                </select>
+            </div>
+            <button id="add-user-btn" class="settings-btn" style="margin-left: 1.5rem;">Add New User</button>
+        </div>
+        <div class="interactions-table-container">
+        <table class="interactions-table">
+            <colgroup>
+                <col style="width: 8%;">
+                <col style="width: 22%;">
+                <col style="width: 28%;">
+                <col style="width: 18%;">
+                <col style="width: 14%;">
+                <col style="width: 10%;">
+            </colgroup>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Department</th>
+                    <th>Role</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="users-table-body">
+            
+            </tbody>
+            
+        </table>
+        </div>
+      </div> <!-- end dashboard-main -->
+    </div> <!-- end dashboard-layout -->
+    <!-- Add User Modal -->
+    <div id="add-user-modal" class="modal">
+      <div class="modal-content">
+        <h2>Add New User</h2>
+        <form id="add-user-form">
+          <label>Name: <input type="text" id="user-name" required></label>
+          <label>Email: <input type="email" id="user-email" required></label>
+          <label>Department:
+            <select id="user-department" required>
+              <option value="">Select Department</option>
+              <option value="HR">HR</option>
+              <option value="IT">IT</option>
+              <option value="Sales">Sales</option>
+              <option value="Finance">Finance</option>
+            </select>
+          </label>
+          <label>Role:
+            <select id="user-role" required>
+              <option value="User">User</option>
+              <option value="Manager">Manager</option>
+            </select>
+          </label>
+          <button type="submit" class="settings-btn">Add User</button>
+          <button type="button" id="close-modal-btn" class="settings-btn danger-btn" style="margin-left: 1rem;">Cancel</button>
+        </form>
+      </div>
+    </div>
+    <script src="addUser.js"></script>
+<script src="script.js"></script>
+
+    <script>
+      // Role filter functionality
+      const roleFilter = document.getElementById('role-filter');
+      roleFilter.addEventListener('change', function() {
+        const usersTableBody = document.getElementById('users-table-body');
+        const value = this.value;
+        Array.from(usersTableBody.querySelectorAll('tr')).forEach(row => {
+          const role = row.children[4].textContent.trim();
+          row.style.display = !value || role === value ? '' : 'none';
+        });
+      });
+    </script>
+</body>
+</html> 

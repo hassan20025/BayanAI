@@ -1,478 +1,473 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bayan AI - Enterprise Knowledge Platform</title>
-  <link rel="stylesheet" href="styles-light.css" id="theme-stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BayanAI - Smart Chatbot Solutions for Companies</title>
+    <meta name="description" content="Transform your business with AI-powered chatbots. BayanAI offers intelligent conversational solutions for companies.">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+
 </head>
-<body class="landing-page">
-  <header class="landing-header">
-    <div class="landing-logo-small">
-      <div class="logo-container">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M10 9V7a2 2 0 0 1 4 0v2"/>
-          <path d="M12 12h.01"/>
-          <path d="M12 17h.01"/>
-          <rect width="18" height="18" x="3" y="3" rx="2"/>
-        </svg>
-      </div>
-      <span>Bayan AI</span>
-    </div>
-    <nav class="header-nav">
-      <a href="/bayanai/auth/login/" class="landing-nav-button" id="loginLink">Login</a>
-      <a href="/bayanai/chat/" class="landing-nav-button" id="chatLink">Chat</a>
-      <button id="theme-toggle" class="theme-toggle-button" aria-label="Toggle theme">
-        <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun">
-          <circle cx="12" cy="12" r="4"/>
-          <path d="M12 2v2"/>
-          <path d="M12 20v2"/>
-          <path d="M4.93 4.93l1.41 1.41"/>
-          <path d="M17.66 17.66l1.41 1.41"/>
-          <path d="M2 12h2"/>
-          <path d="M20 12h2"/>
-          <path d="M4.93 19.07l1.41-1.41"/>
-          <path d="M17.66 6.34l1.41-1.41"/>
-        </svg>
-        <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon">
-          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
-        </svg>
-      </button>
-    </nav>
-  </header>
-  
-  <main style="padding-inline: 30px;">
-    <section class="hero-section">
-      <div class="hero-background">
-        <div class="floating-shape shape-1"></div>
-        <div class="floating-shape shape-2"></div>
-        <div class="floating-shape shape-3"></div>
-      </div>
-      <div class="hero-content">
-        <div class="landing-logo-large">
-          <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M10 9V7a2 2 0 0 1 4 0v2"/>
-            <path d="M12 12h.01"/>
-            <path d="M12 17h.01"/>
-            <rect width="18" height="18" x="3" y="3" rx="2"/>
-          </svg>
+<body>
+    <!-- Navigation -->
+    <nav class="fixed-nav glass-effect">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="#" class="logo angular-text">BayanAI</a>
+            </div>
+
+            <div class="nav-center desktop-only">
+                <div class="nav-links">
+                    <a href="#home" class="nav-link spaced-text">Home</a>
+                    <a href="#about" class="nav-link spaced-text">About Us</a>
+                    <a href="#features" class="nav-link spaced-text">Features</a>
+                    <a href="#pricing" class="nav-link spaced-text">Pricing</a>
+                    <a href="#contact" class="nav-link spaced-text">Contact Us</a>
+                </div>
+            </div>
+
+            <div class="mobile-menu-toggle mobile-only">
+                <button id="mobile-menu-button" aria-label="Toggle mobile menu">
+                    <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+                    <svg id="close-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x hidden"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+            </div>
         </div>
-        <h1 class="hero-title">Empower Your Enterprise with Instant Knowledge.</h1>
-        <p class="hero-description">Bayan AI allows companies to securely upload internal documents, enabling employees to get instant, accurate answers to any company-related query.</p>
-        <div class="hero-ctas">
-          <button class="primary-button" id="getStartedButton">
-            <span>Get Started</span>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M5 12h14"/>
-              <path d="m12 5 7 7-7 7"/>
+
+        <div id="mobile-menu" class="mobile-menu mobile-only hidden glass-effect">
+            <div class="mobile-nav-links">
+                <a href="#home" class="mobile-nav-link spaced-text">Home</a>
+                <a href="#about" class="mobile-nav-link spaced-text">About Us</a>
+                <a href="#features" class="mobile-nav-link spaced-text">Features</a>
+                <a href="#pricing" class="mobile-nav-link spaced-text">Pricing</a>
+                <a href="#contact" class="mobile-nav-link spaced-text">Contact Us</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="min-h-screen">
+        <!-- Hero Section -->
+        <section id="home" class="hero-section space-hero">
+            <canvas id="particle-canvas" class="particle-background"></canvas>
+            <div class="grid-overlay"></div>
+            <div class="floating-shapes">
+                <div class="shape shape-1"></div>
+                <div class="shape shape-2"></div>
+                <div class="shape shape-3"></div>
+                <div class="shape shape-4"></div>
+            </div>
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+
+            <div class="hero-content-wrapper">
+                <div class="hero-grid">
+                    <div class="hero-text-content">
+                        <div class="hero-title-block">
+                            <h1 class="hero-title angular-text-large">
+                                <span class="gradient-text">BAYAN</span><span class="text-white">AI</span>
+                            </h1>
+                            <div class="hero-slogan-block">
+                                <p class="hero-slogan-tech spaced-text">T E C H N O L O G Y</p>
+                                <p class="hero-slogan-main">Your Company's Knowledge. Instantly Accessible. Always Ready.</p>
+                            </div>
+                        </div>
+                        <p class="hero-cta-text secondary-font">Contact us to get started</p>
+                        <a href="#contact" id="hero-get-started-button" class="button-primary glow-effect inline-flex-center">
+                            Get Started
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-right"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                        </a>
+                    </div>
+
+                    <div class="hero-image-content">
+                        <div class="hero-icon-wrapper">
+                            <div class="hero-icon-glow-1"></div>
+                            <div class="hero-icon-glow-2"></div>
+                            <div class="hero-icon-main">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-text"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
+                            </div>
+                            <div class="hero-icon-ring-1 animate-spin-slow"></div>
+                            <div class="hero-icon-ring-2 animate-spin-reverse"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mobile Preview / About Us Section -->
+        <section id="about" class="section-padding">
+            <div class="section-container">
+                <div class="grid-cols-2-lg items-center">
+                    <div class="relative">
+                        <div class="floating-animation">
+                            <div class="mobile-chat-preview">
+                                <div class="mobile-chat-glow"></div>
+                                <div class="mobile-chat-main glass-effect">
+                                    <div class="mobile-chat-header">
+                                        <div class="mobile-chat-avatar"></div>
+                                        <div>
+                                            <h4 class="angular-text">BayanAI</h4>
+                                            <p class="text-sm text-gray-400">Online</p>
+                                        </div>
+                                    </div>
+                                    <div class="mobile-chat-messages">
+                                        <div class="chat-message-blue">
+                                            <p class="text-sm">How can I assist with company policies today?</p>
+                                        </div>
+                                        <div class="chat-message-gray">
+                                            <p class="text-sm">What's the policy on remote work expenses?</p>
+                                        </div>
+                                        <div class="chat-message-blue">
+                                            <p class="text-sm">Remote work expenses are reimbursed up to $50/month for internet. Please submit receipts via the HR portal.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                     <div class="inspired-text">
+    <h2 class="section-title angular-text-large">
+      <span class="text-white">GET</span><br><span class="gradient-text">INSPIRED</span>
+    </h2>
+    <p class="section-description secondary-font">
+      BayanAI - everything you need for your business goals. Streamline customer support, boost engagement, and drive growth with our intelligent chatbot platform.
+    </p>
+    <button id="learn-more-button" class="button-primary inline-block">
+      Learn more
+    </button>
+  </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="features" class="section-padding">
+            <div class="section-container">
+                <div class="text-center mb-16">
+                  <h2 class="section-title angular-text-large stacked-heading">
+                      <span class="gradient-text">ADVANCED</span>
+  <span class="text-white">FEATURES</span>
+
+</h2>
+
+                    <p class="section-description secondary-font">Discover more features of BayanAI that will transform your business communication</p>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card glass-effect">
+                        <div class="feature-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-square text-blue-400"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                        </div>
+                        <h3 class="feature-title angular-text">Advanced Chat</h3>
+                        <p class="feature-description">Create, solve, get inspired with BayanAI's intelligent conversation capabilities.</p>
+                        <p class="feature-details">Our AI understands context, maintains conversation flow, and provides accurate responses to complex queries.</p>
+                    </div>
+                    <div class="feature-card glass-effect">
+                        <div class="feature-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-zap text-blue-400"><path d="M4 14a1 1 0 0 1-.49-1.96l4-7.92a1 1 0 0 1 1.49-.54l.5.5 4 4a1 1 0 0 1 .28 1.26l-1.5 3a1 1 0 0 1-.97.66H10a1 1 0 0 0-.97.66l-1.5 3a1 1 0 0 1-.97.66H4z"/><path d="M20 10a1 1 0 0 1-.49-1.96l4-7.92a1 1 0 0 1 1.49-.54l.5.5 4 4a1 1 0 0 1 .28 1.26l-1.5 3a1 1 0 0 1-.97.66H10a1 1 0 0 0-.97.66l-1.5 3a1 1 0 0 1-.97.66H4z"/></svg>
+                        </div>
+                        <h3 class="feature-title angular-text">Contextual Memory</h3>
+                        <p class="feature-description">Understands follow-up questions and maintains context within a conversation.</p>
+                        <p class="feature-details">No need to repeat — the chatbot remembers what was just asked.</p>
+                    </div>
+                    <div class="feature-card glass-effect">
+                        <div class="feature-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield text-blue-400"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        </div>
+                        <h3 class="feature-title angular-text">Enterprise Security</h3>
+                        <p class="feature-description">Bank-level security for your business conversations.</p>
+                        <p class="feature-details">End-to-end encryption and compliance with industry standards.</p>
+                    </div>
+                    <div class="feature-card glass-effect">
+                        <div class="feature-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bar-chart-3 text-blue-400"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+                        </div>
+                        <h3 class="feature-title angular-text">Knowledge Powered</h3>
+                        <p class="feature-description">Leverages your internal documents to answer employee questions accurately.</p>
+                        <p class="feature-details">Keeps responses grounded in real company policies and info.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Section -->
+        <section id="pricing" class="section-padding">
+            <div class="section-container">
+                <div class="text-center mb-16">
+                    <h2 class="section-title angular-text-large">
+                        <span class="text-white">Choose Your</span><br><span class="gradient-text">Perfect Plan</span>
+                    </h2>
+                    <p class="section-description secondary-font">Select the BayanAI plan that best fits your business needs.</p>
+                </div>
+
+                <div class="pricing-carousel-container">
+                    <!-- Plans will be dynamically positioned by JS -->
+                    <div class="pricing-card glass-effect" data-plan-index="0">
+                        <div class="text-center mb-8">
+                            <h3 class="text-2xl font-bold mb-2 angular-text">Standard</h3>
+                            <div class="mb-4">
+                                <span class="text-4xl font-bold">$29</span>
+                                <span class="text-gray-400">/month</span>
+                            </div>
+                            <p class="text-gray-300">Great for growing businesses</p>
+                            <p class="text-gray-300">(1-50 employees)</p>
+                        </div>
+                        <ul class="space-y-4 mb-8">
+                                                        <li class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check text-green-400 flex-shrink-0"><polyline points="20 6 9 17 4 12"/></svg><span class="text-gray-300">1 Chatbot</span></li>
+                            <li class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check text-green-400 flex-shrink-0"><polyline points="20 6 9 17 4 12"/></svg><span class="text-gray-300">2,000 chat responses</span></li>
+                            <li class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check text-green-400 flex-shrink-0"><polyline points="20 6 9 17 4 12"/></svg><span class="text-gray-300">Up to 50 users</span></li>
+                            <li class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check text-green-400 flex-shrink-0"><polyline points="20 6 9 17 4 12"/></svg><span class="text-gray-300">GPT-3.5 or similar</span></li>
+                            <li class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check text-green-400 flex-shrink-0"><polyline points="20 6 9 17 4 12"/></svg><span class="text-gray-300">Upload up to 10 docs</span></li>
+                            <li class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check text-green-400 flex-shrink-0"><polyline points="20 6 9 17 4 12"/></svg><span class="text-gray-300">Basic support</span></li>
+                        </ul>
+                    </div>
+                    <div class="pricing-card glass-effect" data-plan-index="1">
+                        <div class="text-center mb-8">
+                            <h3 class="text-2xl font-bold mb-2 angular-text">Premium</h3>
+                            <div class="mb-4">
+                                <span class="text-4xl font-bold">$99</span>
+                                <span class="text-gray-400">/month</span>
+                            </div>
+                            <p class="text-gray-300">For advanced teams</p>
+                            <p class="text-gray-300">(51-300 employees)</p>
+                        </div>
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check text-green-400 flex-shrink-0"><polyline points="20 6 9 17 4 12"/></svg><span class="text-gray-300">Up to 5 chatbots</span></li>
+                            <li class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check text-green-400 flex-shrink-0"><polyline points="20 6 9 17 4 12"/></svg><span class="text-gray-300">10,000 chat responses</span></li>
+                            <li class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check text-green-400 flex-shrink-0"><polyline points="20 6 9 17 4 12"/></svg><span class="text-gray-300">Up to 300 users</span></li>
+                            <li class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check text-green-400 flex-shrink-0"><polyline points="20 6 9 17 4 12"/></svg><span class="text-gray-300">GPT-4 (capped usage)</span></li>
+                            <li class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check text-green-400 flex-shrink-0"><polyline points="20 6 9 17 4 12"/></svg><span class="text-gray-300">Unlimited documents(500 MB)</span></li>
+                            <li class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check text-green-400 flex-shrink-0"><polyline points="20 6 9 17 4 12"/></svg><span class="text-gray-300">24/7 email & chat support</span></li>
+                            <li class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check text-green-400 flex-shrink-0"><polyline points="20 6 9 17 4 12"/></svg><span class="text-gray-300">API access</span></li>
+                        </ul>
+                    </div>
+                    <div class="pricing-card glass-effect" data-plan-index="2">
+                        <div class="text-center mb-8">
+                            <h3 class="text-2xl font-bold mb-2 angular-text">Enterprise</h3>
+                            <div class="mb-4">
+                                <span class="text-4xl font-bold">$199+</span>
+                                <span class="text-gray-400">/month</span>
+                            </div>
+                            <p class="text-gray-300">Tailored for large organizations</p>
+                            <p class="text-gray-300">(300+ employees)</p>
+                        </div>
+                        <ul class="space-y-4 mb-8">
+                            <li class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check text-green-400 flex-shrink-0"><polyline points="20 6 9 17 4 12"/></svg><span class="text-gray-300">Unlimited chatbots</span></li>
+                            <li class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check text-green-400 flex-shrink-0"><polyline points="20 6 9 17 4 12"/></svg><span class="text-gray-300">20,000+ chat responses</span></li>
+                            <li class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check text-green-400 flex-shrink-0"><polyline points="20 6 9 17 4 12"/></svg><span class="text-gray-300">Role-based access & SSO</span></li>
+                            <li class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check text-green-400 flex-shrink-0"><polyline points="20 6 9 17 4 12"/></svg><span class="text-gray-300"> GPT-4 full access or fine-tuned model</span></li>
+                            <li class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check text-green-400 flex-shrink-0"><polyline points="20 6 9 17 4 12"/></svg><span class="text-gray-300">Custom integrations</span></li>
+                            <li class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check text-green-400 flex-shrink-0"><polyline points="20 6 9 17 4 12"/></svg><span class="text-gray-300">On-premise or private cloud</span></li>
+                            <li class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check text-green-400 flex-shrink-0"><polyline points="20 6 9 17 4 12"/></svg><span class="text-gray-300">Advanced security features</span></li>
+                            <li class="flex items-center gap-3"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check text-green-400 flex-shrink-0"><polyline points="20 6 9 17 4 12"/></svg><span class="text-gray-300">Phone + chat support</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+<section id="contact" class="contact-section">
+  <div class="contact-container">
+    
+    <!-- Header -->
+    <div class="contact-header">
+      <h2 class="contact-title">
+        <span class="gradient-text">CONTACT</span>
+        <span class="text-white">US</span>
+      </h2>
+      <p class="contact-sub-title">Have questions or ready to sign up? Reach out to our team.</p>
+    </div>
+
+    <!-- Content Grid -->
+    <div class="contact-grid">
+      
+      <!-- Contact Form -->
+      <div class="contact-form">
+        <h3 class="form-heading">SEND US A MESSAGE</h3>
+        <form id="contact-form">
+          <input type="text" id="name" name="name" class="form-input" placeholder="Your Name" required>
+          <input type="email" id="email" name="email" class="form-input" placeholder="Your Email" required>
+          <input type="text" id="subject" name="subject" class="form-input" placeholder="Subject">
+          <textarea id="message" name="message" class="form-input" placeholder="Your Message" rows="5"></textarea>
+          <button type="submit" class="form-button">
+            Send Message
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon-send" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4l16 8-16 8v-6l10-2-10-2V4z" />
             </svg>
           </button>
-          <a href="#features" class="secondary-button">
-            <span>Learn More</span>
-          </a>
-        </div>
+        </form>
       </div>
-    </section>
 
-    <section class="pricing-section" id="pricing">
-      <div class="pricing-container">
-        <h2 class="section-title">Choose Your Plan</h2>
-        <p class="section-subtitle">Select the perfect plan for your organization's knowledge management needs</p>
-        
-        <div class="pricing-grid">
-          <!-- Starter Plan -->
-          <div class="pricing-card">
-            <h3 class="plan-name">Starter</h3>
-            <p class="plan-description">Perfect for small teams getting started with AI-powered knowledge management</p>
-            <div class="plan-price">
-              <span class="price-amount">$29</span>
-              <span class="price-period">/month</span>
-            </div>
-            <ul class="plan-features">
-              <li>
-                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                Up to 5 users
-              </li>
-              <li>
-                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                100 documents
-              </li>
-              <li>
-                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                Basic AI search
-              </li>
-              <li>
-                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                Email support
-              </li>
-              <li>
-                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                Basic analytics
-              </li>
-            </ul>
-            <button class="plan-button secondary">Get Started</button>
+      <!-- Contact Info -->
+      <div class="contact-info">
+        <h3 class="info-heading">OUR CONTACT DETAILS</h3>
+        <div class="contact-details-list">
+          <div class="info-item">
+            <svg class="info-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12l-4 4-4-4m0-8h8a2 2 0 012 2v16a2 2 0 01-2 2H8a2 2 0 01-2-2V6a2 2 0 012-2z" />
+            </svg>
+            Email: support@bayanai.com
           </div>
-  
-          <!-- Professional Plan -->
-          <div class="pricing-card popular">
-            <div class="popular-badge">Most Popular</div>
-            <h3 class="plan-name">Professional</h3>
-            <p class="plan-description">Ideal for growing businesses that need advanced features and better support</p>
-            <div class="plan-price">
-              <span class="price-amount">$99</span>
-              <span class="price-period">/month</span>
-            </div>
-            <ul class="plan-features">
-              <li>
-                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                Up to 25 users
-              </li>
-              <li>
-                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                1,000 documents
-              </li>
-              <li>
-                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                Advanced AI search & insights
-              </li>
-              <li>
-                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                Priority support
-              </li>
-              <li>
-                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                Advanced analytics & reporting
-              </li>
-              <li>
-                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                API access
-              </li>
-            </ul>
-            <button class="plan-button primary">Get Started</button>
+          <div class="info-item">
+            <svg class="info-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h2l.4 2M7 13h10l1.6-8H6.4M7 13l1.6 8h6.8l1.6-8M5 6h14M6 6h.01" />
+            </svg>
+            Phone: +20 2 2345 6789
           </div>
-  
-          <!-- Enterprise Plan -->
-          <div class="pricing-card">
-            <h3 class="plan-name">Enterprise</h3>
-            <p class="plan-description">Comprehensive solution for large organizations with custom requirements</p>
-            <div class="plan-price">
-              <span class="price-amount">$299</span>
-              <span class="price-period">/month</span>
-            </div>
-            <ul class="plan-features">
-              <li>
-                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                Unlimited users
-              </li>
-              <li>
-                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                Unlimited documents
-              </li>
-              <li>
-                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                Custom AI models
-              </li>
-              <li>
-                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                24/7 dedicated support
-              </li>
-              <li>
-                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                Advanced security & compliance
-              </li>
-              <li>
-                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-                </svg>
-                Custom integrations
-              </li>
-            </ul>
-            <button class="plan-button secondary">Get Started</button>
+          <div class="info-item">
+            <svg class="info-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="20" height="20">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2c3.866 0 7 3.134 7 7 0 5.25-7 13-7 13S5 14.25 5 9c0-3.866 3.134-7 7-7z" />
+            </svg>
+            Address: 123 AI Street, 5th Settlement, New Cairo 1, Egypt
+          </div>
+          <div class="business-hours">
+            <h4>Business Hours:</h4>
+            <p>Sunday - Thursday: 9:00 AM - 5:00 PM</p>
+            <p>Friday - Saturday: Closed</p>
           </div>
         </div>
       </div>
-    </section>
-  </main>
 
-  <footer class="landing-footer">
-    <div class="footer-content">
-      <div class="footer-links">
-        <p >&copy; 2025 Bayan AI. All rights reserved.</p>
-      </div>
     </div>
-  </footer>
+  </div>
+</section>
 
-  <!-- Payment Modal -->
-  <!-- <div class="payment-modal" id="paymentModal">
-    <div style="max-height: 95svh; overflow-y: auto;" class="modal-content">
-      <div class="modal-header">
-        <h2>Complete Your Purchase</h2>
-        <button class="close-button" id="closeModal">&times;</button>
-      </div>
-      <form class="payment-form" id="paymentForm">
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" required placeholder="your@email.com">
+
+
+        <!-- Footer -->
+        <footer class="footer-section">
+            <div class="footer-container">
+                <div class="footer-grid">
+                    <div>
+                        <div class="footer-logo-block">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bot text-blue-400"><path d="M12 8V4H8"/><path d="M22 7.2V18a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h12.3"/><path d="M10 10v4"/><path d="M14 10v4"/><path d="M17 17h.01"/></svg>
+                            <span class="text-2xl font-bold angular-text">BayanAI</span>
+                        </div>
+                        <p class="footer-description">Transforming business communication with intelligent AI chatbot solutions.</p>
+                        <div class="social-links">
+                            <div class="social-icon-placeholder bg-blue-600">
+                                <span class="text-white font-bold">f</span>
+                            </div>
+                            <div class="social-icon-placeholder bg-blue-400">
+                                <span class="text-white font-bold">t</span>
+                            </div>
+                            <div class="social-icon-placeholder bg-blue-800">
+                                <span class="text-white font-bold">in</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="footer-heading spaced-text">Product</h3>
+                        <ul class="footer-links">
+                            <li><a href="#features" class="text-gray-400 hover:text-white">Features</a></li>
+                            <li><a href="#pricing" class="text-gray-400 hover:text-white">Pricing</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Chatbots</a></li>
+                            <li><a href="#" class="text-gray-400 hover:text-white">Documentation</a></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3 class="footer-heading spaced-text">Contact</h3>
+                        <ul class="footer-contact-details">
+                            <li class="flex items-center gap-2 text-gray-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                                <span>support@bayanai.com</span>
+                            </li>
+                            <li class="flex items-center gap-2 text-gray-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-phone"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                                <span>+20 2 2345 6789</span>
+                            </li>
+                            <li class="flex items-center gap-2 text-gray-400">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-pin"><path d="M12 12.7a1 1 0 1 0 0-1.4A1 1 0 0 0 12 12.7z"/><path d="M19.4 15c.5 9.1-7.3 14-7.4 14S4 24.1 4.6 15c0-6.6 5.4-12 12-12s7.4 5.4 7.4 12z"/></svg>
+                                <span>New Cairo, Egypt</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="footer-copyright">
+                    <p class="text-gray-400">© 2025 BayanAI. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <!-- Info Modal -->
+    <div id="info-modal" class="modal-overlay hidden">
+        <div class="modal-content glass-effect hide-scrollbar">
+            <button id="modal-close-button" class="modal-close-button" aria-label="Close">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+
+            <div class="text-center mb-10">
+                <h2 class="section-title angular-text-large">
+                    <span class="gradient-text">ABOUT</span><br><span class="text-white">BAYANAI</span>
+                </h2>
+                <p class="section-description secondary-font">Discover our mission, vision, and the comprehensive services we offer.</p>
+            </div>
+
+            <div class="grid-cols-2-md gap-12 items-start mb-20">
+                <div class="glass-effect rounded-2xl p-8">
+                    <h3 class="text-3xl font-bold angular-text mb-6">Our Mission</h3>
+                    <p class="text-gray-300 text-lg leading-relaxed">
+                        At BayanAI, our mission is to revolutionize how businesses interact with their knowledge base and
+                        customers. We empower companies to unlock the full potential of their data through intelligent,
+                        conversational AI, making information instantly accessible and fostering seamless communication. We
+                        believe in a future where every interaction is insightful, efficient, and human-centric.
+                    </p>
+                </div>
+                <div class="glass-effect rounded-2xl p-8">
+                    <h3 class="text-3xl font-bold angular-text mb-6">Our Vision</h3>
+                    <p class="text-gray-300 text-lg leading-relaxed">
+                        We envision a world where AI serves as a powerful extension of human capability, not a replacement. Our
+                        vision is to be the leading provider of AI chatbot solutions that not only automate tasks but also enhance
+                        understanding, build stronger relationships, and drive sustainable growth for businesses of all sizes. We
+                        are committed to continuous innovation, ethical AI development, and unparalleled customer success.
+                    </p>
+                </div>
+            </div>
+
+            <div class="text-center mb-10">
+                <h2 class="section-title angular-text-large stacked-heading">
+  <span class="text-white">OUR</span>
+  <span class="gradient-text">SERVICES</span>
+</h2>
+
+                <p class="section-description secondary-font">Comprehensive AI solutions tailored to your business needs.</p>
+            </div>
+
+            <div class="grid-cols-3-md gap-8">
+                <div class="glass-effect rounded-2xl p-6 text-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lightbulb text-blue-400 mx-auto mb-4"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1.3.5 2.6 1.5 3.5.8.8 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/><path d="M10 18a2 2 0 1 1 4 0v2H10v-2Z"/></svg>
+                    <h3 class="text-xl font-bold mb-3 angular-text">Custom AI Chatbot Development</h3>
+                    <p class="text-gray-300">
+                        Building bespoke AI chatbots designed to integrate seamlessly with your existing systems and workflows.
+                    </p>
+                </div>
+                <div class="glass-effect rounded-2xl p-6 text-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users text-blue-400 mx-auto mb-4"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    <h3 class="text-xl font-bold mb-3 angular-text">Customer Support Automation</h3>
+                    <p class="text-gray-300">
+                        Automate routine customer inquiries, provide instant support, and free up your human agents for complex
+                        issues.
+                    </p>
+                </div>
+                <div class="glass-effect rounded-2xl p-6 text-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trending-up text-blue-400 mx-auto mb-4"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+                    <h3 class="text-xl font-bold mb-3 angular-text">Internal Knowledge Management</h3>
+                    <p class="text-gray-300">
+                        Transform your internal documentation into an interactive knowledge base, making information easily
+                        accessible for employees.
+                    </p>
+                </div>
+            </div>
         </div>
-        <div class="form-group">
-          <label for="cardholder">Cardholder Name</label>
-          <input type="text" id="cardholder" required placeholder="Name on card">
-        </div>
-        <div class="form-group">
-          <label>Card Details</label>
-          <div class="card-element" id="cardElement">
-          </div>
-        </div>
-        <button type="submit" class="submit-button plan-button primary">
-          <span>Subscribe - <span id="planPrice">$29/month</span></span>
-          <div class="loading-spinner"></div>
-        </button>
-      </form>
     </div>
-  </div> -->
 
-  <script>
-    const loginLink = document.getElementById("loginLink");
-    const chatLink = document.getElementById("chatLink");
-        document.addEventListener("DOMContentLoaded", () => {
-            async function toggleChat() {
-                try {
-                    const response = await fetch("http://localhost/BayanAI/api/users/me.php", {
-                        credentials: "include",
-                    });
-
-                    if (!response.ok) {
-                        throw new Error("Not authenticated");
-                    }
-
-                    const user = await response.json();
-                    console.log(user);
-                    if (!user || !user.data.id) {
-                      loginLink.style.display = "block";
-                      chatLink.style.display = "none";
-                        // window.location.href = "/BayanAI/auth/login";
-                    }
-                    else {
-                      loginLink.style.display = "none";
-                      chatLink.style.display = "block";
-                    }
-                } catch (error) {
-                  loginLink.style.display = "block";
-                  chatLink.style.display = "none";
-                    // window.location.href = "/BayanAI/auth/login";
-                }
-            }
-            toggleChat();
-        });
-  </script>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      // Theme functionality
-      const themeStylesheet = document.getElementById("theme-stylesheet");
-      const themeToggleButton = document.getElementById("theme-toggle");
-      const sunIcon = document.getElementById("sun-icon");
-      const moonIcon = document.getElementById("moon-icon");
-
-      function applyTheme(theme) {
-        themeStylesheet.href = `./styles-${theme}.css`;
-        localStorage.setItem("theme", theme);
-        if (theme === "dark") {
-          sunIcon.style.display = "none";
-          moonIcon.style.display = "block";
-        } else {
-          sunIcon.style.display = "block";
-          moonIcon.style.display = "none";
-        }
-      }
-
-      const savedTheme = localStorage.getItem("theme") || "light";
-      applyTheme(savedTheme);
-
-      if (themeToggleButton) {
-        themeToggleButton.addEventListener("click", () => {
-          const currentTheme = localStorage.getItem("theme") || "light";
-          const newTheme = currentTheme === "light" ? "dark" : "light";
-          applyTheme(newTheme);
-        });
-      }
-
-      // Button functionality
-      const getStartedButtonTop = document.getElementById("getStartedButton");
-      const getStartedButtonBottom = document.getElementById("getStartedButtonBottom");
-      const learnMoreButton = document.querySelector(".secondary-button");
-
-      if (getStartedButtonTop) {
-        getStartedButtonTop.addEventListener("click", () => {
-          window.location.href = "/bayanai/auth/login/";
-        });
-      }
-      if (getStartedButtonBottom) {
-        getStartedButtonBottom.addEventListener("click", () => {
-          window.location.href = "/bayanai/auth/login/";
-        });
-      }
-      if (learnMoreButton) {
-        learnMoreButton.addEventListener("click", (e) => {
-          e.preventDefault();
-          document.getElementById("features").scrollIntoView({ behavior: "smooth" });
-        });
-      }
-
-      // Payment modal functionality
-      const paymentModal = document.getElementById('paymentModal');
-      const closeModalButton = document.getElementById('closeModal');
-      const planButtons = document.querySelectorAll('.plan-button');
-      const planPriceElement = document.getElementById('planPrice');
-
-      // Open modal when any plan button is clicked
-      planButtons.forEach(button => {
-        button.addEventListener('click', () => {
-          const planCard = button.closest('.pricing-card');
-          const planName = planCard.querySelector('.plan-name').textContent;
-          const priceAmount = planCard.querySelector('.price-amount').textContent;
-          const pricePeriod = planCard.querySelector('.price-period').textContent;
-          
-          // Update modal with selected plan info
-          document.querySelector('.modal-header h2').textContent = `Subscribe to ${planName}`;
-          planPriceElement.textContent = `${priceAmount}${pricePeriod}`;
-          
-          // Show modal
-          paymentModal.classList.add('active');
-          document.body.style.overflow = 'hidden'; // Prevent scrolling
-        });
-      });
-
-      // Close modal
-      // closeModalButton.addEventListener('click', () => {
-      //   paymentModal.classList.remove('active');
-      //   document.body.style.overflow = '';
-      // });
-
-      // Close modal when clicking outside content
-      // paymentModal.addEventListener('click', (e) => {
-      //   if (e.target === paymentModal) {
-      //     paymentModal.classList.remove('active');
-      //     document.body.style.overflow = '';
-      //   }
-      // });
-
-      // // Form submission
-      // const paymentForm = document.getElementById('paymentForm');
-      // paymentForm.addEventListener('submit', async (e) => {
-      //   e.preventDefault();
-        
-      //   const submitButton = paymentForm.querySelector('.submit-button');
-      //   submitButton.classList.add('processing');
-        
-      //   // Simulate payment processing
-      //   setTimeout(() => {
-      //     submitButton.classList.remove('processing');
-      //     alert('Payment successful! Thank you for subscribing.');
-      //     paymentModal.classList.remove('active');
-      //     document.body.style.overflow = '';
-      //     paymentForm.reset();
-      //   }, 2000);
-      // });
-
-      // Improved Intersection Observer for animations
-      const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -10px 0px'
-      };
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('animate-in');
-            // Also trigger animation for section dividers
-            const nextSibling = entry.target.nextElementSibling;
-            if (nextSibling && nextSibling.classList.contains('section-divider')) {
-              nextSibling.classList.add('animate-in');
-            }
-          }
-        });
-      }, observerOptions);
-
-      // Wait for page to load, then observe elements
-      setTimeout(() => {
-        // Observe all animatable elements
-        const elementsToAnimate = document.querySelectorAll(
-          '.feature-card, .benefit-item, .section-title, .hero-title, .hero-description, h1, h2, h3, h4, p, .section-title, .section-subtitle, .pricing-card, .enterprise-note'
-        );
-        elementsToAnimate.forEach(el => {
-          observer.observe(el);
-        });
-
-        // Immediately show hero elements since they're above the fold
-        const heroElements = document.querySelectorAll('.hero-title, .hero-description');
-        heroElements.forEach(el => {
-          el.classList.add('animate-in');
-        });
-
-        // Show section titles that are initially visible
-        const visibleSectionTitles = document.querySelectorAll('.section-title');
-        visibleSectionTitles.forEach(title => {
-          const rect = title.getBoundingClientRect();
-          if (rect.top < window.innerHeight) {
-            title.classList.add('animate-in');
-            const divider = title.parentElement.querySelector('.section-divider');
-            if (divider) {
-              setTimeout(() => divider.classList.add('animate-in'), 300);
-            }
-          }
-        });
-      }, 100);
-
-      // Parallax effect for floating shapes
-      window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const shapes = document.querySelectorAll('.floating-shape');
-        
-        shapes.forEach((shape, index) => {
-          const speed = 0.5 + (index * 0.1);
-          shape.style.transform = `translateY(${scrolled * speed}px)`;
-        });
-      });
-
-      // Add loading animation
-      setTimeout(() => {
-        document.body.classList.add('loaded');
-      }, 100);
-    });
-  </script>
+    <script src="script.js"></script>
 </body>
 </html>

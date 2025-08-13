@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bayan AI - Enterprise Knowledge Platform</title>
+  <link rel="stylesheet" href="styles-light.css" id="theme-stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body class="landing-page">
+  <header class="landing-header">
+    <div class="landing-logo-small">
+      <div class="logo-container">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 9V7a2 2 0 0 1 4 0v2"/>
+          <path d="M12 12h.01"/>
+          <path d="M12 17h.01"/>
+          <rect width="18" height="18" x="3" y="3" rx="2"/>
+        </svg>
+      </div>
+      <span>Bayan AI</span>
+    </div>
+    <nav class="header-nav">
+      <a href="/bayanai/auth/login/" class="landing-nav-button" id="loginLink">Login</a>
+      <a href="/bayanai/chat/" class="landing-nav-button" id="chatLink">Chat</a>
+      <button id="theme-toggle" class="theme-toggle-button" aria-label="Toggle theme">
+        <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2"/>
+          <path d="M12 20v2"/>
+          <path d="M4.93 4.93l1.41 1.41"/>
+          <path d="M17.66 17.66l1.41 1.41"/>
+          <path d="M2 12h2"/>
+          <path d="M20 12h2"/>
+          <path d="M4.93 19.07l1.41-1.41"/>
+          <path d="M17.66 6.34l1.41-1.41"/>
+        </svg>
+        <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon">
+          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+        </svg>
+      </button>
+    </nav>
+  </header>
+  
+  <main style="padding-inline: 30px;">
+    <section class="hero-section">
+      <div class="hero-background">
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+        <div class="floating-shape shape-3"></div>
+      </div>
+      <div class="hero-content">
+        <div class="landing-logo-large">
+          <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 9V7a2 2 0 0 1 4 0v2"/>
+            <path d="M12 12h.01"/>
+            <path d="M12 17h.01"/>
+            <rect width="18" height="18" x="3" y="3" rx="2"/>
+          </svg>
+        </div>
+        <h1 class="hero-title">Empower Your Enterprise with Instant Knowledge.</h1>
+        <p class="hero-description">Bayan AI allows companies to securely upload internal documents, enabling employees to get instant, accurate answers to any company-related query.</p>
+        <div class="hero-ctas">
+          <button class="primary-button" id="getStartedButton">
+            <span>Get Started</span>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"/>
+              <path d="m12 5 7 7-7 7"/>
+            </svg>
+          </button>
+          <a href="#features" class="secondary-button">
+            <span>Learn More</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="pricing-section" id="pricing">
+      <div class="pricing-container">
+        <h2 class="section-title">Choose Your Plan</h2>
+        <p class="section-subtitle">Select the perfect plan for your organization's knowledge management needs</p>
+        
+        <div class="pricing-grid">
+          <!-- Starter Plan -->
+          <div class="pricing-card">
+            <h3 class="plan-name">Starter</h3>
+            <p class="plan-description">Perfect for small teams getting started with AI-powered knowledge management</p>
+            <div class="plan-price">
+              <span class="price-amount">$29</span>
+              <span class="price-period">/month</span>
+            </div>
+            <ul class="plan-features">
+              <li>
+                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                Up to 5 users
+              </li>
+              <li>
+                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                100 documents
+              </li>
+              <li>
+                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                Basic AI search
+              </li>
+              <li>
+                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                Email support
+              </li>
+              <li>
+                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                Basic analytics
+              </li>
+            </ul>
+            <button class="plan-button secondary">Get Started</button>
+          </div>
+  
+          <!-- Professional Plan -->
+          <div class="pricing-card popular">
+            <div class="popular-badge">Most Popular</div>
+            <h3 class="plan-name">Professional</h3>
+            <p class="plan-description">Ideal for growing businesses that need advanced features and better support</p>
+            <div class="plan-price">
+              <span class="price-amount">$99</span>
+              <span class="price-period">/month</span>
+            </div>
+            <ul class="plan-features">
+              <li>
+                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                Up to 25 users
+              </li>
+              <li>
+                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                1,000 documents
+              </li>
+              <li>
+                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                Advanced AI search & insights
+              </li>
+              <li>
+                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                Priority support
+              </li>
+              <li>
+                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                Advanced analytics & reporting
+              </li>
+              <li>
+                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                API access
+              </li>
+            </ul>
+            <button class="plan-button primary">Get Started</button>
+          </div>
+  
+          <!-- Enterprise Plan -->
+          <div class="pricing-card">
+            <h3 class="plan-name">Enterprise</h3>
+            <p class="plan-description">Comprehensive solution for large organizations with custom requirements</p>
+            <div class="plan-price">
+              <span class="price-amount">$299</span>
+              <span class="price-period">/month</span>
+            </div>
+            <ul class="plan-features">
+              <li>
+                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                Unlimited users
+              </li>
+              <li>
+                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                Unlimited documents
+              </li>
+              <li>
+                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                Custom AI models
+              </li>
+              <li>
+                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                24/7 dedicated support
+              </li>
+              <li>
+                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                Advanced security & compliance
+              </li>
+              <li>
+                <svg class="feature-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                Custom integrations
+              </li>
+            </ul>
+            <button class="plan-button secondary">Get Started</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="landing-footer">
+    <div class="footer-content">
+      <div class="footer-links">
+        <p >&copy; 2025 Bayan AI. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Payment Modal -->
+  <!-- <div class="payment-modal" id="paymentModal">
+    <div style="max-height: 95svh; overflow-y: auto;" class="modal-content">
+      <div class="modal-header">
+        <h2>Complete Your Purchase</h2>
+        <button class="close-button" id="closeModal">&times;</button>
+      </div>
+      <form class="payment-form" id="paymentForm">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" required placeholder="your@email.com">
+        </div>
+        <div class="form-group">
+          <label for="cardholder">Cardholder Name</label>
+          <input type="text" id="cardholder" required placeholder="Name on card">
+        </div>
+        <div class="form-group">
+          <label>Card Details</label>
+          <div class="card-element" id="cardElement">
+          </div>
+        </div>
+        <button type="submit" class="submit-button plan-button primary">
+          <span>Subscribe - <span id="planPrice">$29/month</span></span>
+          <div class="loading-spinner"></div>
+        </button>
+      </form>
+    </div>
+  </div> -->
+
+  <script>
+    const loginLink = document.getElementById("loginLink");
+    const chatLink = document.getElementById("chatLink");
+        document.addEventListener("DOMContentLoaded", () => {
+            async function toggleChat() {
+                try {
+                    const response = await fetch("http://localhost/BayanAI/api/users/me.php", {
+                        credentials: "include",
+                    });
+
+                    if (!response.ok) {
+                        throw new Error("Not authenticated");
+                    }
+
+                    const user = await response.json();
+                    console.log(user);
+                    if (!user || !user.data.id) {
+                      loginLink.style.display = "block";
+                      chatLink.style.display = "none";
+                        // window.location.href = "/BayanAI/auth/login";
+                    }
+                    else {
+                      loginLink.style.display = "none";
+                      chatLink.style.display = "block";
+                    }
+                } catch (error) {
+                  loginLink.style.display = "block";
+                  chatLink.style.display = "none";
+                    // window.location.href = "/BayanAI/auth/login";
+                }
+            }
+            toggleChat();
+        });
+  </script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Theme functionality
+      const themeStylesheet = document.getElementById("theme-stylesheet");
+      const themeToggleButton = document.getElementById("theme-toggle");
+      const sunIcon = document.getElementById("sun-icon");
+      const moonIcon = document.getElementById("moon-icon");
+
+      function applyTheme(theme) {
+        themeStylesheet.href = `./styles-${theme}.css`;
+        localStorage.setItem("theme", theme);
+        if (theme === "dark") {
+          sunIcon.style.display = "none";
+          moonIcon.style.display = "block";
+        } else {
+          sunIcon.style.display = "block";
+          moonIcon.style.display = "none";
+        }
+      }
+
+      const savedTheme = localStorage.getItem("theme") || "light";
+      applyTheme(savedTheme);
+
+      if (themeToggleButton) {
+        themeToggleButton.addEventListener("click", () => {
+          const currentTheme = localStorage.getItem("theme") || "light";
+          const newTheme = currentTheme === "light" ? "dark" : "light";
+          applyTheme(newTheme);
+        });
+      }
+
+      // Button functionality
+      const getStartedButtonTop = document.getElementById("getStartedButton");
+      const getStartedButtonBottom = document.getElementById("getStartedButtonBottom");
+      const learnMoreButton = document.querySelector(".secondary-button");
+
+      if (getStartedButtonTop) {
+        getStartedButtonTop.addEventListener("click", () => {
+          window.location.href = "/bayanai/auth/login/";
+        });
+      }
+      if (getStartedButtonBottom) {
+        getStartedButtonBottom.addEventListener("click", () => {
+          window.location.href = "/bayanai/auth/login/";
+        });
+      }
+      if (learnMoreButton) {
+        learnMoreButton.addEventListener("click", (e) => {
+          e.preventDefault();
+          document.getElementById("features").scrollIntoView({ behavior: "smooth" });
+        });
+      }
+
+      // Payment modal functionality
+      const paymentModal = document.getElementById('paymentModal');
+      const closeModalButton = document.getElementById('closeModal');
+      const planButtons = document.querySelectorAll('.plan-button');
+      const planPriceElement = document.getElementById('planPrice');
+
+      // Open modal when any plan button is clicked
+      planButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const planCard = button.closest('.pricing-card');
+          const planName = planCard.querySelector('.plan-name').textContent;
+          const priceAmount = planCard.querySelector('.price-amount').textContent;
+          const pricePeriod = planCard.querySelector('.price-period').textContent;
+          
+          // Update modal with selected plan info
+          document.querySelector('.modal-header h2').textContent = `Subscribe to ${planName}`;
+          planPriceElement.textContent = `${priceAmount}${pricePeriod}`;
+          
+          // Show modal
+          paymentModal.classList.add('active');
+          document.body.style.overflow = 'hidden'; // Prevent scrolling
+        });
+      });
+
+      // Close modal
+      // closeModalButton.addEventListener('click', () => {
+      //   paymentModal.classList.remove('active');
+      //   document.body.style.overflow = '';
+      // });
+
+      // Close modal when clicking outside content
+      // paymentModal.addEventListener('click', (e) => {
+      //   if (e.target === paymentModal) {
+      //     paymentModal.classList.remove('active');
+      //     document.body.style.overflow = '';
+      //   }
+      // });
+
+      // // Form submission
+      // const paymentForm = document.getElementById('paymentForm');
+      // paymentForm.addEventListener('submit', async (e) => {
+      //   e.preventDefault();
+        
+      //   const submitButton = paymentForm.querySelector('.submit-button');
+      //   submitButton.classList.add('processing');
+        
+      //   // Simulate payment processing
+      //   setTimeout(() => {
+      //     submitButton.classList.remove('processing');
+      //     alert('Payment successful! Thank you for subscribing.');
+      //     paymentModal.classList.remove('active');
+      //     document.body.style.overflow = '';
+      //     paymentForm.reset();
+      //   }, 2000);
+      // });
+
+      // Improved Intersection Observer for animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -10px 0px'
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('animate-in');
+            // Also trigger animation for section dividers
+            const nextSibling = entry.target.nextElementSibling;
+            if (nextSibling && nextSibling.classList.contains('section-divider')) {
+              nextSibling.classList.add('animate-in');
+            }
+          }
+        });
+      }, observerOptions);
+
+      // Wait for page to load, then observe elements
+      setTimeout(() => {
+        // Observe all animatable elements
+        const elementsToAnimate = document.querySelectorAll(
+          '.feature-card, .benefit-item, .section-title, .hero-title, .hero-description, h1, h2, h3, h4, p, .section-title, .section-subtitle, .pricing-card, .enterprise-note'
+        );
+        elementsToAnimate.forEach(el => {
+          observer.observe(el);
+        });
+
+        // Immediately show hero elements since they're above the fold
+        const heroElements = document.querySelectorAll('.hero-title, .hero-description');
+        heroElements.forEach(el => {
+          el.classList.add('animate-in');
+        });
+
+        // Show section titles that are initially visible
+        const visibleSectionTitles = document.querySelectorAll('.section-title');
+        visibleSectionTitles.forEach(title => {
+          const rect = title.getBoundingClientRect();
+          if (rect.top < window.innerHeight) {
+            title.classList.add('animate-in');
+            const divider = title.parentElement.querySelector('.section-divider');
+            if (divider) {
+              setTimeout(() => divider.classList.add('animate-in'), 300);
+            }
+          }
+        });
+      }, 100);
+
+      // Parallax effect for floating shapes
+      window.addEventListener('scroll', () => {
+        const scrolled = window.pageYOffset;
+        const shapes = document.querySelectorAll('.floating-shape');
+        
+        shapes.forEach((shape, index) => {
+          const speed = 0.5 + (index * 0.1);
+          shape.style.transform = `translateY(${scrolled * speed}px)`;
+        });
+      });
+
+      // Add loading animation
+      setTimeout(() => {
+        document.body.classList.add('loaded');
+      }, 100);
+    });
+  </script>
+</body>
+</html>

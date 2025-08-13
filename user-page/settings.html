@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - bayanAI</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+      .settings-section { margin-bottom: 2.5rem; }
+      .settings-label { font-weight: 600; color: var(--heading-color, #fff); margin-bottom: 0.5rem; display: block; }
+      .settings-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.2rem; }
+      .settings-card { max-width: 600px; margin: 3rem auto; background: var(--card-bg, #1e293b); border-radius: 12px; box-shadow: 0 2px 8px var(--shadow-color, rgba(0,0,0,0.08)); padding: 2.5rem 2rem; }
+      .settings-btn { padding: 0.5rem 1.5rem; border-radius: 6px; background: var(--primary-blue-light, #60a5fa); color: #fff; border: none; font-weight: 600; cursor: pointer; margin-left: 1rem; }
+      .danger-btn { background: #ef4444; }
+      .settings-divider { border: none; border-top: 1px solid var(--border-color, #2d3748); margin: 2rem 0; }
+      .settings-value { color: var(--text-muted, #94a3b8); font-weight: 500; }
+    </style>
+</head>
+<body>
+    <div class="dashboard-layout">
+      <aside class="sidebar">
+        <div class="sidebar-logo">
+          <svg class="sidebar-logo-icon" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h6l5 5v13a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><polyline points="16 3 16 8 21 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
+          <span class="sidebar-logo-text">bayanAI</span>
+        </div>
+        <nav class="sidebar-nav">
+          <ul>
+            <li><a href="index.html">Dashboard</a></li>
+            <li><a href="users.html">Users</a></li>
+            <li><a href="messeges.html">Messages</a></li>
+            <li><a href="knowledge.html">Knowledge Base</a></li>
+            <li><a href="settings.html" class="active">Settings</a></li>
+          </ul>
+        </nav>
+      </aside>
+      <div class="dashboard-main no-padding">
+        <header class="dashboard-header">
+      <h2 class="dashboard-title">Dashboard</h2>
+      <div class="header-center">
+        <div class="search-bar">
+          <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.3-4.3" />
+          </svg>
+          <input type="search" placeholder="Search..." class="search-input" />
+        </div>
+      </div>
+      <div class="header-right">
+        <button class="icon-button">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
+            <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+          </svg>
+        </button>
+        <div class="user-dropdown">
+          <button class="user-button">
+            <div class="user-avatar">
+              <svg class="user-avatar-svg" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="8" r="4"/>
+                <path d="M4 20c0-2.5 3.5-4 8-4s8 1.5 8 4"/>
+              </svg>
+            </div>
+            <div class="user-info" style="align-items: flex-start;">
+              <span class="user-name">John Cario</span>
+              <span class="user-role">CEO</span>
+            </div>
+            <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="m6 9 6 6 6-6" />
+            </svg>
+          </button>
+          <div class="dropdown-menu">
+            <a href="#" id="logout-btn">Logout</a>
+          </div>
+        </div>
+      </div>
+      <button id="theme-toggle" class="icon-button theme-toggle-button" aria-label="Toggle theme">
+        <svg id="sun-icon" class="lucide lucide-sun sun-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2"/>
+          <path d="M12 20v2"/>
+          <path d="M4.93 4.93l1.41 1.41"/>
+          <path d="M17.66 17.66l1.41 1.41"/>
+          <path d="M2 12h2"/>
+          <path d="M20 12h2"/>
+          <path d="M6.34 17.66l-1.41 1.41"/>
+          <path d="M19.07 4.93l-1.41 1.41"/>
+        </svg>
+        <svg id="moon-icon" class="lucide lucide-moon moon-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+        </svg>
+      </button>
+    </header>
+    <div class="dashboard-main">
+        <div class="settings-card">
+            <h2 style="margin-bottom: 2rem; color: var(--heading-color, #fff);">Settings</h2>
+            <!-- Plan Section -->
+            <div class="settings-section">
+                <span class="settings-label">Current Plan</span>
+                <div class="settings-row">
+                    <span class="settings-value">Pro (Renews: 2024-12-01)</span>
+                    <button class="settings-btn">Change Plan</button>
+                </div>
+            </div>
+            <hr class="settings-divider" />
+            <!-- Billing Section -->
+            <div class="settings-section">
+                <span class="settings-label">Billing Details</span>
+                <div class="settings-row">
+                    <span class="settings-value">Visa •••• 1234 &nbsp; | &nbsp; Next Payment: $29.99</span>
+                    <button class="settings-btn">Update Billing</button>
+                </div>
+                <div class="settings-row">
+                    <span>Next Due Date</span>
+                    <span class="settings-value">2024-12-01</span>
+                </div>
+            </div>
+            <hr class="settings-divider" />
+            <!-- Preferences Section -->
+            <div class="settings-section">
+                <span class="settings-label">Preferences</span>
+                <div class="settings-row">
+                    <span>Theme</span>
+                    <select style="padding: 0.5rem; border-radius: 6px;">
+                        <option>Dark</option>
+                        <option>Light</option>
+                    </select>
+                </div>
+                <div class="settings-row">
+                    <span>Notifications</span>
+                    <input type="checkbox" checked style="transform: scale(1.2);">
+                </div>
+                <div class="settings-row">
+                    <span>Language</span>
+                    <select style="padding: 0.5rem; border-radius: 6px;">
+                        <option>English</option>
+                        <option>Arabic</option>
+                        <option>French</option>
+                    </select>
+                </div>
+            </div>
+            <hr class="settings-divider" />
+            <!-- Account Section -->
+            <div class="settings-section">
+                <span class="settings-label">Account</span>
+                <div class="settings-row">
+                    <span class="settings-value">john.cario@email.com</span>
+                    <button class="settings-btn danger-btn">Delete Account</button>
+                </div>
+            </div>
+            <div style="text-align: right; margin-top: 2.5rem;">
+                <button class="settings-btn">Save Changes</button>
+            </div>
+            <div style="margin-top: 2.5rem; text-align: center; font-size: 0.98rem;">
+                <a href="#" style="color: var(--primary-blue-light, #60a5fa); text-decoration: underline; margin-right: 1.5rem;">Terms of Service</a>
+                <a href="#" style="color: var(--primary-blue-light, #60a5fa); text-decoration: underline;">Privacy Policy</a>
+            </div>
+        </div>
+      </div> <!-- end dashboard-main -->
+    </div> <!-- end dashboard-layout -->
+</body>
+</html> 

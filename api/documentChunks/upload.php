@@ -7,7 +7,6 @@ require_once "../sessions/SessionService.php";
 
 $configPath = __DIR__ . "/../../config.php";
 
-// Check config file exists
 if (!file_exists($configPath)) {
     respond(500, "error", "Missing config.php file");
 }

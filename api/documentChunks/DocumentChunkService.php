@@ -5,6 +5,7 @@ require_once "../users/UserService.php";
 require_once "../messages/MessageService.php";
 require_once "../../utils/utils.php";
 require_once "../../utils/gemini.php";
+require_once "../users/UserService.php";
 
 header("Content-Type: application/json");
 
@@ -85,10 +86,18 @@ function get_all_chunks() {
     respond(200, "success", $output);
 }
 
-function update_chunk($id, $newText, $newDepartmentName = null) {
+function update_chunk($user_id, $id, $newText, $newDepartmentName = null) {
     $chunk = find_document_chunk_by_id($id);
+    $user  = get_user_by_id($user_id);
     if (!$chunk) {
         respond(404, "error", ["message" => "Chunk not found."]);
+    }
+
+    if (!$user->get_can_upload()) {
+        respond(403, "error", "You do not have permission to perform this action.");
+    }
+    if ($chunk->getDepartmentName() && $user->getDepartment() &&  strtolower($chunk->getDepartmentName()) != strtolower($user->getDepartment())) {
+        respond(403, "error", "You do not have permission to perform this action.");
     }
 
     $embedding = generateEmbeddings($newText);
@@ -109,10 +118,17 @@ function update_chunk($id, $newText, $newDepartmentName = null) {
     respond(200, "success", ["message" => "Chunk updated successfully."]);
 }
 
-function delete_chunk($id) {
+function delete_chunk($user_id, $id) {
     $chunk = find_document_chunk_by_id($id);
     if (!$chunk) {
         respond(404, "error", ["message" => "Chunk not found."]);
+    }
+    $user = get_user_by_id($user_id);
+    if (!$user->get_can_upload()) {
+        respond(403, "error", "You do not have permission to perform this action.");
+    }
+    if ($chunk->getDepartmentName() && $user->getDepartment() &&  $chunk->getDepartmentName() != $user->getDepartment()) {
+        respond(403, "error", "You do not have permission to perform this action.");
     }
 
     if (!delete_document_chunk_by_id($id)) {
@@ -135,12 +151,14 @@ function get_similar_text($text, $department_name) {
     if ($result && $result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             $chunkEmbedding = json_decode($row['embedding_vector'], true);
-            $similarity = cosineSimilarity($embedding, $chunkEmbedding);
-            if ($similarity >= $SIMILARITY_THRESHOLD && ((!$department_name || ! $row["department"] || strtolower(trim($row["department"])) == strtolower(trim($department_name))))) {
-                $results[] = [
-                    'chunk_text' => $row['chunk_text'],
-                    'similarity' => $similarity
-                ];
+            if ($chunkEmbedding) {
+                $similarity = cosineSimilarity($embedding, $chunkEmbedding);
+                if ($similarity >= $SIMILARITY_THRESHOLD && ((!$department_name || ! $row["department"] || strtolower(trim($row["department"])) == strtolower(trim($department_name))))) {
+                    $results[] = [
+                        'chunk_text' => $row['chunk_text'],
+                        'similarity' => $similarity
+                    ];
+                }
             }
         }
     }

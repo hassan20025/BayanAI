@@ -6,14 +6,16 @@ class User implements JsonSerializable {
     private $username;
     private $department;
     private $can_upload;
+    private $role;
 
-    function __construct($id, $email, $password, $username, $department = null, $can_upload = false) {
+    function __construct($id, $email, $password, $username, $department = null, $can_upload = false, $role = "user") {
         $this->id = $id;
         $this->email = $email;
         $this->password = $password;
         $this->username = $username;
         $this->department = $department;
         $this->can_upload = $can_upload;
+        $this->role = strtolower($role);
     }
 
     public function getId() {
@@ -64,6 +66,14 @@ class User implements JsonSerializable {
         $this->can_upload = $can_upload;
     }
 
+    public function getRole() {
+        return $this->role;
+    }
+
+    public function setRole($role) {
+        $this->role = $role;
+    }
+
     public function jsonSerialize(): array {
         return [
             'id' => $this->id,
@@ -71,6 +81,7 @@ class User implements JsonSerializable {
             'username' => $this->username,
             'department' => $this->department,
             'canUpload' => $this->can_upload,
+            'role' => $this->role
         ];
     }
 }
