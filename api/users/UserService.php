@@ -129,9 +129,10 @@ function get_user_by_username($username) {
 }
 
 function delete_user($current_user_id, $id) {
-    // TODO
-    $current_user = get_current_user($current_user_id);
-    // if ($current_user->get_user_)
+    $current_user = get_user_by_id($current_user_id);
+    if ($current_user->getRole() != "manager") {
+        respond(403, "error", "Only managers can delete users.");
+    }
     delete_user_by_id($id);
 }
 

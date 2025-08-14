@@ -7,6 +7,9 @@ class DocumentChunk {
     private $embedding_vector;
     private $department_name;
     private $created_at;
+    private $fileName;
+    private $fileType;
+    private $size;
 
     public function getId() {
         return $this->id;
@@ -48,6 +51,30 @@ class DocumentChunk {
     }
     public function setCreatedAt($created_at) {
         $this->created_at = $created_at;
+    }
+
+    public function getFileName() {
+        return $this->fileName;
+    }
+
+    public function setFileName($fileName) {
+        $this->fileName = $fileName;
+    }
+
+    public function getFileType() {
+        return $this->fileType;
+    }
+
+    public function setFileType($fileType) {
+        $this->fileType = $fileType;
+    }
+
+    public function getSize() {
+        return $this->size;
+    }
+
+    public function setSize($size) {
+        $this->size = $size;
     }
 
     public function isAllowed($department_name) {

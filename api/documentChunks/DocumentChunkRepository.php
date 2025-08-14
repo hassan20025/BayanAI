@@ -17,7 +17,9 @@ function find_all_document_chunks(): array {
         $chunk->setEmbeddingVector(json_decode($row["embedding_vector"], true));
         $chunk->setDepartmentName($row["department"]);
         $chunk->setCreatedAt($row["created_at"]);
-
+        $chunk->setFileName($row["file_name"] ?? null);
+        $chunk->setFileType($row["file_type"] ?? null);
+        $chunk->setSize($row["size"] ?? null);
         $chunks[] = $chunk;
     }
 
@@ -39,6 +41,9 @@ function find_document_chunk_by_id(int $id): ?DocumentChunk {
         $chunk->setEmbeddingVector(json_decode($row["embedding_vector"], true));
         $chunk->setDepartmentName($row["department"]);
         $chunk->setCreatedAt($row["created_at"]);
+        $chunk->setFileName($row["file_name"] ?? null);
+        $chunk->setFileType($row["file_type"] ?? null);
+        $chunk->setSize($row["size"] ?? null);
         return $chunk;
     }
 
@@ -47,24 +52,30 @@ function find_document_chunk_by_id(int $id): ?DocumentChunk {
 
 function create_document_chunk(DocumentChunk $chunk): bool {
     global $mysqli;
-    $stmt = $mysqli->prepare("INSERT INTO document_chunks (document_id, chunk_text, embedding_vector, department) VALUES (?, ?, ?, ?)");
+    $stmt = $mysqli->prepare("INSERT INTO document_chunks (document_id, chunk_text, embedding_vector, department, file_name, file_type, size) VALUES (?, ?, ?, ?, ?, ?, ?)");
     $documentId = $chunk->getDocumentId();
     $text = $chunk->getChunkText();
     $embedding = json_encode($chunk->getEmbeddingVector());
     $department_name = $chunk->getDepartmentName();
-    $stmt->bind_param("isss", $documentId, $text, $embedding, $department_name);
+    $fileName = $chunk->getFileName();
+    $fileType = $chunk->getFileType();
+    $size = $chunk->getSize();
+    $stmt->bind_param("isssssi", $documentId, $text, $embedding, $department_name, $fileName, $fileType, $size);
     return $stmt->execute();
 }
 
 function update_document_chunk(DocumentChunk $chunk): bool {
     global $mysqli;
-    $stmt = $mysqli->prepare("UPDATE document_chunks SET document_id = ?, chunk_text = ?, embedding_vector = ?, department = ? WHERE id = ?");
+    $stmt = $mysqli->prepare("UPDATE document_chunks SET document_id = ?, chunk_text = ?, embedding_vector = ?, department = ?, file_name = ?, file_type = ?, size = ? WHERE id = ?");
     $documentId = $chunk->getDocumentId();
     $text = $chunk->getChunkText();
     $embedding = json_encode($chunk->getEmbeddingVector());
     $department_name = $chunk->getDepartmentName();
+    $fileName = $chunk->getFileName();
+    $fileType = $chunk->getFileType();
+    $size = $chunk->getSize();
     $id = $chunk->getId();
-    $stmt->bind_param("isssi", $documentId, $text, $embedding, $department_name, $id);
+    $stmt->bind_param("isssssii", $documentId, $text, $embedding, $department_name, $fileName, $fileType, $size, $id);
     return $stmt->execute();
 }
 

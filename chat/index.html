@@ -347,32 +347,6 @@
         scrollToBottom();
     }
 
-    // Function to handle sending a message
-    // function sendMessage() {
-    //     const messageText = chatInput.value.trim();
-    //     if (messageText) {
-    //         addMessage(messageText, "user");
-    //         chatInput.value = ""; // Clear input
-
-    //         // Simulate bot response
-    //         setTimeout(() => {
-    //             addMessage(
-    //                 {
-    //                     title: "Thank you for your message!",
-    //                     text: "This is a demo response. In a real application, I would provide a detailed answer based on your query.",
-    //                 },
-    //                 "bot",
-    //                 true,
-    //             );
-    //         }, 1000);
-    //     }
-    // }
-
-    // Event listener for send button click
-    // sendMessageButton.addEventListener("click", sendMessage);
-
-    // Event listener for Enter key press in input field
-
 
     // Function to close sidebar
     function closeSidebar() {
@@ -585,6 +559,7 @@
     function closeModal() {
         document.getElementById('uploadModal').classList.remove('visible');
         document.body.style.overflow = '';
+        startUploadButton.style.display = "block";
         resetModal();
     }
 

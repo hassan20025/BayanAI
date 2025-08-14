@@ -7,48 +7,43 @@ require_once "../../utils/utils.php";
 require_once "../../utils/gemini.php";
 require_once "../users/UserService.php";
 
-header("Content-Type: application/json");
-
-function create_chunk($chunkText, $departmentName) {
+function create_chunk($chunkText, $departmentName, $fileName = null, $fileType = null, $fileSize = null) {
     $embedding = generateEmbeddings($chunkText);
-
     if (isset($embedding['error'])) {
         echo json_encode($embedding);
         respond(500, "error", ["message" => "Failed to generate embedding"]);
     }
-
     $chunk = new DocumentChunk();
     $chunk->setChunkText($chunkText);
     $chunk->setEmbeddingVector($embedding);
     $chunk->setDepartmentName($departmentName);
-
+    $chunk->setFileName($fileName);
+    $chunk->setFileType($fileType);
+    $chunk->setSize($fileSize);
     if (!create_document_chunk($chunk)) {
         respond(500, "error", ["message" => "Failed to create chunk."]);
     }
-
     respond(201, "success", ["message" => "Chunk created successfully."]);
 }
 
-function create_chunks($chunks, $department_name) {
-    foreach($chunks as $chunk) {
+function create_chunks($chunks, $department_name, $file_sizes, $file_names, $file_types) {
+    foreach ($chunks as $index => $chunk) {
         $embedding = generateEmbeddings($chunk);
-
         if (isset($embedding['error'])) {
             echo json_encode($embedding);
             respond(500, "error", ["message" => "Failed to generate embedding"]);
         }
-    
         $docChunk = new DocumentChunk();
         $docChunk->setChunkText($chunk);
         $docChunk->setEmbeddingVector($embedding);
         $docChunk->setDepartmentName($department_name);
-    
+        $docChunk->setFileName($file_names[$index] ?? null);
+        $docChunk->setFileType($file_types[$index] ?? null);
+        $docChunk->setSize($file_sizes[$index] ?? null);
         if (!create_document_chunk($docChunk)) {
             respond(500, "error", ["message" => "Failed to create chunks."]);
         }
-
     }
-        
     respond(201, "success", ["message" => "Chunks created successfully."]);
 }
 
@@ -57,21 +52,22 @@ function get_chunk_by_id($id) {
     if (!$chunk) {
         respond(404, "error", ["message" => "Chunk not found."]);
     }
-
     respond(200, "success", [
         "id" => $chunk->getId(),
         "document_id" => $chunk->getDocumentId(),
         "chunk_text" => $chunk->getChunkText(),
         "embedding_vector" => $chunk->getEmbeddingVector(),
         "department" => $chunk->getDepartmentName(),
-        "created_at" => $chunk->getCreatedAt()
+        "created_at" => $chunk->getCreatedAt(),
+        "file_name" => $chunk->getFileName(),
+        "file_type" => $chunk->getFileType(),
+        "size" => $chunk->getSize()
     ]);
 }
 
 function get_all_chunks() {
     $chunks = find_all_document_chunks();
     $output = [];
-
     foreach ($chunks as $chunk) {
         $output[] = [
             "id" => $chunk->getId(),
@@ -79,42 +75,48 @@ function get_all_chunks() {
             "chunk_text" => $chunk->getChunkText(),
             "embedding_vector" => $chunk->getEmbeddingVector(),
             "department" => $chunk->getDepartmentName(),
-            "created_at" => $chunk->getCreatedAt()
+            "created_at" => $chunk->getCreatedAt(),
+            "file_name" => $chunk->getFileName(),
+            "file_type" => $chunk->getFileType(),
+            "size" => $chunk->getSize()
         ];
     }
-
     respond(200, "success", $output);
 }
 
-function update_chunk($user_id, $id, $newText, $newDepartmentName = null) {
+function update_chunk($user_id, $id, $newText, $newDepartmentName = null, $fileName = null, $fileType = null, $fileSize = null) {
     $chunk = find_document_chunk_by_id($id);
-    $user  = get_user_by_id($user_id);
+    $user = get_user_by_id($user_id);
     if (!$chunk) {
         respond(404, "error", ["message" => "Chunk not found."]);
     }
-
     if (!$user->get_can_upload()) {
         respond(403, "error", "You do not have permission to perform this action.");
     }
-    if ($chunk->getDepartmentName() && $user->getDepartment() &&  strtolower($chunk->getDepartmentName()) != strtolower($user->getDepartment())) {
+    if ($chunk->getDepartmentName() && $user->getDepartment() && strtolower($chunk->getDepartmentName()) != strtolower($user->getDepartment())) {
         respond(403, "error", "You do not have permission to perform this action.");
     }
-
     $embedding = generateEmbeddings($newText);
     if (isset($embedding['error'])) {
         respond(500, "error", ["message" => "Failed to regenerate embedding."]);
     }
-
     $chunk->setChunkText($newText);
     $chunk->setEmbeddingVector($embedding);
     if ($newDepartmentName !== null) {
         $chunk->setDepartmentName($newDepartmentName);
     }
-
+    if ($fileName !== null) {
+        $chunk->setFileName($fileName);
+    }
+    if ($fileType !== null) {
+        $chunk->setFileType($fileType);
+    }
+    if ($fileSize !== null) {
+        $chunk->setSize($fileSize);
+    }
     if (!update_document_chunk($chunk)) {
         respond(500, "error", ["message" => "Failed to update chunk."]);
     }
-
     respond(200, "success", ["message" => "Chunk updated successfully."]);
 }
 
@@ -127,33 +129,28 @@ function delete_chunk($user_id, $id) {
     if (!$user->get_can_upload()) {
         respond(403, "error", "You do not have permission to perform this action.");
     }
-    if ($chunk->getDepartmentName() && $user->getDepartment() &&  $chunk->getDepartmentName() != $user->getDepartment()) {
+    if ($chunk->getDepartmentName() && $user->getDepartment() && $chunk->getDepartmentName() != $user->getDepartment()) {
         respond(403, "error", "You do not have permission to perform this action.");
     }
-
     if (!delete_document_chunk_by_id($id)) {
         respond(500, "error", ["message" => "Failed to delete chunk."]);
     }
-
     respond(200, "success", ["message" => "Chunk deleted successfully."]);
 }
 
 function get_similar_text($text, $department_name) {
     global $mysqli;
     $embedding = generateEmbeddings($text);
-
     $query = "SELECT id, chunk_text, embedding_vector, department FROM document_chunks";
     $result = $mysqli->query($query);
-
     $results = [];
     $SIMILARITY_THRESHOLD = 0.4;
-
     if ($result && $result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
             $chunkEmbedding = json_decode($row['embedding_vector'], true);
             if ($chunkEmbedding) {
                 $similarity = cosineSimilarity($embedding, $chunkEmbedding);
-                if ($similarity >= $SIMILARITY_THRESHOLD && ((!$department_name || ! $row["department"] || strtolower(trim($row["department"])) == strtolower(trim($department_name))))) {
+                if ($similarity >= $SIMILARITY_THRESHOLD && ((!$department_name || !$row["department"] || strtolower(trim($row["department"])) == strtolower(trim($department_name))))) {
                     $results[] = [
                         'chunk_text' => $row['chunk_text'],
                         'similarity' => $similarity
@@ -162,13 +159,10 @@ function get_similar_text($text, $department_name) {
             }
         }
     }
-
     usort($results, function ($a, $b) {
         return $b['similarity'] <=> $a['similarity'];
     });
-
     $texts = array_column($results, 'chunk_text');
-
     return $texts;
 }
 
