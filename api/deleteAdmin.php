@@ -1,6 +1,7 @@
 <?php
 ob_start(); // Start output buffering
 header('Content-Type: application/json');
+require_once 'authAdmin.php';
 
 try {
     require_once '../db/db.php';
@@ -14,7 +15,7 @@ try {
     $adminId = (int)$_POST['id'];
     
     // Check if admin exists
-    $stmt = $db->prepare("SELECT id FROM admins WHERE id = ?");
+    $stmt = $db->prepare("SELECT id FROM users WHERE id = ?");
     $stmt->bind_param("i", $adminId);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -25,7 +26,7 @@ try {
     }
     
     // Delete admin
-    $stmt = $db->prepare("DELETE FROM admins WHERE id = ?");
+    $stmt = $db->prepare("DELETE FROM users WHERE id = ?");
     $stmt->bind_param("i", $adminId);
     
     if ($stmt->execute()) {

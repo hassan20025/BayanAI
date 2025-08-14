@@ -76,28 +76,45 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --- Contact Form ---
-  const contactForm = document.getElementById("contact-form");
-  const formStatus = document.getElementById("form-status");
+// --- Contact Form ---
+const contactForm = document.getElementById("contact-form");
+const formStatus = document.getElementById("form-status");
 
-  if (contactForm && formStatus) {
-    contactForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      formStatus.textContent = "Sending...";
-      formStatus.classList.remove("text-green-400", "text-red-400");
-      formStatus.classList.add("text-gray-400");
+if (contactForm && formStatus) {
+  contactForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    formStatus.textContent = "Sending...";
+    formStatus.classList.remove("text-green-400", "text-red-400");
+    formStatus.classList.add("text-gray-400");
 
-      const formData = new FormData(contactForm);
-      const data = Object.fromEntries(formData.entries());
-      console.log("Contact form submitted:", data);
+    const formData = new FormData(contactForm);
 
-      setTimeout(() => {
-        formStatus.textContent = "Message sent successfully!";
+    fetch("api/landingPage/landingPage.php", {
+      method: "POST",
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === "success") {
+        formStatus.textContent = data.message;
         formStatus.classList.remove("text-gray-400");
         formStatus.classList.add("text-green-400");
         contactForm.reset();
-      }, 2000);
+      } else {
+        formStatus.textContent = data.message || "Something went wrong.";
+        formStatus.classList.remove("text-gray-400");
+        formStatus.classList.add("text-red-400");
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      formStatus.textContent = "Failed to send message.";
+      formStatus.classList.remove("text-gray-400");
+      formStatus.classList.add("text-red-400");
     });
-  }
+  });
+}
+
 
   // --- Pricing Section Carousel ---
   const pricingCards = document.querySelectorAll(".pricing-card");

@@ -3079,7 +3079,8 @@ a:focus {
 }
 
 .pricing-card {
-  background: var(--card-bg);
+  background: var(--gradient-hero);
+  box-shadow: 1rem;
   border-radius: 24px;
   padding: 40px 32px;
   position: relative;
@@ -3109,7 +3110,7 @@ a:focus {
 .pricing-card:hover {
   transform: translateY(-10px);
   box-shadow: 0 20px 60px var(--shadow-hover);
-  border-color: var(--primary-color);
+  border-color: var(--primary-dark);
 }
 
 .pricing-card.popular:hover {
@@ -3388,7 +3389,9 @@ a:focus {
 
     .card-element {
       padding: 12px 15px;
-      border: 1px solid var(--card-border);
+      /* border: 1px solid; */
+      border-width: 1px;
+      border-style: solid;
       border-radius: 8px;
     }
     
@@ -3589,4 +3592,207 @@ a:focus {
 .success-button:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 12px var(--shadow-hover);
+}
+
+/* Pricing Section - Horizontal Layout */
+.pricing-section {
+  padding: 120px 30px;
+  background: transparent;
+}
+
+.pricing-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.section-title {
+  font-size: clamp(2.5rem, 4vw, 3.5rem);
+  font-weight: 800;
+  margin-bottom: 20px;
+  color: var(--landing-heading-color);
+}
+
+.section-subtitle {
+  font-size: 1.25rem;
+  color: var(--landing-text-color);
+  max-width: 600px;
+  margin: 0 auto 60px;
+  opacity: 0.8;
+}
+
+.pricing-grid {
+  display: flex;
+  justify-content: center;
+}
+
+.pricing-card {
+  background: var(--card-bg);
+  border-radius: 24px;
+  padding: 40px;
+  /* border: 1px solid var(--card-border); */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.pricing-card-inner {
+  display: flex;
+  gap: 60px;
+}
+
+.pricing-card-left {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.pricing-card-right {
+  flex: 1;
+  text-align: left;
+}
+
+.plan-name {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--landing-heading-color);
+  margin-bottom: 16px;
+}
+
+.plan-description {
+  color: var(--landing-text-color);
+  margin-bottom: 32px;
+  font-size: 1rem;
+  line-height: 1.6;
+  opacity: 0.8;
+}
+
+.plan-price {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 32px;
+}
+
+.price-amount {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--landing-heading-color);
+}
+
+.price-period {
+  font-size: 1rem;
+  color: var(--landing-text-color);
+  opacity: 0.8;
+}
+
+.plan-button {
+  width: 100%;
+  max-width: 200px;
+  padding: 16px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  margin-top: auto;
+}
+
+.plan-button.secondary {
+  min-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--card-bg);
+  color: var(--landing-logo-color);
+}
+
+.plan-button.secondary:hover {
+  background: var(--landing-button-bg);
+  color: var(--landing-button-text);
+  /* border-color: var(--landing-button-bg); */
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(59, 130, 246, 0.2);
+}
+
+.plan-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.plan-features li {
+  display: flex;
+  align-items: center;
+  padding: 12px 0;
+  color: var(--landing-text-color);
+  border-bottom: 1px solid var(--card-border);
+}
+
+.plan-features li:last-child {
+  border-bottom: none;
+}
+
+.feature-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 12px;
+  color: var(--landing-logo-color);
+  flex-shrink: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .pricing-section {
+    padding: 80px 20px;
+  }
+  
+  .pricing-card-inner {
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  .plan-button {
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pricing-section {
+    padding: 60px 15px;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+  }
+  
+  .section-subtitle {
+    font-size: 1rem;
+    margin-bottom: 40px;
+  }
+  
+  .pricing-card {
+    padding: 30px 20px;
+  }
+  
+  .plan-name {
+    font-size: 1.5rem;
+  }
+  
+  .price-amount {
+    font-size: 2.5rem;
+  }
+  
+  .plan-button {
+    padding: 14px 20px;
+    max-width: 100%;
+  }
 }

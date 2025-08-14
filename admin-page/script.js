@@ -639,81 +639,46 @@ document.head.appendChild(style);
 // Load Dashboard Statistics
 async function loadDashboardStats() {
   try {
-    const response = await fetch('/bayanAI/api/getDashboardStats.php');
-    const data = await response.json();
-    
-    if (data.success) {
-      // Update Total Users card
-      const userCard = document.querySelector('.dashboard-card:nth-child(1)');
-      if (userCard) {
-        const userValue = userCard.querySelector('.card-value');
-        const userChange = userCard.querySelector('.card-change');
-        
-        if (userValue) {
-          userValue.textContent = data.users.total.toLocaleString();
-        }
-        
-        if (userChange) {
-          // Update percentage
-          const percentSpan = userChange.querySelector('span');
-          if (percentSpan) {
-            percentSpan.textContent = Math.abs(data.users.change_percent) + '%';
-          }
-          
-          // Update direction (increase/decrease)
-          userChange.className = `card-change ${data.users.change_direction}`;
-          
-          // Update arrow icon
-          const arrowIcon = userChange.querySelector('svg');
-          if (arrowIcon) {
-            if (data.users.change_direction === 'increase') {
-              arrowIcon.innerHTML = '<path d="M7 7h10v10"/><path d="M7 17 17 7"/>';
-            } else {
-              arrowIcon.innerHTML = '<path d="M7 7h10v10"/><path d="17 7 7 17"/>';
-            }
-          }
+    const res = await fetch('/bayanAI/api/getDashboardStats.php?cb=' + Date.now(), { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    if (!data || data.success === false) return;
+
+    // helpers
+    const setCardWithChange = (cardId, total, pct, dir) => {
+      const card = document.getElementById(cardId);
+      if (!card) return;
+      const val = card.querySelector('.card-value');
+      if (val) val.textContent = Number(total || 0).toLocaleString();
+
+      const change = card.querySelector('.card-change');
+      if (change) {
+        const percentSpan = change.querySelector('span');
+        if (percentSpan) percentSpan.textContent = Math.abs(pct || 0) + '%';
+        const direction = dir || 'increase';
+        change.className = `card-change ${direction}`;
+        const icon = change.querySelector('svg');
+        if (icon) {
+          icon.innerHTML = direction === 'increase'
+            ? '<path d="M7 7h10v10"/><path d="M7 17 17 7"/>'
+            : '<path d="M7 7h10v10"/><path d="M17 7 7 17"/>';
         }
       }
-      
-      // Update Total Chats card
-      const chatCard = document.querySelector('.dashboard-card:nth-child(2)');
-      if (chatCard) {
-        const chatValue = chatCard.querySelector('.card-value');
-        const chatChange = chatCard.querySelector('.card-change');
-        
-        if (chatValue) {
-          chatValue.textContent = data.chats.total.toLocaleString();
-        }
-        
-        if (chatChange) {
-          // Update percentage
-          const percentSpan = chatChange.querySelector('span');
-          if (percentSpan) {
-            percentSpan.textContent = Math.abs(data.chats.change_percent) + '%';
-          }
-          
-          // Update direction (increase/decrease)
-          chatChange.className = `card-change ${data.chats.change_direction}`;
-          
-          // Update arrow icon
-          const arrowIcon = chatChange.querySelector('svg');
-          if (arrowIcon) {
-            if (data.chats.change_direction === 'increase') {
-              arrowIcon.innerHTML = '<path d="M7 7h10v10"/><path d="M7 17 17 7"/>';
-            } else {
-              arrowIcon.innerHTML = '<path d="M7 7h10v10"/><path d="17 7 7 17"/>';
-            }
-          }
-        }
-      }
-      
-      console.log('Dashboard statistics loaded successfully');
-    }
-    
-  } catch (error) {
-    console.error('Error loading dashboard statistics:', error);
+    };
+
+    // Users & Chats (change-aware)
+    if (data.users)  setCardWithChange('card-users',  data.users.total,  data.users.change_percent,  data.users.change_direction);
+    if (data.chats)  setCardWithChange('card-chats',  data.chats.total,  data.chats.change_percent,  data.chats.change_direction);
+
+    // Knowledge Base & Sessions (write by ID so nothing else can clobber them)
+    const kbValEl = document.getElementById('kb-count');
+    const sesValEl = document.getElementById('sessions-count');
+
+    if (kbValEl)  kbValEl.textContent  = Number(data.knowledge_base?.total || 0).toLocaleString();
+    if (sesValEl) sesValEl.textContent = Number(data.sessions?.total        || 0).toLocaleString();
+
+    console.log('[dashboard] set KB=', kbValEl?.textContent, ' sessions=', sesValEl?.textContent);
+  } catch (err) {
+    console.error('Error loading dashboard statistics:', err);
   }
 }
-
-// These functions are now handled by the main script functionality
-// and are no longer needed as separate window functions

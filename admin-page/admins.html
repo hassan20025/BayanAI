@@ -90,7 +90,8 @@
                 <circle cx="11" cy="11" r="8" />
                 <path d="m21 21-4.3-4.3" />
               </svg>
-              <input type="search" placeholder="Search..." class="search-input" />
+              <input id="admin-search" type="search" placeholder="Search..." class="search-input" />
+
             </div>
           </div>
 
@@ -173,20 +174,49 @@
     </div>
     
     <!-- Add Admin Modal -->
-    <div id="add-admin-modal" class="modal">
-      <div class="modal-content">
-        <h2>Add New Admin</h2>
-        <form id="add-admin-form">
-          <label>Name: <input type="text" id="admin-name" required></label>
-          <label>Email: <input type="email" id="admin-email" required></label>
-          <button type="submit" class="settings-btn">Add Admin</button>
-          <button type="button" id="close-modal-btn" class="settings-btn danger-btn" style="margin-left: 1rem;">Cancel</button>
-        </form>
-      </div>
-    </div>
+    <<!-- Add Admin Modal -->
+<div id="add-admin-modal" class="modal">
+  <div class="modal-content">
+    <h2>Add New Admin</h2>
+    <form id="add-admin-form">
+      <label>
+        Name:
+        <input id="admin-name" name="name" type="text" required>
+      </label>
+    
+      <label>
+        Email:
+        <input id="admin-email" name="email" type="email" required>
+      </label>
+    
+      <label>
+        Password:
+        <input id="admin-password" name="password" type="password" required minlength="8">
+      </label>
+    
+      <button type="submit" class="settings-btn">Add Admin</button>
+      <button type="button" id="close-modal-btn" class="settings-btn danger-btn" style="margin-left: 1rem;">Cancel</button>
+    </form>
+    
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const toggle = document.getElementById('toggle-pass');
+    const pass = document.getElementById('admin-password');
+    if (toggle && pass) {
+      toggle.addEventListener('click', () => {
+        const isHidden = pass.type === 'password';
+        pass.type = isHidden ? 'text' : 'password';
+        toggle.textContent = isHidden ? 'Hide' : 'Show';
+      });
+    }
+  });
+  </script>
+  
     
     <script src="script.js?v=1.0.1"></script>
-    <script src="addAdmin.js?v=1.0.1"></script>
+    <script src="addAdmin.js?v=1.0.7"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         console.log('DOM loaded, checking sidebar...');
