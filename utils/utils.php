@@ -5,7 +5,7 @@ header("Content-Type: application/json");
     // $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
 
     // $allowed_origins = [
-    //     'http://bayanai.es',
+    //     'http://localhost',
     //     'http://localhost'
     // ];
 

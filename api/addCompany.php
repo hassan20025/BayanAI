@@ -1,7 +1,7 @@
 <?php
 // Suppress all output and errors
-error_reporting(0);
-ini_set('display_errors', 0);
+// error_reporting(0);
+// ini_set('display_errors', 0);
 ob_start(); // Start output buffering
 
 // Set proper headers
@@ -48,11 +48,11 @@ try {
         exit;
     }
     
-    $name = trim($_POST['name']);
-    $email = trim($_POST['email']);
-    $industry = trim($_POST['industry']);
-    $plan = trim($_POST['plan']);
-    $nextDue = trim($_POST['next_due']);
+    $name = escapeshellcmd(htmlspecialchars(trim($_POST['name']), ENT_QUOTES, 'UTF-8'));
+    $email = escapeshellcmd(htmlspecialchars(trim($_POST['email']), ENT_QUOTES, 'UTF-8'));
+    $industry = escapeshellcmd(htmlspecialchars(trim($_POST['industry']), ENT_QUOTES, 'UTF-8'));
+    $plan = escapeshellcmd(htmlspecialchars(trim($_POST['plan']), ENT_QUOTES, 'UTF-8'));
+    $nextDue = escapeshellcmd(htmlspecialchars(trim($_POST['next_due']), ENT_QUOTES, 'UTF-8'));
     
     // Validate email format
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {

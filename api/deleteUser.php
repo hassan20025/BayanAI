@@ -1,6 +1,6 @@
 <?php
 require_once '../db/db.php'; // adjust path if needed
-
+require_once __DIR__ . "/../utils/utils.php";
 $userId = $_POST['id'] ?? null;
 
 if (!$userId) {

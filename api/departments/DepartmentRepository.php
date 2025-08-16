@@ -1,6 +1,6 @@
 <?php
 require_once "Department.php";
-require_once "../../db/db.php";
+require_once __DIR__ . "/../../db/db.php";
 
 global $mysqli;
 

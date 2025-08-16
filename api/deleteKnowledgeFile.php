@@ -1,6 +1,7 @@
 <?php
 // api/deleteKnowledgeFile.php
 ob_start();
+require_once __DIR__ . "/../utils/utils.php";
 header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
@@ -16,6 +17,18 @@ try {
 
     // Prefer delete by numeric id
     $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
+
+    if ($id) {
+        if ($_SERVER["REQUEST_METHOD"] != "POST") {
+            respond(405, "error", "Method unsupported");
+        }
+        $id = $_POST['id'] ?? null;
+        if (!$id) {
+            respond(400, "error", "Missing data.");
+        }
+        $id = escapeshellcmd(htmlspecialchars($id));
+    }
+
     if (!$id) {
         // fallback: allow delete by file_name if you didn’t include id in your table rows
         $name = isset($_POST['file_name']) ? trim($_POST['file_name']) : '';

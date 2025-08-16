@@ -1,6 +1,6 @@
 <?php
 require_once "Message.php";
-require_once "../../db/db.php";
+require_once __DIR__ . "/../../db/db.php";
 
 function find_messages_by_chat_id(int $chat_id): array {
     global $mysqli;

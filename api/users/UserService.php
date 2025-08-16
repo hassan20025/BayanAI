@@ -1,9 +1,9 @@
 <?php
 
 require_once "UserRepository.php";
-require_once "../../utils/utils.php";
-require_once "../sessions/SessionRepository.php";
-require_once "../departments/DepartmentService.php";
+require_once __DIR__ . "/../../utils/utils.php";
+require_once __DIR__ . "/../sessions/SessionRepository.php";
+require_once __DIR__ . "/../departments/DepartmentService.php";
 session_start();
 header('Content-Type: application/json');
 
@@ -74,7 +74,7 @@ function get_me($sessionToken) {
     respond(200, "success", $user);
 }
 
-function create_user($username, $email, $password, $department = null) {
+function create_user($username, $email, $password, $role = "user", $can_upload = false, $department = null) {
 
     $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
     $user = find_user_by_email($email);
@@ -88,7 +88,7 @@ function create_user($username, $email, $password, $department = null) {
         respond(400, "error", "Username already used");
     }
 
-    $user = new User(null, $email, $hashedPassword, $username, $department);
+    $user = new User(null, $email, $hashedPassword, $username, $department, $can_upload, $role);
     $created = create_user_entity($user);
 
     if (!$created) {

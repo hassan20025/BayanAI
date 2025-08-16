@@ -47,6 +47,9 @@
             const loginForm = document.getElementById("loginForm");
             const themeStylesheet = document.getElementById("theme-stylesheet");
 
+            // Check authentication status first
+            checkAuthStatus();
+
             function applyTheme(theme) {
                 themeStylesheet.href = `../../styles-${theme}.css`;
                 localStorage.setItem("theme", theme);
@@ -99,25 +102,50 @@
             });
         });
 
-        function handleRedirect() {
-            fetch("http://localhost/BayanAI/api/users/me.php", {
-                credentials: "include"
+        // Check if user is already authenticated
+        function checkAuthStatus() {
+            redirectUser();
+        }
+
+        function redirectUser() {
+            fetch('http://localhost/BayanAI/api/users/me.php', {
+                method: 'GET',
+                credentials: 'include', // Important: sends cookies
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             })
-            .then(res => res.json())
+            .then(response => {
+                if (response.ok) {
+                    // User is authenticated, redirect based on role
+                    return response.json();
+                } else {
+                    // Token invalid, stay on login page
+                    return null;
+                }
+            })
             .then(data => {
-                if (data.data.role === "manager") {
-                    window.location.href = "/bayanai/user-page/";
-                }
-                else if (data.data.role === "admin") {
-                    window.location.href = "/bayanai/admin-page/";
-                }
-                else {
-                    window.location.href = "/bayanai/chat/";
+                if (data && data.data) {
+                    // Redirect based on user role
+                    if (data.data.role === "manager") {
+                        window.location.href = "/bayanai/user-page/";
+                    }
+                    else if (data.data.role === "admin") {
+                        window.location.href = "/bayanai/admin-page/";
+                    }
+                    else {
+                        window.location.href = "/bayanai/chat/";
+                    }
                 }
             })
             .catch(error => {
-                console.error("Error:", error);
+                console.error('Auth check failed:', error);
+                // Stay on login page if there's an error
             });
+        }
+
+        function handleRedirect() {
+            redirectUser();
         } 
 
     </script>

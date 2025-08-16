@@ -4,6 +4,7 @@ header('Content-Type: application/json');
 require_once '../db/db.php';
 
 $email = $_GET['email'] ?? '';
+$safe_email = escapeshellcmd(htmlspecialchars($email, ENT_QUOTES, "UTF-8"));
 
 if (empty($email)) {
     echo json_encode(['error' => 'Email parameter required']);

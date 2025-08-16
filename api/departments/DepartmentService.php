@@ -1,6 +1,6 @@
 <?php
 require_once "DepartmentRepository.php";
-require_once "../../utils/utils.php";
+require_once __DIR__ . "/../../utils/utils.php";
 header('Content-Type: application/json');
 
 function get_all_departments() {

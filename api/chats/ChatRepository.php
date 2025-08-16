@@ -1,6 +1,6 @@
 <?php
 require_once "Chat.php";
-require_once "../../db/db.php";
+require_once __DIR__ . "/../../db/db.php";
 
 function find_all_chats(?int $userId = null): array {
     global $mysqli;

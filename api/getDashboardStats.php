@@ -32,7 +32,7 @@ try {
     $pdo->exec("CREATE TABLE IF NOT EXISTS chats (
         id INT AUTO_INCREMENT PRIMARY KEY,
         user_id INT,
-        company_name VARCHAR(255),
+        name VARCHAR(255),
         title VARCHAR(255),
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         total_messeges INT DEFAULT 0,

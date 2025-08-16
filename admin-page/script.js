@@ -1,4 +1,25 @@
 document.addEventListener("DOMContentLoaded", () => {
+
+  function handleRedirect() {
+    fetch("http://localhost/BayanAI/api/users/me.php", {
+      credentials: "include"
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.data.role !== "admin") {
+          window.location.href = "/bayanai/homepage";
+        }
+        else {
+          const username = document.querySelector(".user-name");
+          username.innerHTML = data.data.username;
+        }
+    })
+    .catch(error => {
+      console.error("Error:", error);
+    });
+  } 
+  handleRedirect();
+
   function setupThemeToggle() {
     const themeToggle = document.getElementById("theme-toggle");
     const sunIcon = document.getElementById("sun-icon");
@@ -233,60 +254,6 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error('Failed to load companies:', err);
     }
   }
-
-  // Function to load chats data
-  async function loadChatsData() {
-    try {
-      const res = await fetch('/bayanAI/api/getChats.php');
-      const chats = await res.json();
-      
-      const chatsTableBody = document.getElementById('chats-table-body');
-      if (chatsTableBody) {
-        chatsTableBody.innerHTML = ''; // clear existing rows
-        
-        // Handle both array and object responses
-        let chatsArray = chats;
-        if (!Array.isArray(chats)) {
-          if (chats.error) {
-            console.error('Error from server:', chats.error);
-            return;
-          }
-          chatsArray = [chats];
-        }
-
-        chatsArray.forEach(chat => {
-          const row = document.createElement('tr');
-          row.innerHTML = `
-            <td>${chat.id}</td>
-            <td>${chat.company_name}</td>
-            <td>${chat.total_messeges ? chat.total_messeges.toLocaleString() : '0'}</td>
-            <td>${chat.users_added || '0'}</td>
-            <td>${chat.failed_responses || '0'}</td>
-            <td>
-              <div class="action-buttons">
-                <button class="icon-button flag-action" title="Flag">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M4 22V4a2 2 0 0 1 2-2h11.5a1.5 1.5 0 0 1 1.4 2.1L17 7l1.9 4.9A1.5 1.5 0 0 1 17.5 15H6a2 2 0 0 1-2-2z"/>
-                  </svg>
-                </button>
-                <button class="icon-button export-action" title="Export">
-                  <img src="export.svg" alt="Export" style="width: 20px; height: 20px; filter: brightness(0) invert(1);">
-                </button>
-              </div>
-            </td>
-          `;
-          chatsTableBody.appendChild(row);
-        });
-        
-        // Setup export functionality for new rows
-        setupChatsExportFunctionality();
-        console.log('Chats loaded successfully:', chatsArray.length);
-      }
-    } catch (err) {
-      console.error('Failed to load chats:', err);
-    }
-  }
-
   // Function to setup admins delete functionality
   function setupAdminsDeleteFunctionality() {
     const adminsTableBody = document.getElementById('admins-table-body');
@@ -505,9 +472,16 @@ Notes:
   }
   const logoutBtn = document.getElementById('logout-btn');
   if (logoutBtn) {
-    logoutBtn.addEventListener('click', function(e) {
+    logoutBtn.addEventListener('click', async function (e) {
       e.preventDefault();
-      alert('Logging out...');
+      const res = await fetch("http://localhost/bayanai/api/users/logout.php", {
+        method: "POST",
+        credentials: "include",
+      });
+      if (res.ok) {
+        window.location.href = "/bayanai/auth/login"
+      }
+      // alert('Logging out...');
       // window.location.href = '/auth/login/index.html'; // Uncomment for real logout
     });
   }
@@ -520,6 +494,60 @@ Notes:
   // Load initial data based on current page
   loadPageData();
 });
+
+
+  // Function to load chats data
+  async function loadChatsData() {
+    try {
+      const res = await fetch('/bayanAI/api/getChats.php');
+      const chats = await res.json();
+      
+      const chatsTableBody = document.getElementById('chats-table-body');
+      if (chatsTableBody) {
+        chatsTableBody.innerHTML = ''; // clear existing rows
+        
+        // Handle both array and object responses
+        let chatsArray = chats;
+        if (!Array.isArray(chats)) {
+          if (chats.error) {
+            console.error('Error from server:', chats.error);
+            return;
+          }
+          chatsArray = [chats];
+        }
+
+        chatsArray.forEach(chat => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td>${chat.id}</td>
+            <td>${chat.company_name}</td>
+            <td>${chat.total_messeges ? chat.total_messeges.toLocaleString() : '0'}</td>
+            <td>${chat.users_added || '0'}</td>
+            <td>${chat.failed_responses || '0'}</td>
+            <td>
+              <div class="action-buttons">
+                <button class="icon-button flag-action" title="Flag">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 22V4a2 2 0 0 1 2-2h11.5a1.5 1.5 0 0 1 1.4 2.1L17 7l1.9 4.9A1.5 1.5 0 0 1 17.5 15H6a2 2 0 0 1-2-2z"/>
+                  </svg>
+                </button>
+                <button class="icon-button export-action" title="Export">
+                  <img src="export.svg" alt="Export" style="width: 20px; height: 20px; filter: brightness(0) invert(1);">
+                </button>
+              </div>
+            </td>
+          `;
+          chatsTableBody.appendChild(row);
+        });
+        
+        // Setup export functionality for new rows
+        setupChatsExportFunctionality();
+        console.log('Chats loaded successfully:', chatsArray.length);
+      }
+    } catch (err) {
+      console.error('Failed to load chats:', err);
+    }
+  }
 
 // Simple page navigation - no SPA complexity needed
 

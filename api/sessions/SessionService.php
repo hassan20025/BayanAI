@@ -1,6 +1,6 @@
 <?php
 require_once "sessionRepository.php";
-require_once "../../utils/utils.php";
+require_once __DIR__ . "/../../utils/utils.php";
 
 function get_authenticated_user_id(): int {
     if (!isset($_COOKIE["session_token"])) {

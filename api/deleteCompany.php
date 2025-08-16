@@ -29,13 +29,16 @@ try {
         exit;
     }
     
-    // Check if company ID is provided
-    if (empty($_POST['id'])) {
-        echo json_encode(['error' => 'Company ID is required']);
-        exit;
+
+    if ($_SERVER["REQUEST_METHOD"] != "POST") {
+        respond(405, "error", "Method unsupported");
     }
-    
-    $companyId = intval($_POST['id']);
+    $id = $_POST['id'] ?? null;
+    if (!$id) {
+        respond(400, "error", "Missing data.");
+    }
+    $safe_id = escapeshellcmd(htmlspecialchars($id));
+    $companyId = intval($safe_id);
     
     // Check if company exists
     $stmt = $db->prepare("SELECT id FROM companies WHERE id = ?");

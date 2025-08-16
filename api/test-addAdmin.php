@@ -1,6 +1,6 @@
 <?php
 // Test what addAdmin.php returns
-$url = 'http://bayanai.es/bayanAI/api/addAdmin.php';
+$url = 'http://localhost/bayanAI/api/addAdmin.php';
 
 $data = [
     'name' => 'Test Admin',

@@ -1,6 +1,6 @@
 <?php
 require_once "User.php";
-require_once "../../db/db.php";
+require_once __DIR__ . "/../../db/db.php";
 
 global $mysqli;
 
@@ -52,13 +52,14 @@ function find_user_by_username(string $username): ?User {
 
 function create_user_entity(User $user): bool {
     global $mysqli;
-    $stmt = $mysqli->prepare("INSERT INTO users (email, password, username, department, can_upload) VALUES (?, ?, ?, ?, ?)");
+    $stmt = $mysqli->prepare("INSERT INTO users (email, password, username, department, can_upload, role) VALUES (?, ?, ?, ?, ?, ?)");
     $email = $user->getEmail();
     $password = $user->getPassword();
     $username = $user->getUsername();
     $dept = $user->getDepartment();
     $can_upload = $user->get_can_upload();
-    $stmt->bind_param("ssssi", $email, $password, $username, $dept, $can_upload);
+    $role = $user->getRole();
+    $stmt->bind_param("ssssis", $email, $password, $username, $dept, $can_upload, $role);
     return $stmt->execute();
 }
 

@@ -1,20 +1,27 @@
 <?php
-ob_start(); // Start output buffering
+ob_start();
 header('Content-Type: application/json');
+require_once __DIR__ . "/../utils/utils.php";
 require_once 'authAdmin.php';
 
 try {
     require_once '../db/db.php';
     
-    // Check if ID is provided
-    if (empty($_POST['id'])) {
+    if ($_SERVER["REQUEST_METHOD"] != "POST") {
+        respond(405, "error", "Method unsupported");
+    }
+    $id = $_POST['id'] ?? null;
+    if (!$id) {
+        respond(400, "error", "Missing data.");
+    }
+    $safe_admin_id = escapeshellcmd(htmlspecialchars($id));
+    if (empty($safe_admin_id)) {
         echo json_encode(['error' => 'Admin ID is required']);
         exit;
     }
     
-    $adminId = (int)$_POST['id'];
+    $adminId = (int)$safe_admin_id;
     
-    // Check if admin exists
     $stmt = $db->prepare("SELECT id FROM users WHERE id = ?");
     $stmt->bind_param("i", $adminId);
     $stmt->execute();

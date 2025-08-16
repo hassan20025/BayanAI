@@ -1,4 +1,26 @@
 document.addEventListener("DOMContentLoaded", () => {
+
+  function handleRedirect() {
+    fetch("http://localhost/BayanAI/api/users/me.php", {
+      credentials: "include"
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.data.role !== "manager") {
+          window.location.href = "/bayanai/homepage";
+        }
+        else {
+          const username = document.querySelector(".user-name");
+          username.innerHTML = data.data.username;
+        }
+    })
+    .catch(error => {
+      console.error("Error:", error);
+    });
+  } 
+
+    handleRedirect();
+
     function setupThemeToggle() {
       const themeToggle = document.getElementById("theme-toggle");
       const sunIcon = document.getElementById("sun-icon");
@@ -264,9 +286,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     const logoutBtn = document.getElementById('logout-btn');
     if (logoutBtn) {
-      logoutBtn.addEventListener('click', function(e) {
+      logoutBtn.addEventListener('click', async function(e) {
         e.preventDefault();
-        alert('Logging out...');
+        const res = await fetch("http://localhost/bayanai/api/users/logout.php", {
+          method: "POST",
+          credentials: "include",
+        });
+        if (res.ok) {
+          window.location.href = "/bayanai/auth/login"
+        }
         // window.location.href = '/auth/login/index.html'; // Uncomment for real logout
       });
     }

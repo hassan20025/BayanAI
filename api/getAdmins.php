@@ -1,7 +1,7 @@
 <?php
 // Quiet output and set JSON/CORS headers
-error_reporting(0);
-ini_set('display_errors', 0);
+// error_reporting(0);
+// ini_set('display_errors', 0);
 
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
