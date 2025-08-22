@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // Database connection
-$host = 'localhost';
+$host = 'bayanai.es';
 $dbname = 'bayanai';
 $username = 'root';
 $password = '';

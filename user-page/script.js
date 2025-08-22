@@ -1,3 +1,5 @@
+
+
 document.addEventListener("DOMContentLoaded", () => {
 
   function handleRedirect() {
@@ -16,10 +18,27 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .catch(error => {
       console.error("Error:", error);
+      });
+  } 
+  handleRedirect();
+  
+  function checkIfSubscribed() {
+    fetch("http://localhost/BayanAI/payment/PaymentStatus.php", {
+      credentials: "include"
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log("subscription status: ", data.status);
+        if (data.status === "unsubscribed") {
+          window.location.href = "/BayanAI/payment/payment.php";
+        }
+    })
+    .catch(error => {
+      console.log("Error:", error);
     });
   } 
 
-    handleRedirect();
+    checkIfSubscribed();
 
     function setupThemeToggle() {
       const themeToggle = document.getElementById("theme-toggle");
@@ -58,28 +77,47 @@ document.addEventListener("DOMContentLoaded", () => {
   
     function setupSearchFilter() {
       const searchInput = document.querySelector('.search-input');
-      const dashboardContent = document.querySelector('.dashboard-content');
-      if (!searchInput || !dashboardContent) return;
+      if (!searchInput) return;
+    
       searchInput.addEventListener('input', function() {
         const query = this.value.trim().toLowerCase();
-        // Select all main content components that could be searched for
-        const components = dashboardContent.querySelectorAll('.dashboard-card, .chart-card, .recent-interactions-card');
-        let found = false;
-        components.forEach(component => {
-          const text = component.textContent.toLowerCase();
-          if (query && text.includes(query)) {
-            component.style.display = '';
-            found = true;
+    
+        // Decide what to filter depending on the page
+        let items = [];
+    
+        // Case 1: index.html -> cards and charts
+        if (document.querySelector('.dashboard-content')) {
+          items = document.querySelectorAll('.dashboard-card, .chart-card, .recent-interactions-card');
+        }
+    
+        // Case 2: users.html -> table rows
+        if (document.querySelector('#users-table-body')) {
+          items = document.querySelectorAll('#users-table-body tr');
+        }
+    
+        // Case 3: messages.html -> table rows
+        if (document.querySelector('#messages-table-body')) {
+          items = document.querySelectorAll('#messages-table-body tr');
+        }
+    
+        // Case 4: knowledge.html -> knowledge entries
+        if (document.querySelector('#kb-table-body')) {
+          items = document.querySelectorAll('#kb-table-body tr');
+        }
+    
+        // Apply filter
+        items.forEach(item => {
+          const text = item.textContent.toLowerCase();
+          if (query && !text.includes(query)) {
+            item.style.display = 'none';
           } else {
-            component.style.display = 'none';
+            item.style.display = '';
           }
         });
-        // If search is empty, show all components
-        if (!query) {
-          components.forEach(component => component.style.display = '');
-        }
       });
     }
+    
+    
   
     function setupSidebarNavigation() {
       const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
@@ -89,6 +127,18 @@ document.addEventListener("DOMContentLoaded", () => {
           const href = this.getAttribute('href');
           if (href && href !== 'index.html') {
             e.preventDefault();
+           // For Chat page, navigate directly
+if (href === 'chat/index.html' || href.includes('chat/')) {
+  window.location.href = '/BayanAI/chat/index.html';
+  return;
+}
+
+            // For knowledge.html, navigate directly to the page
+            if (href === 'knowledge.html') {
+              window.location.href = '/BayanAI/user-page/knowledge.html';
+              return;
+            }
+            
             fetch(href)
               .then(res => res.text())
               .then(html => {
@@ -123,8 +173,6 @@ document.addEventListener("DOMContentLoaded", () => {
     function loadPageData(href) {
       if (href.includes('users.html')) {
         loadUsersFromDB();
-      } else if (href.includes('companies.html')) {
-        loadCompaniesData();
       } else if (href.includes('knowledge.html')) {
         loadKnowledgeData();
       } else if (href.includes('messeges.html')) {
@@ -133,70 +181,93 @@ document.addEventListener("DOMContentLoaded", () => {
         updateDashboardCounts();
       }
     }
-  
-    // Function to load companies data
-    async function loadCompaniesData() {
-      try {
-        const res = await fetch('/bayanAI/api/getCompanies.php');
-        const companies = await res.json();
-        
-        const companiesTableBody = document.getElementById('companies-table-body');
-        if (companiesTableBody) {
-          companiesTableBody.innerHTML = ''; // clear existing rows
-          
-          // Handle both array and object responses
-          let companiesArray = companies;
-          if (!Array.isArray(companies)) {
-            if (companies.error) {
-              console.error('Error from server:', companies.error);
-              return;
-            }
-            companiesArray = [companies];
-          }
 
-          companiesArray.forEach(company => {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-              <td>${company.id}</td>
-              <td>${company.name}</td>
-              <td>${company.email}</td>
-              <td>${company.industry}</td>
-              <td>${company.plan}</td>
-              <td>${company.next_due}</td>
-              <td>
-                <button class="icon-button flag-action" title="Flag">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M4 22V4a2 2 0 0 1 2-2h11.5a1.5 1.5 0 0 1 1.4 2.1L17 7l1.9 4.9A1.5 1.5 0 0 1 17.5 15H6a2 2 0 0 1 2-2z"/>
-                  </svg>
-                </button>
-                <button class="icon-button delete-action" title="Delete">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1 2-2H7a2 2 0 0 1 2-2V6m3 0V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>
-                    <line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/>
-                  </svg>
-                </button>
-              </td>
-            `;
-            companiesTableBody.appendChild(row);
-          });
-          
-          console.log('Companies loaded successfully:', companiesArray.length);
-        }
-      } catch (err) {
-        console.error('Failed to load companies:', err);
-      }
-    }
   
-    // Function to load knowledge data
-    async function loadKnowledgeData() {
-      try {
-        // This would load knowledge base data when implemented
-        console.log('Loading knowledge data...');
-      } catch (err) {
-        console.error('Failed to load knowledge data:', err);
-      }
-    }
+ // Users management functions
+// Fetch CSRF token from the meta tag (if it exists)
+let csrfToken = null;
+const csrfMeta = document.querySelector('meta[name="csrf-token"]');
+if (csrfMeta) {
+  csrfToken = csrfMeta.getAttribute('content');
+  console.log("CSRF token loaded:", csrfToken);
+} else {
+  console.log("No CSRF token meta tag found");
+}
+
+
+// Now you can use this csrfToken in your fetch request
+async function loadUsersFromDB() {
+  console.log('Loading users from database...');
   
+  const usersTableBody = document.getElementById('users-table-body');
+  if (!usersTableBody) {
+    console.error('Users table body not found');
+    return;
+  }
+
+  try {
+    const res = await fetch('http://localhost/BayanAI/api/getUsers.php', {
+      credentials: 'include',
+    });
+
+    console.log('Response status:', res.status);
+    const users = await res.json();
+    console.log('Users received:', users);
+
+    if (!Array.isArray(users)) {
+      console.error("Expected an array, got:", users);
+      usersTableBody.innerHTML = `
+        <tr><td colspan="6" style="text-align:center;color:red;">
+          Failed to load users: ${users.error || 'Unexpected response'}
+        </td></tr>`;
+      return;
+    }
+
+    usersTableBody.innerHTML = ''; // clear existing rows
+
+    users.forEach(user => {
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td>${user.id}</td>
+        <td>${user.username}</td>
+        <td>${user.email}</td>
+        <td>${user.department}</td>
+        <td>${user.role}</td>
+        <td>
+          <button class="icon-button flag-action" title="Flag">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" 
+              viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 22V4a2 2 0 0 1 2-2h11.5a1.5 1.5 0 0 1 1.4 2.1L17 7l1.9 4.9A1.5 1.5 0 0 1 17.5 15H6a2 2 0 0 1 2-2z"/>
+            </svg>
+          </button>
+          <button class="icon-button delete-action" title="Delete">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" 
+              viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+              stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6"/>
+              <path d="M19 6v14a2 2 0 0 1 2-2H7a2 2 0 0 1 2-2V6m3 0V4
+                       a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>
+              <line x1="10" y1="11" x2="10" y2="17"/>
+              <line x1="14" y1="11" x2="14" y2="17"/>
+            </svg>
+          </button>
+        </td>
+      `;
+      usersTableBody.appendChild(row);
+    });
+
+    console.log('Users loaded successfully:', users.length);
+
+  } catch (err) {
+    console.error("Failed to load users:", err);
+    usersTableBody.innerHTML = `
+      <tr><td colspan="6" style="text-align:center;color:red;">
+        Error loading users
+      </td></tr>`;
+  }
+}
+
     // Function to load messages data
     async function loadMessagesData() {
       try {
@@ -204,6 +275,16 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log('Loading messages data...');
       } catch (err) {
         console.error('Failed to load messages data:', err);
+      }
+    }
+    
+    // Function to load knowledge data
+    async function loadKnowledgeData() {
+      try {
+        // This would load knowledge data when implemented
+        console.log('Loading knowledge data...');
+      } catch (err) {
+        console.error('Failed to load knowledge data:', err);
       }
     }
   
@@ -288,12 +369,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (logoutBtn) {
       logoutBtn.addEventListener('click', async function(e) {
         e.preventDefault();
-        const res = await fetch("http://localhost/bayanai/api/users/logout.php", {
+        const res = await fetch("http://localhost/BayanAI/api/users/logout.php", {
           method: "POST",
           credentials: "include",
         });
         if (res.ok) {
-          window.location.href = "/bayanai/auth/login"
+          window.location.href = "/BayanAI/auth/login/"
         }
         // window.location.href = '/auth/login/index.html'; // Uncomment for real logout
       });
@@ -308,8 +389,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const currentPath = window.location.pathname;
     if (currentPath.includes('users.html')) {
       loadUsersFromDB();
-    } else if (currentPath.includes('companies.html')) {
-      loadCompaniesData();
     } else if (currentPath.includes('knowledge.html')) {
       loadKnowledgeData();
     } else if (currentPath.includes('messeges.html')) {
@@ -327,9 +406,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function afterSpaNav() {
     setupSidebarNavigation();
     setupThemeToggle();
-    setupSearchFilter();
+    setupSearchFilter(); // ✅ reattach search
     setupVolumeChartTooltip();
-    
+  
     // Load users and setup delete functionality after SPA navigation
     loadUsersFromDB();
     setupDeleteFunctionality();
@@ -442,11 +521,6 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
   
-  document.addEventListener('DOMContentLoaded', () => {
-    setupInteractionActions();
-    setupFlaggedFilterButtons();
-  });
-  
   // If SPA navigation reloads content, re-setup actions
   window.afterSpaNav = function() {
     if (typeof setupInteractionActions === 'function') setupInteractionActions();
@@ -494,78 +568,6 @@ document.addEventListener("DOMContentLoaded", () => {
     observeTableCount('kb-table-body', updateDashboardCounts);
   }
 
-  // Patch SPA nav to call after content loads
-  function afterSpaNav() {
-    updateDashboardCounts();
-    if (document.querySelector('.summary-cards')) {
-      observeTableCount('users-table-body', updateDashboardCounts);
-      observeTableCount('kb-table-body', updateDashboardCounts);
-    }
-  }
-  // Patch SPA nav to call afterSpaNav
-  (function patchSpaNav() {
-    const orig = window.setupSidebarNavigation;
-    if (orig) {
-      window.setupSidebarNavigation = function() {
-        orig();
-        setTimeout(afterSpaNav, 0);
-      };
-    }
-  })();
-
-
-
-// Users management functions
-async function loadUsersFromDB() {
-  console.log('Loading users from database...');
-  
-  // Get the users table body element
-  const usersTableBody = document.getElementById('users-table-body');
-  
-  if (!usersTableBody) {
-    console.error('Users table body not found');
-    return;
-  }
-  
-  try {
-    const res = await fetch('../api/getUsers.php');
-    console.log('Response status:', res.status);
-    const users = await res.json();
-    console.log('Users received:', users);
-
-    usersTableBody.innerHTML = ''; // clear existing rows
-
-    users.forEach(user => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${user.id}</td>
-        <td>${user.username}</td>
-        <td>${user.email}</td>
-        <td>${user.department}</td>
-        <td>${user.role}</td>
-        <td>
-          <button class="icon-button flag-action" title="Flag">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M4 22V4a2 2 0 0 1 2-2h11.5a1.5 1.5 0 0 1 1.4 2.1L17 7l1.9 4.9A1.5 1.5 0 0 1 17.5 15H6a2 2 0 0 1-2-2z"/>
-            </svg>
-          </button>
-          <button class="icon-button delete-action" title="Delete">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>
-              <line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/>
-            </svg>
-          </button>
-        </td>
-      `;
-      usersTableBody.appendChild(row);
-    });
-
-    console.log('Users loaded successfully:', users.length);
-
-  } catch (err) {
-    console.error("Failed to load users:", err);
-  }
-}
 
 // Function to refresh the table
 async function refreshUsersTable() {
@@ -579,16 +581,18 @@ function setupDeleteFunctionality() {
     usersTableBody.addEventListener('click', async function (e) {
       if (e.target.closest('.delete-action')) {
         const row = e.target.closest('tr');
-        const userId = row.children[0].textContent; // assuming ID is in first column
+        row.setAttribute("data-user-id", user.id);
+        const userId = row.dataset.userId;
 
         const confirmed = confirm("Are you sure you want to delete this user?");
         if (!confirmed) return;
 
         try {
-          const res = await fetch('../api/deleteUser.php', {
+          const res = await fetch('http://localhost/BayanAI/api/deleteUser.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: new URLSearchParams({ id: userId })
+            body: new URLSearchParams({ id: userId }),
+
           });
           const result = await res.json();
 

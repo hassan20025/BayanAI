@@ -1,0 +1,14 @@
+Chatbot Activity Report
+Generated: August 21, 2025 at 11:42 AM
+Company: 
+Chat ID: 7
+
+ID,Company Name,Total Messages,Users Added,Failed Responses,Success Rate (%)
+7,"",0,0,0,0
+
+Notes:
+- Total Messages: 0
+- Users Added: 0
+- Failed Responses: 0
+- Success Rate: 0%
+- Export Date: August 21, 2025 at 11:42 AM

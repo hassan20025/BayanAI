@@ -40,6 +40,8 @@ function create_chunks($chunks, $department_name, $file_sizes, $file_names, $fil
         $docChunk->setFileName($file_names[$index] ?? null);
         $docChunk->setFileType($file_types[$index] ?? null);
         $docChunk->setSize($file_sizes[$index] ?? null);
+        // echo json_encode($docChunk);
+        // exit;
         if (!create_document_chunk($docChunk)) {
             respond(500, "error", ["message" => "Failed to create chunks."]);
         }

@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Knowledge Base - bayanAI</title>
-  <link rel="stylesheet" href="style.css?v=3"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="knowledge.css"/>
 </head>
 <body>
   <div class="dashboard-layout">
@@ -19,6 +20,7 @@
           <li><a href="users.html">Users</a></li>
           <li><a href="messeges.html">Messages</a></li>
           <li><a href="knowledge.html" class="active">Knowledge Base</a></li>
+          <li><a href="/bayanai/chat/">Chat</a></li>
           <li><a href="settings.html">Settings</a></li>
         </ul>
       </nav>
@@ -90,20 +92,20 @@
 
         <div class="interactions-header" style="margin-top: 2rem; margin-bottom: 1.5rem; display:flex; align-items:center; justify-content:space-between;">
           <div class="interaction-buttons">
-            <button class="interaction-button active">All Files</button>
-            <button class="interaction-button">PDFs</button>
-            <button class="interaction-button">Docs</button>
-            <button class="interaction-button">Images</button>
+            <button class="filter-button active">All Files</button>
+            <button class="filter-button">PDFs</button>
+            <button class="filter-button">Docs</button>
+            <button class="filter-button">Images</button>
           </div>
           <div class="interaction-actions">
             <button class="icon-button" id="kb-filter-btn" title="Filter">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3Z"/></svg>
             </button>
-            <button class="settings-btn" id="add-file-btn">Add File</button>
+            <button class="settings-btn" id="openUploadModalButton">Add File</button>
           </div>
         </div>
 
-        <div class="interactions-table-container">
+        <div class="interactions-table-container" style="margin-inline: 10px;">
           <table class="interactions-table">
             <colgroup>
               <col style="width: 35%;">
@@ -130,8 +132,60 @@
     </div> <!-- end dashboard-main no-padding -->
   </div> <!-- end dashboard-layout -->
 
+  <div id="uploadModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="modalTitle">Upload Documents</h2>
+            <button class="modal-close-button" id="closeUploadModalButton" aria-label="Close upload modal">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <!-- Upload Form (Initial State) -->
+            <div id="uploadForm">
+                <div class="upload-area">
+                    <p>Drag & drop your files here, or click to browse.</p>
+                    <input type="file" id="fileInput" multiple accept=".pdf,.txt,.png,.jpg,.jpeg" style="display: none;">
+                    <button class="upload-button" id="browseFilesButton">Browse Files</button>
+                    <div id="fileList" class="file-list"></div>
+                </div>
+                <p class="modal-info">Supported formats: PDF, TXT, PNG, JPG, JPEG.</p>
+            </div>
+
+            <!-- Upload Success (Hidden Initially) -->
+            <div id="uploadSuccess" class="upload-success hidden">
+                <div class="success-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20,6 9,17 4,12"/>
+                    </svg>
+                </div>
+                <h3 class="success-title">Upload Successful!</h3>
+                <p class="success-message">Your files have been uploaded and are being processed. You'll be notified once they're ready for use.</p>
+                
+                <div class="uploaded-files-list">
+                    <div class="uploaded-files-title">Uploaded Files</div>
+                    <div id="uploadedFilesList"></div>
+                </div>
+
+                <div class="success-actions">
+                    <button class="success-button secondary" id="uploadMoreButton">Upload More</button>
+                    <button class="success-button primary" id="continueButton">Continue</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer" id="modalFooter">
+          <button disabled class="modal-action-button" id="startUploadButton">Start Upload</button>
+        </div>
+      </div>
+    </div>
+
   <!-- single hidden file input -->
-  <input type="file" id="kb-file-input" style="display:none" />
+  <input type="file" id="kb-file-input" style="display: none;" />
 
   <script>
     const API_BASE = '../api';
@@ -150,102 +204,259 @@
       try {
         const res  = await fetch(`${API_BASE}/getKnowledgeBase.php`, { cache: 'no-store' });
         const data = await res.json();
+        console.log(data);
         if (!Array.isArray(data) || data.length === 0) {
           tbody.innerHTML = '<tr><td colspan="5" style="padding:16px;color:var(--text-muted,#94a3b8)">No files yet</td></tr>';
           return;
         }
         tbody.innerHTML = data.map(f => {
-  const id   = f.id || ''; // requires step #2
-  const name = f.file_name || '';
-  const type = (f.file_type || '').toUpperCase();
-  const size = f.size_label || fmtSize(f.size_bytes);
-  const date = (f.created_at || '').slice(0, 10);
-  return `
-    <tr data-id="${id}" data-name="${name}">
-      <td>${name}</td>
-      <td>${type}</td>
-      <td>${size}</td>
-      <td>${date}</td>
-      <td>
-        <div class="row-actions">
-          <button class="icon-button flag-action" title="Flag">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22V4a2 2 0 0 1 2-2h11.5a1.5 1.5 0 0 1 1.4 2.1L17 7l1.9 4.9A1.5 1.5 0 0 1 17.5 15H6a2 2 0 0 1-2-2z"/></svg>
-          </button>
-          <button class="icon-button delete-action" title="Delete">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
-          </button>
-        </div>
-      </td>
-    </tr>`;
-}).join('');
+          const id   = f.id || '';
+          const name = f.file_name || '';
+          const type = (f.file_type || '').toUpperCase();
+          const size = f.size_label || fmtSize(f.size_bytes);
+          const date = (f.created_at || '').slice(0, 10);
 
+          let dataType = 'other';
+          if (type.match(/\.?(PDF)$/i)) {
+              dataType = 'pdf';
+          } else if (type.match(/\.?(DOC|DOCX|TXT|RTF|ODT)$/i)) {
+              dataType = 'doc';
+          } else if (type.match(/\.?(JPG|JPEG|PNG|GIF|SVG|WEBP)$/i)) {
+              dataType = 'image';
+          }
 
+          return `
+            <tr data-id="${id}" data-name="${name}" data-type="${dataType}">
+              <td>${name}</td>
+              <td>${type}</td>
+              <td>${size}</td>
+              <td>${date}</td>
+              <td>
+                <div class="row-actions">
+                  <button class="icon-button flag-action" title="Flag">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22V4a2 2 0 0 1 2-2h11.5a1.5 1.5 0 0 1 1.4 2.1L17 7l1.9 4.9A1.5 1.5 0 0 1 17.5 15H6a2 2 0 0 1-2-2z"/></svg>
+                  </button>
+                  <button class="icon-button delete-action" title="Delete">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+                  </button>
+                </div>
+              </td>
+            </tr>`;
+        }).join('');
       } catch (e) {
         console.error(e);
         tbody.innerHTML = '<tr><td colspan="5" style="padding:16px;color:#ef4444">Failed to load files</td></tr>';
       }
     }
 
-    const addBtn    = document.getElementById('add-file-btn');
-    const fileInput = document.getElementById('kb-file-input');
+    // Modal functionality
+    const uploadModal = document.getElementById('uploadModal');
+    const openUploadModalButton = document.getElementById('openUploadModalButton');
+    const closeUploadModalButton = document.getElementById('closeUploadModalButton');
+    const browseFilesButton = document.getElementById('browseFilesButton');
+    const fileInput = document.getElementById('fileInput');
+    const fileList = document.getElementById('fileList');
+    const startUploadButton = document.getElementById('startUploadButton');
+    const continueButton = document.getElementById('continueButton');
+    const uploadMoreButton = document.getElementById('uploadMoreButton');
+    const kbFileInput = document.getElementById('kb-file-input');
+    const kbTableBody = document.getElementById("kb-table-body");
 
-    addBtn.addEventListener('click', () => fileInput.click());
+    let selectedFiles = [];
 
-    fileInput.addEventListener('change', async () => {
-      const file = fileInput.files[0];
-      if (!file) return;
-      const fd = new FormData();
-      fd.append('file', file);
-      try {
-        const res = await fetch(`${API_BASE}/uploadFile.php`, { method: 'POST', body: fd });
-        const out = await res.json();
-        if (!out.success) throw new Error(out.error || 'Upload failed');
-        await loadKB();
-      } catch (e) {
-        alert('Upload error: ' + e.message);
-      } finally {
-        fileInput.value = '';
-      }
-    });
-
-    const kbTableBody = document.getElementById('kb-table-body');
-kbTableBody.onclick = async function(e) {
-  const flagBtn = e.target.closest('.flag-action');
-  const delBtn  = e.target.closest('.delete-action');
-  const row     = e.target.closest('tr');
-  if (!row) return;
-
-  if (flagBtn) {
-    flagBtn.classList.toggle('flagged');
-    return;
-  }
-
-  if (delBtn) {
-    const id = row.getAttribute('data-id');
-    const name = row.getAttribute('data-name') || row.children[0]?.textContent?.trim();
-    if (!confirm(`Delete "${name}"?`)) return;
-
-    try {
-      const res  = await fetch(`${API_BASE}/deleteKnowledgeFile.php`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams(id ? { id } : { file_name: name })
-      });
-      const text = await res.text();
-      let out; try { out = JSON.parse(text); } catch { throw new Error(text.slice(0,200)); }
-      if (!res.ok || out.success === false) throw new Error(out.error || 'Delete failed');
-
-      row.remove();
-    } catch (err) {
-      alert('Delete error: ' + err.message);
+    function openModal() {
+      uploadModal.classList.add('visible');
+      document.body.style.overflow = 'hidden';
     }
-  }
-};
 
+    function closeModal() {
+      uploadModal.classList.remove('visible');
+      document.body.style.overflow = '';
+      resetModal();
+    }
 
+    function resetModal() {
+      document.getElementById('modalTitle').textContent = 'Upload Documents';
+      document.getElementById('uploadForm').classList.remove('hidden');
+      document.getElementById('uploadSuccess').classList.add('hidden');
+      document.getElementById('modalFooter').classList.remove('hidden');
+      fileList.innerHTML = '';
+      fileInput.value = '';
+      startUploadButton.disabled = true;
+      selectedFiles = [];
+    }
 
+    function uploadMore() {
+      resetModal();
+    }
+
+    function displayFileList(files) {
+      fileList.innerHTML = '';
+      files.forEach(file => {
+        const fileItem = document.createElement('div');
+        fileItem.className = 'file-item';
+        fileItem.textContent = file.name;
+        fileList.appendChild(fileItem);
+      });
+    }
+
+    function displayUploadedFiles(files) {
+      const uploadedFilesList = document.getElementById('uploadedFilesList');
+      uploadedFilesList.innerHTML = '';
+
+      files.forEach(file => {
+        const fileItem = document.createElement('div');
+        fileItem.className = 'uploaded-file-item';
+        
+        fileItem.innerHTML = `
+          <svg class="file-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
+            <polyline points="14 2 14 8 20 8"/>
+          </svg>
+          <span class="file-name">${file.name}</span>
+          <span class="file-status">✓ Uploaded</span>
+        `;
+        
+        uploadedFilesList.appendChild(fileItem);
+      });
+    }
+
+    async function startUpload(e) {
+      e.preventDefault();
+      if (selectedFiles.length === 0) return;
+
+      const formData = new FormData();
+      for (let i = 0; i < selectedFiles.length; i++) {
+        formData.append('files[]', selectedFiles[i]);
+      }
+
+      try {
+        const response = await fetch(`${API_BASE}/documentChunks/upload.php`, {
+          method: 'POST',
+          body: formData
+        });
+        
+        const result = await response.json();
+        
+        if (result.status === "success") {
+          document.getElementById('modalTitle').textContent = 'Upload Complete';
+          document.getElementById('uploadForm').classList.add('hidden');
+          document.getElementById('uploadSuccess').classList.remove('hidden');
+          document.getElementById('modalFooter').classList.add('hidden');
+          displayUploadedFiles(selectedFiles);
+          
+          await loadKB();
+        } else {
+          throw new Error(result.error || 'Upload failed');
+        }
+      } catch (error) {
+        console.log(error);
+        console.error('Upload failed:', error);
+      }
+    }
+
+    openUploadModalButton.addEventListener('click', openModal);
+    closeUploadModalButton.addEventListener('click', closeModal);
+    uploadModal.addEventListener('click', (e) => {
+      if (e.target === uploadModal) closeModal();
+    });
+    browseFilesButton.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', (e) => {
+      selectedFiles = Array.from(e.target.files);
+      displayFileList(selectedFiles);
+      startUploadButton.disabled = selectedFiles.length === 0;
+    });
+    startUploadButton.addEventListener('click', startUpload);
+    continueButton.addEventListener('click', closeModal);
+    uploadMoreButton.addEventListener('click', uploadMore);
+
+    // Original KB functionality
+    kbTableBody.onclick = async function(e) {
+      const flagBtn = e.target.closest('.flag-action');
+      const delBtn  = e.target.closest('.delete-action');
+      const row     = e.target.closest('tr');
+      if (!row) return;
+
+      if (flagBtn) {
+        flagBtn.classList.toggle('flagged');
+        return;
+      }
+
+      if (delBtn) {
+        const id = row.getAttribute('data-id');
+        const name = row.getAttribute('data-name') || row.children[0]?.textContent?.trim();
+        if (!confirm(`Delete "${name}"?`)) return;
+
+        try {
+          const res  = await fetch(`${API_BASE}/deleteKnowledgeFile.php`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams(id ? { id } : { file_name: name })
+          });
+          const text = await res.text();
+          let out; try { out = JSON.parse(text); } catch { throw new Error(text.slice(0,200)); }
+          if (!res.ok || out.success === false) throw new Error(out.error || 'Delete failed');
+
+          row.remove();
+        } catch (err) {
+          alert('Delete error: ' + err.message);
+        }
+      }
+    };
+
+    document.addEventListener('DOMContentLoaded', function() {
+    // Get all filter buttons
+    const filterButtons = document.querySelectorAll('.filter-button');
+    const kbTableBody = document.getElementById('kb-table-body');
+    
+    // Current filter state
+    let currentFilter = 'all';
+    let currentSearch = '';
+    
+    // Add click event listeners to filter buttons
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Remove active class from all buttons
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // Add active class to clicked button
+            this.classList.add('active');
+            
+            // Set current filter based on button text
+            currentFilter = this.textContent.trim().toLowerCase();
+            if (currentFilter === 'all files') currentFilter = 'all';
+            
+            // Filter the table
+            filterTable();
+        });
+    });
+    
+    // Function to filter the table
+    function filterTable() {
+        const rows = kbTableBody.querySelectorAll('tr');
+        
+        console.log(currentFilter)
+        rows.forEach(row => {
+            const fileName = row.querySelector('td:first-child')?.textContent?.toLowerCase() || '';
+            // const fileType = row.querySelector('td:nth-child(2)')?.textContent?.toLowerCase() || '';
+            const fileType = row.getAttribute('data-type') || '';
+            console.log(fileType);
+            const shouldShow = 
+            (currentFilter === 'all' || 
+              (currentFilter === 'pdfs' && fileType === 'pdf') ||
+              (currentFilter === 'docs' && fileType === 'doc') ||
+              (currentFilter === 'images' && fileType === 'image'));
+            
+            row.style.display = shouldShow ? '' : 'none';
+        });
+    }
+    
     loadKB();
+});
+
+    
   </script>
+  <script src="script.js"></script>
   <style>
     /* action icons like users.html */
     .row-actions { display:flex; gap:.5rem; align-items:center; }
@@ -254,6 +465,5 @@ kbTableBody.onclick = async function(e) {
     .icon-button svg { width:20px; height:20px; }
     .flag-action.flagged svg { color:#f59e0b; stroke:#f59e0b; } /* amber like users */
   </style>
-  
 </body>
 </html>

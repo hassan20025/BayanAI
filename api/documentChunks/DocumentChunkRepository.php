@@ -61,7 +61,14 @@ function create_document_chunk(DocumentChunk $chunk): bool {
     $fileType = $chunk->getFileType();
     $size = $chunk->getSize();
     $stmt->bind_param("isssssi", $documentId, $text, $embedding, $department_name, $fileName, $fileType, $size);
-    return $stmt->execute();
+    $exec = $stmt->execute();
+    // if (!$exec) {
+    //     echo "Error: " . $stmt->error . "\n";
+    //     echo "Errno: " . $stmt->errno . "\n";
+    // } else {
+    //     echo "Inserted ID: " . $stmt->insert_id . "\n";
+    // }
+    return $exec;
 }
 
 function update_document_chunk(DocumentChunk $chunk): bool {

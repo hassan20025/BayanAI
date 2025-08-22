@@ -20,6 +20,7 @@
             <li><a href="users.html">Users</a></li>
             <li><a href="messeges.html">Messages</a></li>
             <li><a href="knowledge.html">Knowledge Base</a></li>
+            <li><a href="/bayanai/chat/">Chat</a></li>
             <li><a href="settings.html">Settings</a></li>
           </ul>
         </nav>
@@ -96,10 +97,10 @@
                         <h4 class="card-title">Total Users</h4>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users card-icon"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                     </div>
-                    <div class="card-value" id="dashboard-total-users">1,240</div>
-                    <div class="card-change increase">
+                    <div class="card-value" id="dashboard-total-users">Loading...</div>
+                    <div class="card-change" id="dashboard-users-change">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
-                        <span>12%</span>
+                        <span id="dashboard-users-percent">--</span>
                         <span class="change-period">since last month</span>
                     </div>
                 </div>
@@ -109,10 +110,10 @@
                         <h4 class="card-title">Total Chats</h4>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bot card-icon"><path d="M12 8V4H8"/><path d="M22 7.26V16a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7.26a2 2 0 0 1 .6-1.4L20.4 2.86a2 2 0 0 1 1.6 1.4Z"/><path d="M10 6H8"/><path d="M16 6h-2"/><path d="M2 18v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2"/></svg>
                     </div>
-                    <div class="card-value">5,678</div>
-                    <div class="card-change increase">
+                    <div class="card-value" id="dashboard-total-chats">Loading...</div>
+                    <div class="card-change" id="dashboard-chats-change">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
-                        <span>8%</span>
+                        <span id="dashboard-chats-percent">--</span>
                         <span class="change-period">since last month</span>
                     </div>
                 </div>
@@ -122,10 +123,10 @@
                         <h4 class="card-title">Knowledge Base Entries</h4>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info card-icon"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
                     </div>
-                    <div class="card-value" id="dashboard-knowledge-entries">350</div>
-                    <div class="card-change increase">
+                    <div class="card-value" id="dashboard-knowledge-entries">Loading...</div>
+                    <div class="card-change" id="dashboard-kb-change">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
-                        <span>5%</span>
+                        <span id="dashboard-kb-percent">--</span>
                         <span class="change-period">since last month</span>
                     </div>
                 </div>
@@ -135,10 +136,10 @@
                         <h4 class="card-title">Active Sessions</h4>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-line-chart card-icon"><path d="M3 3v18h18"/><path d="m18 6-6 6-4-4-3 3"/></svg>
                     </div>
-                    <div class="card-value">45</div>
-                    <div class="card-change decrease">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-down-right"><path d="M7 7h10v10"/><path d="M17 7 7 17"/></svg>
-                        <span>2%</span>
+                    <div class="card-value" id="dashboard-active-sessions">Loading...</div>
+                    <div class="card-change" id="dashboard-sessions-change">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                        <span id="dashboard-sessions-percent">--</span>
                         <span class="change-period">since last month</span>
                     </div>
                 </div>
@@ -261,5 +262,6 @@
 
     <div id="toaster" class="toaster"></div>
     <script src="script.js"></script>
+    <script src="stats.js"></script>
 </body>
 </html>

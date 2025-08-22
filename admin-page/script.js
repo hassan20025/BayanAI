@@ -1,3 +1,65 @@
+ // Function to setup chats export functionality
+ function setupChatsExportFunctionality() {
+  const chatsTableBody = document.getElementById('chats-table-body');
+  if (chatsTableBody) {
+    // Remove existing event listeners
+    const newChatsTableBody = chatsTableBody.cloneNode(true);
+    chatsTableBody.parentNode.replaceChild(newChatsTableBody, chatsTableBody);
+    
+    newChatsTableBody.addEventListener('click', async function (e) {
+      if (e.target.closest('.export-action')) {
+        const row = e.target.closest('tr');
+        const chatId = row.children[0].textContent;
+        const companyName = row.children[1].textContent;
+        const totalMessages = row.children[2].textContent;
+        const usersAdded = row.children[3].textContent;
+        const failedResponses = row.children[4].textContent;
+
+        // Create detailed report format
+        const currentDate = new Date().toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+        
+        // Calculate success rate
+        const totalMessagesNum = parseInt(totalMessages.replace(/,/g, ''));
+        const failedResponsesNum = parseInt(failedResponses);
+        const successRate = totalMessagesNum > 0 ? Math.round(((totalMessagesNum - failedResponsesNum) / totalMessagesNum) * 100) : 0;
+        
+        const csvContent = `Chatbot Activity Report
+Generated: ${currentDate}
+Company: ${companyName}
+Chat ID: ${chatId}
+
+ID,Company Name,Total Messages,Users Added,Failed Responses,Success Rate (%)
+${chatId},"${companyName}",${totalMessages},${usersAdded},${failedResponses},${successRate}
+
+Notes:
+- Total Messages: ${totalMessages}
+- Users Added: ${usersAdded}
+- Failed Responses: ${failedResponses}
+- Success Rate: ${successRate}%
+- Export Date: ${currentDate}`;
+        
+        // Create and download CSV file
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `chatbot-activity-${companyName}-${new Date().toISOString().split('T')[0]}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+        
+        console.log("Chat data exported successfully");
+      }
+    });
+  }
+}
 document.addEventListener("DOMContentLoaded", () => {
 
   function handleRedirect() {
@@ -330,68 +392,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Function to setup chats export functionality
-  function setupChatsExportFunctionality() {
-    const chatsTableBody = document.getElementById('chats-table-body');
-    if (chatsTableBody) {
-      // Remove existing event listeners
-      const newChatsTableBody = chatsTableBody.cloneNode(true);
-      chatsTableBody.parentNode.replaceChild(newChatsTableBody, chatsTableBody);
-      
-      newChatsTableBody.addEventListener('click', async function (e) {
-        if (e.target.closest('.export-action')) {
-          const row = e.target.closest('tr');
-          const chatId = row.children[0].textContent;
-          const companyName = row.children[1].textContent;
-          const totalMessages = row.children[2].textContent;
-          const usersAdded = row.children[3].textContent;
-          const failedResponses = row.children[4].textContent;
-
-          // Create detailed report format
-          const currentDate = new Date().toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit'
-          });
-          
-          // Calculate success rate
-          const totalMessagesNum = parseInt(totalMessages.replace(/,/g, ''));
-          const failedResponsesNum = parseInt(failedResponses);
-          const successRate = totalMessagesNum > 0 ? Math.round(((totalMessagesNum - failedResponsesNum) / totalMessagesNum) * 100) : 0;
-          
-          const csvContent = `Chatbot Activity Report
-Generated: ${currentDate}
-Company: ${companyName}
-Chat ID: ${chatId}
-
-ID,Company Name,Total Messages,Users Added,Failed Responses,Success Rate (%)
-${chatId},"${companyName}",${totalMessages},${usersAdded},${failedResponses},${successRate}
-
-Notes:
-- Total Messages: ${totalMessages}
-- Users Added: ${usersAdded}
-- Failed Responses: ${failedResponses}
-- Success Rate: ${successRate}%
-- Export Date: ${currentDate}`;
-          
-          // Create and download CSV file
-          const blob = new Blob([csvContent], { type: 'text/csv' });
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = `chatbot-activity-${companyName}-${new Date().toISOString().split('T')[0]}.csv`;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          window.URL.revokeObjectURL(url);
-          
-          console.log("Chat data exported successfully");
-        }
-      });
-    }
-  }
 
   function setupVolumeChartTooltip() {
     const chart = document.querySelector('.chart-volume svg');

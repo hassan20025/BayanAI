@@ -12,4 +12,4 @@
     if (!ctype_digit($chatId)) {
         respond(400, "error", ["message" => "Invalid data."]);
     }
-    delete_chat($user_id, $chatId);
+    delete_chat(get_authenticated_user_id(), $chatId);

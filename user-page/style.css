@@ -1075,4 +1075,81 @@
   word-break: break-word;
 }
 
-  
+/* Action buttons styling */
+.export-action {
+  color: #ffffff !important;
+  background-color: #4CAF50 !important;
+  border: 1px solid #4CAF50 !important;
+  margin-bottom: 5px;
+}
+
+.export-action:hover {
+  background-color: #45a049 !important;
+  transform: scale(1.05);
+}
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+}
+
+/* Ensure all icon buttons have consistent styling */
+.icon-button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 4px !important;
+  border: none !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+}
+
+.icon-button svg {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+/* Specific styling for flag button to match export */
+.flag-action {
+  background-color: transparent !important;
+  border: none !important;
+  color: inherit !important;
+}
+
+.flag-action:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  transform: scale(1.05) !important;
+}
+
+.flag-action.flagged {
+  background-color: #ff9800 !important;
+  border-color: #ff9800 !important;
+  color: white !important;
+}
+
+.interactions-table td {
+  padding-bottom: 10px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: var(--text-color, #e2e8f0);
+}
+
+.checkbox-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--primary-blue-dark, #3b82f6); /* modern browsers */
+}
+

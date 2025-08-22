@@ -10,7 +10,7 @@ $bodyHtml = "<p>Name: " . htmlspecialchars($_POST['name'] ?? '', ENT_QUOTES) . "
           . "<p>Message:</p><p>" . nl2br(htmlspecialchars($_POST['message'] ?? '', ENT_QUOTES)) . "</p>";
 
 $data = [
-    "from" => "BayanAI Contact Form <support@localhost>", // Must be verified in Resend
+    "from" => "BayanAI Contact Form <support@bayanai.es>", // Must be verified in Resend
     "to" => "bayanAIteam@outlook.com",
     "subject" => $subject,
     "html" => $bodyHtml

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="<?php echo $_SESSION['csrf_token']; ?>"> 
     <title>Users - bayanAI</title>
     <link rel="stylesheet" href="style.css">
     <style>
@@ -27,12 +28,54 @@
             <li><a href="users.html" class="active">Users</a></li>
             <li><a href="messeges.html">Messages</a></li>
             <li><a href="knowledge.html">Knowledge Base</a></li>
+            <li><a href="/bayanai/chat/">Chat</a></li>
             <li><a href="settings.html">Settings</a></li>
           </ul>
         </nav>
       </aside>
-      <div class="dashboard-main">
-        <h2 style="color: var(--heading-color, #fff); margin: 2rem 0 1rem 0; text-align: center;">Current Users</h2>
+      <div class="dashboard-main no-padding">
+        <header class="dashboard-header">
+          <h2 class="dashboard-title">Users</h2>
+          <div class="header-center">
+            <div class="search-bar">
+              <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.3-4.3" />
+              </svg>
+              <input type="search" placeholder="Search..." class="search-input" />
+            </div>
+          </div>
+          <div class="header-right">
+            <button class="icon-button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/>
+                <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>
+              </svg>
+            </button>
+            <div class="user-dropdown">
+              <button class="user-button">
+                <div class="user-avatar">
+                  <svg class="user-avatar-svg" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="8" r="4"/>
+                    <path d="M4 20c0-2.5 3.5-4 8-4s8 1.5 8 4"/>
+                  </svg>
+                </div>
+                <div class="user-info" style="align-items: flex-start;">
+                  <span class="user-name">John Cario</span>
+                  <span class="user-role">CEO</span>
+                </div>
+                <svg class="dropdown-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </button>
+              <div class="dropdown-menu">
+                <a href="#" id="logout-btn">Logout</a>
+              </div>
+            </div>
+          </div>
+        </header>
+        <div class="dashboard-content">
+          <h2 style="color: var(--heading-color, #fff); margin: 2rem 0 1rem 0; text-align: center;">Current Users</h2>
       <div class="interactions-header" style="margin-top: 2rem; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; width: 100%;">
 
             <div style="display: flex; align-items: center; gap: 0.5rem; background: var(--card-bg-lighter, #334155); border-radius: 8px; padding: 0.5rem 1.2rem; box-shadow: 0 1px 4px var(--shadow-color, rgba(0,0,0,0.04)); flex: 1; max-width: 350px;">
@@ -74,6 +117,7 @@
             
         </table>
         </div>
+        </div> <!-- end dashboard-content -->
       </div> <!-- end dashboard-main -->
     </div> <!-- end dashboard-layout -->
     <!-- Add User Modal -->
@@ -83,6 +127,7 @@
         <form id="add-user-form">
           <label>Name: <input type="text" id="user-name" required></label>
           <label>Email: <input type="email" id="user-email" required></label>
+          <label>Password: <input type="password" id="password" required></label>
           <label>Department:
             <select id="user-department" required>
               <option value="">Select Department</option>
@@ -98,6 +143,10 @@
               <option value="Manager">Manager</option>
             </select>
           </label>
+          <label class="checkbox-label">
+            <input type="checkbox" id="user-can-upload"> Can Upload Documents
+          </label>
+          
           <button type="submit" class="settings-btn">Add User</button>
           <button type="button" id="close-modal-btn" class="settings-btn danger-btn" style="margin-left: 1rem;">Cancel</button>
         </form>

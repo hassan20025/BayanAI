@@ -277,6 +277,7 @@ chatInput.addEventListener("keypress", (e) => {
 
 async function toggleUploadButton() {
     const openUploadModalButton = document.getElementById("openUploadModalButton"); 
+    const tools = document.getElementById("tools");
     const response = await fetch("http://localhost/BayanAI/api/users/me.php", {
         credentials: "include",
     });
@@ -289,9 +290,11 @@ async function toggleUploadButton() {
 
     if (!user.data.canUpload) {
         openUploadModalButton.style.display = "none";
+        tools.style.display = "none";
     }
     else {
         openUploadModalButton.style.display = "flex";
+        tools.style.display = "block";
     }
 
 }

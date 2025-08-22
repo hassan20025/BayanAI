@@ -1,6 +1,6 @@
 <?php
 // api/uploadFile.php
-// Force clean JSON responses, even if something tries to echo before us.
+// Force clean JSON responses
 ob_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 0);
@@ -16,7 +16,8 @@ try {
         throw new Exception('Method not allowed');
     }
 
-    require_once '../db/db.php'; // creates $db = new mysqli(...)
+    require_once 'authUser.php'; 
+    require_once '../db/db.php';   
 
     if (!isset($_FILES['file'])) {
         throw new Exception('No file uploaded (field name "file").');
@@ -29,11 +30,11 @@ try {
     $name = $_FILES['file']['name'];
     $size = (int)$_FILES['file']['size'];
 
-    // Detect MIME
+    // Detect MIME type
     $finfo = new finfo(FILEINFO_MIME_TYPE);
     $mime  = $finfo->file($tmp) ?: ($_FILES['file']['type'] ?? 'application/octet-stream');
 
-    // Save file (optional)
+    // Save file to uploads directory
     $dir = dirname(__DIR__) . '/uploads/knowledge';
     if (!is_dir($dir) && !mkdir($dir, 0775, true)) {
         throw new Exception('Cannot create upload dir.');
@@ -46,20 +47,26 @@ try {
         throw new Exception('Failed to move uploaded file.');
     }
 
-    // Insert metadata
-    $stmt = $db->prepare("INSERT INTO document_chunks (file_name, file_type, size) VALUES (?, ?, ?)");
+    // Insert metadata into DB (with user_id)
+    $stmt = $db->prepare("INSERT INTO document_chunks (file_name, file_type, size, user_id, created_at) 
+                          VALUES (?, ?, ?, ?, NOW())");
     if (!$stmt) throw new Exception('Prepare failed: ' . $db->error);
-    $stmt->bind_param('ssi', $name, $mime, $size);
+
+    $stmt->bind_param('ssii', $name, $mime, $size, $userId);
     if (!$stmt->execute()) throw new Exception('Execute failed: ' . $stmt->error);
 
-    // Success JSON, after wiping any accidental output
+    $insertId = $stmt->insert_id;
+    $stmt->close();
+
+    // Success response
     ob_clean();
     echo json_encode([
         'success'   => true,
-        'id'        => $stmt->insert_id,
+        'id'        => $insertId,
         'file_name' => $name,
         'file_type' => $mime,
-        'size'      => $size
+        'size'      => $size,
+        'user_id'   => $userId
     ]);
     exit;
 } catch (Throwable $e) {

@@ -191,17 +191,38 @@ EOT;
 function get_company_info($question, $data, $previousMessages) {
     global $apiKey;
     $encoded_data = json_encode($data);
+    $user_id = get_authenticated_user_id();
+    $user = get_user_by_id($user_id);
+    $username = $user->getUsername();
+    $dept = $user->getDepartment();
     $prompt = <<<EOT
     You are a professional business analyst assistant.
 
     Here is the company data:
     "$encoded_data"
 
-    If the question is not clearly relevant to the data or the data does not contain the requested information, respond with a polite and professional message like:
-    "I'm sorry, but I cannot provide an accurate answer based on the available company data."
+    Here is the user information:
+    Name: "$username"
+    Department: "$dept"
 
-    Keep your response concise and formal.
+    Instructions:
+    - If department is empty return that you have no department
+    - If the question is relevant to the company data, provide a concise and formal answer based only on the data.
+    - You may politely personalize the answer by referencing the user's name or department when appropriate.
+    - If the question is not clearly relevant or the data does not contain the requested information, respond with:
+    "I'm sorry, but I cannot provide an accurate answer based on the available company data."
     EOT;
+    // $prompt = <<<EOT
+    // You are a professional business analyst assistant.
+
+    // Here is the company data:
+    // "$encoded_data"
+
+    // If the question is not clearly relevant to the data or the data does not contain the requested information, respond with a polite and professional message like:
+    // "I'm sorry, but I cannot provide an accurate answer based on the available company data."
+
+    // Keep your response concise and formal.
+    // EOT;
     $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent";
 
     // Build conversation history
