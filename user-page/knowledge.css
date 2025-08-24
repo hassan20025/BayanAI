@@ -235,6 +235,7 @@ html.light {
   font-size: 0.9rem;
   font-weight: 600;
   transition: all 0.3s ease;
+  user-select: none;
 }
 
 .modal-action-button:hover {
@@ -409,4 +410,193 @@ html.light {
 .filter-button.active {
   background: var(--primary-blue-dark);
   color: white;
+}
+
+.modal-action-button.loading {
+  color: transparent;
+  pointer-events: none;
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+}
+
+.spinner {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border: 3px solid transparent;
+  border-top: 3px solid #ffffff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modal-action-button.loading .spinner {
+  opacity: 1;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  gap: 8px;
+}
+
+.pagination-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--border-color, #374151);
+  background: var(--card-bg, #1f2937);
+  color: var(--text-color, #e5e7eb);
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.pagination-button:hover:not(:disabled) {
+  background: var(--primary-color, #3b82f6);
+  border-color: var(--primary-color, #3b82f6);
+}
+
+.pagination-button.active {
+  background: var(--primary-color, #3b82f6);
+  border-color: var(--primary-color, #3b82f6);
+  color: white;
+}
+
+.pagination-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.pagination-info {
+  margin: 0 12px;
+  color: var(--text-muted, #9ca3af);
+  font-size: 0.875rem;
+}
+
+.swal2-container {
+  backdrop-filter: blur(8px);
+}
+
+.swal2-popup {
+  background: var(--card-bg) !important;
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border-color) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 25px 50px -12px var(--shadow-color) !important;
+  color: var(--text-color) !important;
+}
+
+.swal2-title {
+  color: var(--heading-color) !important;
+  font-weight: 600 !important;
+  margin-bottom: 1rem !important;
+}
+
+.swal2-html-container {
+  color: var(--text-muted) !important;
+  font-size: 0.95rem !important;
+  line-height: 1.6 !important;
+}
+
+.swal2-icon {
+  border: none !important;
+}
+
+
+.swal2-icon.swal2-error {
+  border-color: #ef4444 !important;
+  color: #ef4444 !important;
+}
+
+.swal2-icon.swal2-warning {
+  border-color: #f59e0b !important;
+  color: #f59e0b !important;
+}
+
+.swal2-confirm, .swal2-deny, .swal2-cancel {
+  border: none !important;
+  border-radius: 8px !important;
+  padding: 0.75rem 1.5rem !important;
+  font-weight: 500 !important;
+  font-size: 0.95rem !important;
+  transition: all 0.2s ease !important;
+  backdrop-filter: blur(10px);
+}
+
+.swal2-confirm {
+  background: var(--primary-blue-dark) !important;
+  color: white !important;
+}
+
+.swal2-confirm:hover {
+  transform: translateY(-1px) !important;
+}
+
+.swal2-deny {
+  background: rgba(239, 68, 68, 0.9) !important;
+  color: white !important;
+}
+
+.swal2-deny:hover {
+  background: rgba(239, 68, 68, 1) !important;
+  transform: translateY(-1px) !important;
+}
+
+.swal2-cancel {
+  background: var(--primary-blue-light) !important;
+  color: var(--text-color) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+.swal2-cancel:hover {
+  background: rgba(71, 85, 105, 0.8) !important;
+  transform: translateY(-1px) !important;
+}
+
+.swal2-close {
+  color: var(--text-muted) !important;
+  font-size: 1.5rem !important;
+  transition: color 0.2s ease !important;
+}
+
+.swal2-close:hover {
+  color: var(--text-color) !important;
+}
+
+.swal2-input, .swal2-textarea, .swal2-select {
+  background: var(--card-bg) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 8px !important;
+  color: var(--text-color) !important;
+  padding: 0.75rem !important;
+}
+
+.swal2-input:focus, .swal2-textarea:focus, .swal2-select:focus {
+  outline: none !important;
+}
+
+.swal2-input::placeholder, .swal2-textarea::placeholder {
+  color: var(--text-muted) !important;
+}
+
+.swal2-progress-steps .swal2-progress-step.swal2-active-progress-step {
+  background: var(--primary-blue-dark) !important;
+}
+
+.swal2-progress-steps .swal2-progress-step-line {
+  background: var(--border-color) !important;
 }

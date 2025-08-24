@@ -248,7 +248,7 @@ async function handleDelete(id) {
     }
     const formData = new URLSearchParams();
     formData.append("chatId", id);
-    await fetch("http://localhost/BayanAI/api/chats/deleteChat.php", {
+    const res = await fetch("http://localhost/BayanAI/api/chats/deleteChat.php", {
         method: "POST",
         credentials: "include",
         headers: {
@@ -256,6 +256,20 @@ async function handleDelete(id) {
         },
         body: formData,
     });
+    if (res.status >= 300) {
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: `Failed to delete chat`,
+        });
+    }
+    else {
+        Swal.fire({
+            icon: "success",
+            title: "Success",
+            text: `Chat deleted successfully`,
+        });
+    }
 }
 
 function addChatDeleteEvent() {

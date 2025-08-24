@@ -58,7 +58,7 @@ foreach ($_FILES['files']['tmp_name'] as $index => $tmpPath) {
     $finfo = finfo_open(FILEINFO_MIME_TYPE);
     $mimeType = finfo_file($finfo, $tmpPath);
     finfo_close($finfo);
-
+    
     if (!array_key_exists($mimeType, $allowedTypes)) {
         respond(400, "error", "Invalid file type: " . htmlspecialchars($_FILES['files']['name'][$index]));
     }
@@ -241,7 +241,7 @@ if ($httpCode >= 200 && $httpCode < 300) {
         $department = $user->getDepartment();
 
         // Process the chunks
-        create_chunks($textFragments, $department, $fileSizes, $fileNames, $fileTypes);
+        create_chunks($textFragments, $department, $fileSizes, $fileNames, $fileTypes, $userId);
         
     } else {
         respond(500, "error", "API response format unexpected");

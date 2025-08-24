@@ -7,7 +7,7 @@ require_once "../../utils/utils.php";
 require_once "../../utils/gemini.php";
 require_once "../users/UserService.php";
 
-function create_chunk($chunkText, $departmentName, $fileName = null, $fileType = null, $fileSize = null) {
+function create_chunk($chunkText, $departmentName, $userId, $fileName = null, $fileType = null, $fileSize = null) {
     $embedding = generateEmbeddings($chunkText);
     if (isset($embedding['error'])) {
         echo json_encode($embedding);
@@ -20,13 +20,14 @@ function create_chunk($chunkText, $departmentName, $fileName = null, $fileType =
     $chunk->setFileName($fileName);
     $chunk->setFileType($fileType);
     $chunk->setSize($fileSize);
+    $chunk->setUserId($userId);
     if (!create_document_chunk($chunk)) {
         respond(500, "error", ["message" => "Failed to create chunk."]);
     }
     respond(201, "success", ["message" => "Chunk created successfully."]);
 }
 
-function create_chunks($chunks, $department_name, $file_sizes, $file_names, $file_types) {
+function create_chunks($chunks, $department_name, $file_sizes, $file_names, $file_types, $user_id) {
     foreach ($chunks as $index => $chunk) {
         $embedding = generateEmbeddings($chunk);
         if (isset($embedding['error'])) {
@@ -40,8 +41,7 @@ function create_chunks($chunks, $department_name, $file_sizes, $file_names, $fil
         $docChunk->setFileName($file_names[$index] ?? null);
         $docChunk->setFileType($file_types[$index] ?? null);
         $docChunk->setSize($file_sizes[$index] ?? null);
-        // echo json_encode($docChunk);
-        // exit;
+        $docChunk->setUserId($user_id);
         if (!create_document_chunk($docChunk)) {
             respond(500, "error", ["message" => "Failed to create chunks."]);
         }

@@ -6,6 +6,9 @@
   <title>Knowledge Base - bayanAI</title>
   <link rel="stylesheet" href="style.css"/>
   <link rel="stylesheet" href="knowledge.css"/>
+  <!-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5/dark.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 </head>
 <body>
   <div class="dashboard-layout">
@@ -128,6 +131,7 @@
             </tbody>
           </table>
         </div>
+        <div id="pagination" class="pagination"></div>
       </div> <!-- end inner dashboard-main -->
     </div> <!-- end dashboard-main no-padding -->
   </div> <!-- end dashboard-layout -->
@@ -179,7 +183,10 @@
         </div>
 
         <div class="modal-footer" id="modalFooter">
-          <button disabled class="modal-action-button" id="startUploadButton">Start Upload</button>
+          <button class="modal-action-button" style="display: flex; justify-content: center; align-items: center;" id="startUploadButton">
+            <span class="button-text">Start Upload</span>
+            <div class="spinner"></div>
+          </button>
         </div>
       </div>
     </div>
@@ -198,17 +205,25 @@
       return bytes + ' B';
     }
 
-    async function loadKB() {
+    async function loadKB(page = 1) {
       const tbody = document.getElementById('kb-table-body');
       tbody.innerHTML = '<tr><td colspan="5" style="padding:16px;color:var(--text-muted,#94a3b8)">Loading…</td></tr>';
+      
       try {
-        const res  = await fetch(`${API_BASE}/getKnowledgeBase.php`, { cache: 'no-store' });
-        const data = await res.json();
-        console.log(data);
+        const url = `${API_BASE}/getKnowledgeBase.php?page=${page}&size=10`;
+        const res = await fetch(url);
+        const pageData = await res.json();
+        const data = pageData.files;
+        
+        console.log(pageData);
+        
         if (!Array.isArray(data) || data.length === 0) {
           tbody.innerHTML = '<tr><td colspan="5" style="padding:16px;color:var(--text-muted,#94a3b8)">No files yet</td></tr>';
+          // Hide pagination if no results
+          document.getElementById('pagination').innerHTML = '';
           return;
         }
+        
         tbody.innerHTML = data.map(f => {
           const id   = f.id || '';
           const name = f.file_name || '';
@@ -243,11 +258,102 @@
               </td>
             </tr>`;
         }).join('');
+        
+        // Update pagination if the API provides pagination info
+        console.log(pageData);
+        if (pageData.has_more !== undefined || pageData.total_pages !== undefined) {
+          const hasMore = pageData.has_more;
+          totalPages = pageData.total_pages || Math.ceil(pageData.total / pageData.size) || 1;
+          currentPage = page;
+          
+          renderPagination();
+        }
       } catch (e) {
         console.error(e);
         tbody.innerHTML = '<tr><td colspan="5" style="padding:16px;color:#ef4444">Failed to load files</td></tr>';
+        document.getElementById('pagination').innerHTML = '';
       }
     }
+
+    function renderPagination() {
+      console.log(totalPages);
+      const paginationContainer = document.getElementById('pagination');
+      
+      // Don't show pagination if there's only one page
+      if (totalPages <= 1) {
+        paginationContainer.innerHTML = '';
+        return;
+      }
+      
+      let paginationHTML = '';
+      
+      // Previous button
+      paginationHTML += `
+        <button class="pagination-button" ${currentPage <= 1 ? 'disabled' : ''} data-page="${currentPage - 1}">
+          <
+        </button>
+      `;
+      
+      // Page numbers
+      const maxVisiblePages = 3;
+      let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+      let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+      
+      // Adjust if we're near the end
+      if (endPage - startPage + 1 < maxVisiblePages) {
+        startPage = Math.max(1, endPage - maxVisiblePages + 1);
+      }
+      
+      // First page and ellipsis if needed
+      if (startPage > 1) {
+        paginationHTML += `
+          <button class="pagination-button" data-page="1">1</button>
+          ${startPage > 2 ? '<span class="pagination-ellipsis">...</span>' : ''}
+        `;
+      }
+      
+      // Page numbers
+      for (let i = startPage; i <= endPage; i++) {
+        paginationHTML += `
+          <button class="pagination-button ${i === currentPage ? 'active' : ''}" data-page="${i}">
+            ${i}
+          </button>
+        `;
+      }
+      
+      // Last page and ellipsis if needed
+      if (endPage < totalPages) {
+        paginationHTML += `
+          ${endPage < totalPages - 1 ? '<span class="pagination-ellipsis">...</span>' : ''}
+          <button class="pagination-button" data-page="${totalPages}">${totalPages}</button>
+        `;
+      }
+      
+      // Next button
+      paginationHTML += `
+        <button class="pagination-button" ${currentPage >= totalPages ? 'disabled' : ''} data-page="${currentPage + 1}">
+          >
+        </button>
+      `;
+      
+      // Page info
+      // paginationHTML += `
+      //   <span class="pagination-info">Page ${currentPage} of ${totalPages}</span>
+      // `;
+      
+      paginationContainer.innerHTML = paginationHTML;
+      
+      // Add event listeners to pagination buttons
+      paginationContainer.querySelectorAll('.pagination-button:not([disabled])').forEach(button => {
+        button.addEventListener('click', () => {
+          const page = parseInt(button.getAttribute('data-page'));
+          if (page && page !== currentPage) {
+            loadKB(page);
+          }
+        });
+      });
+    }
+
 
     // Modal functionality
     const uploadModal = document.getElementById('uploadModal');
@@ -265,6 +371,7 @@
     let selectedFiles = [];
 
     function openModal() {
+      document.getElementById("startUploadButton").classList.remove("loading");
       uploadModal.classList.add('visible');
       document.body.style.overflow = 'hidden';
     }
@@ -321,6 +428,7 @@
       });
     }
 
+
     async function startUpload(e) {
       e.preventDefault();
       if (selectedFiles.length === 0) return;
@@ -331,6 +439,8 @@
       }
 
       try {
+        e.target.classList.add("loading");
+        e.currentTarget.classList.add("loading");
         const response = await fetch(`${API_BASE}/documentChunks/upload.php`, {
           method: 'POST',
           body: formData
@@ -339,11 +449,12 @@
         const result = await response.json();
         
         if (result.status === "success") {
-          document.getElementById('modalTitle').textContent = 'Upload Complete';
-          document.getElementById('uploadForm').classList.add('hidden');
-          document.getElementById('uploadSuccess').classList.remove('hidden');
-          document.getElementById('modalFooter').classList.add('hidden');
-          displayUploadedFiles(selectedFiles);
+          closeModal();
+          Swal.fire({
+            icon: "success",
+            title: "Success",
+            text: `Files uploaded successfully`,
+          });
           
           await loadKB();
         } else {
@@ -351,7 +462,16 @@
         }
       } catch (error) {
         console.log(error);
+        Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: `Failed to upload files`,
+        });
         console.error('Upload failed:', error);
+      }
+      finally {
+        e.currentTarget.classList.remove("loading");
+        e.target.classList.remove("loading");
       }
     }
 
@@ -372,37 +492,74 @@
 
     // Original KB functionality
     kbTableBody.onclick = async function(e) {
-      const flagBtn = e.target.closest('.flag-action');
-      const delBtn  = e.target.closest('.delete-action');
-      const row     = e.target.closest('tr');
-      if (!row) return;
+  const flagBtn = e.target.closest('.flag-action');
+  const delBtn  = e.target.closest('.delete-action');
+  const row     = e.target.closest('tr');
+  if (!row) return;
 
-      if (flagBtn) {
-        flagBtn.classList.toggle('flagged');
-        return;
+  if (flagBtn) {
+    flagBtn.classList.toggle('flagged');
+    return;
+  }
+
+  if (delBtn) {
+    const id   = row.getAttribute('data-id');
+    const name = row.getAttribute('data-name') || row.children[0]?.textContent?.trim();
+
+    // Show SweetAlert2 confirmation
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: `Delete "${name}"?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+      cancelButtonText: "Cancel"
+    });
+
+    if (!result.isConfirmed) return;
+
+    try {
+      const res = await fetch(`${API_BASE}/deleteKnowledgeFile.php`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams(id ? { id } : { file_name: name })
+      });
+
+      const text = await res.text();
+      let out;
+      try { 
+        out = JSON.parse(text); 
+      } catch { 
+        throw new Error(text.slice(0,200)); 
       }
 
-      if (delBtn) {
-        const id = row.getAttribute('data-id');
-        const name = row.getAttribute('data-name') || row.children[0]?.textContent?.trim();
-        if (!confirm(`Delete "${name}"?`)) return;
-
-        try {
-          const res  = await fetch(`${API_BASE}/deleteKnowledgeFile.php`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            body: new URLSearchParams(id ? { id } : { file_name: name })
-          });
-          const text = await res.text();
-          let out; try { out = JSON.parse(text); } catch { throw new Error(text.slice(0,200)); }
-          if (!res.ok || out.success === false) throw new Error(out.error || 'Delete failed');
-
-          row.remove();
-        } catch (err) {
-          alert('Delete error: ' + err.message);
-        }
+      if (!res.ok || out.success === false) {
+        throw new Error(out.error || 'Delete failed');
       }
-    };
+
+      // Success popup
+      await Swal.fire({
+        title: "Deleted!",
+        text: `"${name}" has been removed.`,
+        icon: "success",
+        confirmButtonText: "OK"
+      });
+      
+      row.remove();
+
+    } catch (err) {
+      // Error popup
+      await Swal.fire({
+        title: "Error",
+        text: "Delete error: " + err.message,
+        icon: "error",
+        confirmButtonText: "OK"
+      });
+    }
+  }
+};
 
     document.addEventListener('DOMContentLoaded', function() {
     // Get all filter buttons
